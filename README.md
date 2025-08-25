@@ -1,5 +1,7 @@
 # Frontend
 Code Convention
+경상났네 Frontend 레포 입니다!
+
 | Prefix (type) | 설명                |
 | -------------  | ----------------- |
 | `Feature: `    | 새로운 기능 개발   |
