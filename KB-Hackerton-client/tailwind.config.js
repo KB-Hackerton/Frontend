@@ -4,7 +4,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Pretandard', 'sans-serif'],
+        sans: ['Pretendard', 'sans-serif'],
       },
       colors: {
         black: '#222222',
