@@ -7,9 +7,9 @@ const route = useRoute()
 
 <template>
   <div
-    class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full md:w-[375px] bg-gray-100 h-[90px] flex justify-center z-50"
+    class="bg-gray-100 h-[90px] w-full fixed bottom-0 flex justify-center md:max-w-[375px] md:mx-auto"
   >
-    <div class="h-[56px] mb-[34px] w-full flex align-center items-center gap-11 mx-5">
+    <div class="h-[56px] mb-[34px] flex align-center items-center gap-11">
       <RouterLink to="/" class="flex-1 flex flex-col items-center">
         <div
           class="flex flex-col items-center"

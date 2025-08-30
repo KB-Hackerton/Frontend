@@ -17,7 +17,7 @@ const goBack = () => {
 
 <template>
   <div
-    class="fixed top-0 left-1/2 -translate-x-1/2 w-full md:w-[375px] h-[90px] flex justify-center z-50"
+    class="flex flex-col justify-center bg-white h-[56px] w-full fixed top-0 z-50 md:max-w-[375px] md:mx-auto"
   >
     <div v-if="pageTitle === '홈'" class="px-4 flex items-center justify-end w-full">
       <RouterLink to="/notifications">
