@@ -1,7 +1,7 @@
 <script setup></script>
 
 <template>
-  <div>채팅</div>
+  <div class="w-full text-center">채팅</div>
 </template>
 
 <style scoped></style>

@@ -1,7 +1,7 @@
 <script setup></script>
 
 <template>
-  <div>SOS</div>
+  <div class="w-full text-center">SOS</div>
 </template>
 
 <style scoped></style>
