@@ -1,20 +1,18 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterView } from 'vue-router'
+import BottomNavigationBar from '@/components/layouts/BottomNavigationBar.vue'
 </script>
 
 <template>
-  <header>
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+  <div class="font-sans flex justify-center text-black">
+    <div class="relative w-screen min-h-screen md:max-w-[365px]">
+      <div class="pt-[56px] flex flex-col items-center h-full pb-[90px]">
+        <RouterView />
+      </div>
 
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
+      <BottomNavigationBar />
     </div>
-  </header>
-
-  <RouterView />
+  </div>
 </template>
 
 <style scoped>
@@ -51,6 +49,14 @@ nav a {
 
 nav a:first-of-type {
   border: 0;
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
 }
 
 @media (min-width: 1024px) {
