@@ -20,7 +20,7 @@ const router = createRouter({
       component: () => import('@/views/SosView.vue'), // lazy
     },
     {
-      path: '/chat',
+      path: '/chat-list',
       name: 'chat-list',
       component: () => import('@/views/ChatListView.vue'), // lazy
     },
