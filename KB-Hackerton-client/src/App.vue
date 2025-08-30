@@ -1,11 +1,14 @@
 <script setup>
 import { RouterView } from 'vue-router'
 import BottomNavigationBar from '@/components/layouts/BottomNavigationBar.vue'
+import TopNavigationBar from './components/layouts/TopNavigationBar.vue'
 </script>
 
 <template>
   <div class="font-sans flex justify-center text-black">
     <div class="relative w-screen min-h-screen md:max-w-[365px]">
+      <TopNavigationBar />
+
       <div class="pt-[56px] flex flex-col items-center h-full pb-[90px]">
         <RouterView />
       </div>
