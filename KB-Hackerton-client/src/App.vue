@@ -1,7 +1,7 @@
 <script setup>
 import { RouterView } from 'vue-router'
+import TopNavigationBar from '@/components/layouts/TopNavigationBar.vue'
 import BottomNavigationBar from '@/components/layouts/BottomNavigationBar.vue'
-import TopNavigationBar from './components/layouts/TopNavigationBar.vue'
 </script>
 
 <template>
@@ -9,7 +9,7 @@ import TopNavigationBar from './components/layouts/TopNavigationBar.vue'
     <div class="relative w-screen min-h-screen md:max-w-[365px]">
       <TopNavigationBar />
 
-      <div class="pt-[56px] flex flex-col items-center h-full pb-[90px]">
+      <div class="pt-[56px] flex flex-col items-center h-full">
         <RouterView />
       </div>
 
