@@ -17,10 +17,13 @@ export default {
         white: '#FFFFFF',
         blue: '#5EA7DF',
         main: '#DA4C24',
-        pink: '#F58D80',
+        pink: { 100: '#F58D80' },
         yellow: '#FFF600',
         green: '#89B548',
         red: '#FC0707',
+      },
+      backgroundImage: {
+        gradient: 'linear-gradient(to right, #F58D80, #89B548)',
       },
     },
     fontSize: {
@@ -40,5 +43,16 @@ export default {
       40: '2.5rem', // 40px
     },
   },
-  plugins: [],
+  plugins: [
+    function ({ addUtilities }) {
+      addUtilities({
+        '.text-gradient': {
+          'background-image': 'linear-gradient(to right, #F58D80, #89B548)',
+          '-webkit-background-clip': 'text',
+          'background-clip': 'text',
+          color: 'transparent',
+        },
+      })
+    },
+  ],
 }
