@@ -2,11 +2,17 @@
 import { RouterLink } from 'vue-router'
 import { Icon } from '@iconify/vue'
 import { useRoute } from 'vue-router'
+import { computed } from 'vue'
 const route = useRoute()
+
+const hiddenPrefixes = []
+
+const isHidden = computed(() => hiddenPrefixes.some((prefix) => route.path.startsWith(prefix)))
 </script>
 
 <template>
   <div
+    v-if="!isHidden"
     class="bg-gray-100 h-[90px] w-full fixed bottom-0 flex justify-center md:max-w-[375px] md:mx-auto"
   >
     <div class="h-[56px] mb-[34px] flex align-center items-center gap-11">
