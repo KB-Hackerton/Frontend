@@ -9,9 +9,10 @@ const router = useRouter()
 const pageTitle = computed(() => route.meta.title || '')
 
 const isDrawerOpen = ref(false)
+const back = computed(() => route.meta.back || 'home')
 
 const goBack = () => {
-  router.back()
+  router.push({ name: back.value })
 }
 </script>
 
@@ -19,7 +20,22 @@ const goBack = () => {
   <div
     class="flex flex-col justify-center bg-white h-[56px] w-full fixed top-0 z-50 md:max-w-[375px] md:mx-auto"
   >
-    <div v-if="pageTitle === '홈'" class="px-4 flex items-center justify-end w-full">
+    <div
+      v-if="route.path === '/login'"
+      class="flex items-center justify-between relative w-full"
+    ></div>
+
+    <div
+      v-else-if="pageTitle === '회원가입' || pageTitle === '비밀번호 찾기'"
+      class="flex items-center justify-between relative w-full"
+    >
+      <button class="ml-4" @click="goBack">
+        <Icon icon="material-symbols:arrow-back-ios-rounded" class="w-6 h-6" />
+      </button>
+      <h3 class="bold text-16 absolute left-1/2 -translate-x-1/2 text-black">{{ pageTitle }}</h3>
+    </div>
+
+    <div v-else-if="pageTitle === '홈'" class="px-4 flex items-center justify-end w-full">
       <RouterLink to="/notifications">
         <div class="text-gray-400 flex flex-col items-center">
           <Icon icon="material-symbols:notifications-rounded" class="w-[28px] h-auto" />
@@ -31,9 +47,9 @@ const goBack = () => {
     </div>
 
     <div v-else class="flex items-center justify-between relative w-full">
-      <RouterLink to="/" class="ml-4" @click="goBack">
+      <button class="ml-4" @click="goBack">
         <Icon icon="material-symbols:arrow-back-ios-rounded" class="w-6 h-6" />
-      </RouterLink>
+      </button>
       <h3 class="bold text-16 absolute left-1/2 -translate-x-1/2 text-black">{{ pageTitle }}</h3>
 
       <div class="flex items-center mr-4">
