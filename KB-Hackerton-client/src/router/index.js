@@ -24,7 +24,7 @@ const router = createRouter({
           name: 'calendar',
           component: () => import('@/views/CalendarView.vue'),
           meta: {
-            title: '캘린더',
+            title: '달력 함 봐라',
           },
         },
         {
