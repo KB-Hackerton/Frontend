@@ -3,7 +3,9 @@ import { RouterView } from 'vue-router'
 </script>
 
 <template>
-  <div class="w-full px-4 pt-4 pb-[34px] flex flex-1 flex-col">
-    <RouterView />
+  <div class="w-full flex-1 min-h-0 flex flex-col overflow-hidden">
+    <div class="w-full flex-1 min-h-0 overflow-y-auto px-4 pt-4 pb-[34px]">
+      <RouterView />
+    </div>
   </div>
 </template>
