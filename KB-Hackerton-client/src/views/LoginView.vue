@@ -3,6 +3,8 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import logoUrl from '@/assets/images/svg/mainLogo.svg?url'
+import BaseInput from '@/components/common/BaseInput.vue'
+import BaseButton from '@/components/common/BaseButton.vue'
 
 const router = useRouter()
 const auth = useAuthStore()
@@ -29,47 +31,33 @@ async function onSubmit() {
 
     <!-- 로그인 폼 -->
     <form class="flex flex-col gap-6" @submit.prevent="onSubmit">
-      <div>
-        <label for="email" class="block text-16 text-gray-300">이메일</label>
-        <input
-          id="email"
-          v-model.trim="email"
-          type="email"
-          autocomplete="email"
-          placeholder="이메일을 입력해 주세요."
-          class="w-full border-b border-gray-200 py-2 text-16 outline-none placeholder:text-gray-200"
-        />
-      </div>
+      <BaseInput
+        id="email"
+        v-model="email"
+        type="email"
+        label="이메일"
+        placeholder="이메일을 입력해주세요."
+        autocomplete="email"
+      />
 
-      <div>
-        <label for="password" class="block text-16 text-gray-300">비밀번호</label>
-        <input
-          id="password"
-          v-model.trim="password"
-          type="password"
-          autocomplete="current-password"
-          placeholder="비밀번호를 입력해 주세요."
-          class="w-full border-b border-gray-200 py-2 text-16 outline-none placeholder:text-gray-200"
-        />
-      </div>
+      <BaseInput
+        id="password"
+        v-model="password"
+        type="password"
+        label="비밀번호"
+        placeholder="비밀번호를 입력해 주세요."
+        autocomplete="current-password"
+      />
 
       <p v-if="auth.error" class="text-red font-bold text-10 -mt-2 mb-1">{{ auth.error }}</p>
 
-      <button
-        type="submit"
-        class="mx-auto w-[340px] h-[40px] bg-main text-white rounded-xl font-bold text-20 mt-2"
-      >
+      <BaseButton type="submit" color="main">
         {{ auth.loading ? '로그인 중...' : '로그인' }}
-      </button>
+      </BaseButton>
     </form>
 
     <!-- 카카오 로그인 -->
-    <button
-      type="button"
-      class="mx-auto w-[340px] h-[40px] bg-yellow text-black rounded-xl font-bold text-20 mt-4 flex items-center justify-center"
-    >
-      카카오로 이용하기
-    </button>
+    <BaseButton color="yellow" class="mt-4">카카오로 이용하기</BaseButton>
 
     <!-- 하단 링크 -->
     <nav class="mt-10 flex justify-center gap-3 text-16 text-black">
