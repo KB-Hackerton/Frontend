@@ -2,6 +2,8 @@
 import { ref, computed } from 'vue'
 import BaseInput from '../common/BaseInput.vue'
 import BaseButton from '../common/BaseButton.vue'
+import BaseInputWithButton from '../common/BaseInputWithButton.vue'
+import BaseCheckbox from '../common/BaseCheckbox.vue'
 
 const emit = defineEmits(['next'])
 
@@ -41,48 +43,27 @@ const isFormValid = computed(() => {
 
 <template>
   <div class="flex flex-col gap-6 mt-5">
-    <div>
-      <label for="email" class="block font-semibold text-16 text-gray-300">
-        이메일 <span class="text-red">*</span>
-      </label>
-      <div class="flex gap-2">
-        <input
-          id="email"
-          v-model="email"
-          type="email"
-          placeholder="이메일을 입력해주세요."
-          autocomplete="email"
-          class="flex-1 border-b border-gray-200 py-2 text-16 outline-none placeholder:text-gray-200"
-        />
-        <button
-          type="button"
-          class="w-20 h-8 font-bold text-10 flex items-center justify-center rounded-2xl border border-main bg-white text-main"
-        >
-          인증번호 전송
-        </button>
-      </div>
-    </div>
+    <BaseInputWithButton
+      id="email"
+      v-model="email"
+      type="email"
+      label="이메일"
+      placeholder="이메일을 입력해주세요."
+      button-text="인증번호 전송"
+      :required="true"
+      @click="sendCode"
+    />
 
-    <div>
-      <label for="code" class="block font-semibold text-16 text-gray-300">
-        인증번호 <span class="text-red">*</span>
-      </label>
-      <div class="flex gap-2">
-        <input
-          id="code"
-          v-model="code"
-          type="text"
-          placeholder="인증번호를 입력해주세요."
-          class="flex-1 border-b border-gray-200 py-2 text-16 outline-none placeholder:text-gray-200"
-        />
-        <button
-          type="button"
-          class="w-20 h-8 font-bold text-10 flex items-center justify-center rounded-2xl border border-main bg-white text-main"
-        >
-          확인
-        </button>
-      </div>
-    </div>
+    <BaseInputWithButton
+      id="code"
+      v-model="code"
+      type="text"
+      label="인증번호"
+      placeholder="인증번호를 입력해주세요."
+      button-text="확인"
+      :required="true"
+      @click="verifyCode"
+    />
 
     <BaseInput
       id="password"
@@ -93,6 +74,7 @@ const isFormValid = computed(() => {
       autocomplete="new-password"
       :required="true"
     />
+
     <BaseInput
       id="passwordCheck"
       v-model="passwordCheck"
@@ -108,18 +90,20 @@ const isFormValid = computed(() => {
         이용약관 동의 <span class="text-red">*</span>
       </p>
       <div class="flex flex-col gap-2 p-2">
-        <label class="flex items-center gap-2">
-          <input type="checkbox" v-model="agreeAll" /> 모두 동의합니다
-        </label>
-        <div class="flex flex-col gap-2 bg-gray-100 text-14 p-5">
-          <label v-for="(term, i) in terms" :key="i" class="flex items-center gap-2">
-            <input type="checkbox" v-model="termChecks[i]" />
-            {{ term.label }}
-          </label>
+        <BaseCheckbox v-model="agreeAll" label="모두 동의합니다" />
+        <div class="flex flex-col gap-2 bg-gray-100 text-14 p-5 rounded-lg">
+          <BaseCheckbox
+            v-for="(term, i) in terms"
+            :key="i"
+            v-model="termChecks[i]"
+            :label="term.label"
+            :required="term.required"
+          />
         </div>
       </div>
     </div>
 
+    <!-- :disabled="!isFormValid"  -->
     <BaseButton color="main" class="mt-6" @click="emit('next')"> 다음 </BaseButton>
   </div>
 </template>

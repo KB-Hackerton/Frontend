@@ -19,6 +19,7 @@ defineEmits(['update:modelValue'])
       <span v-if="required" class="text-red">*</span>
       <span v-if="description" class="ml-1 text-12 text-red"> ({{ description }}) </span>
     </label>
+
     <input
       :id="id"
       :type="type"

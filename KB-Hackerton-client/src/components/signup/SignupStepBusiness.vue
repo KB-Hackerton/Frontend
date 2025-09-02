@@ -2,6 +2,8 @@
 import { ref, computed } from 'vue'
 import BaseInput from '../common/BaseInput.vue'
 import BaseButton from '../common/BaseButton.vue'
+import BaseInputWithButton from '../common/BaseInputWithButton.vue'
+import BaseSelect from '../common/BaseSelect.vue'
 
 const emit = defineEmits(['complete'])
 
@@ -56,71 +58,40 @@ const addressDetail = ref('')
       description="사업자 등록증의 개업연월일과 동일해야 합니다."
     />
 
-    <div>
-      <label for="categoryMain" class="block font-semibold text-16 text-gray-300">
-        업종 - 대분류 <span class="text-red">*</span>
-      </label>
-      <select
-        id="categoryMain"
-        v-model="categoryMain"
-        class="w-full border-b py-2 text-16 outline-none"
-      >
-        <option>소매업</option>
-        <option>음식점업</option>
-        <option>보건의료업</option>
-      </select>
-    </div>
+    <BaseSelect
+      id="categoryMain"
+      v-model="categoryMain"
+      label="업종 - 대분류"
+      :required="true"
+      :options="['소매업', '음식점업', '보건의료업']"
+    />
 
-    <div>
-      <label for="categoryMid" class="block font-semibold text-16 text-gray-300">
-        업종 - 중분류 <span class="text-red">*</span>
-      </label>
-      <select
-        id="categoryMid"
-        v-model="categoryMid"
-        class="w-full border-b py-2 text-16 outline-none"
-      >
-        <option>소매업</option>
-        <option>음식점업</option>
-        <option>보건의료업</option>
-      </select>
-    </div>
+    <BaseSelect
+      id="categoryMid"
+      v-model="categoryMid"
+      label="업종 - 중분류"
+      :required="true"
+      :options="['소매업', '음식점업', '보건의료업']"
+    />
 
-    <div>
-      <label for="categorySub" class="block font-semibold text-16 text-gray-300">
-        업종 - 소분류 <span class="text-red">*</span>
-      </label>
-      <select
-        id="categorySub"
-        v-model="categorySub"
-        class="w-full border-b py-2 text-16 outline-none"
-      >
-        <option>소매업</option>
-        <option>음식점업</option>
-        <option>보건의료업</option>
-      </select>
-    </div>
+    <BaseSelect
+      id="categorySub"
+      v-model="categorySub"
+      label="업종 - 소분류"
+      :required="true"
+      :options="['소매업', '음식점업', '보건의료업']"
+    />
 
-    <div>
-      <label for="address" class="block font-semibold text-16 text-gray-300">
-        사업장 주소 <span class="text-red">*</span>
-      </label>
-      <div class="flex gap-2">
-        <input
-          id="address"
-          v-model="address"
-          type="text"
-          placeholder="주소를 입력해주세요."
-          class="flex-1 border-b border-gray-200 py-2 text-16 outline-none placeholder:text-gray-200"
-        />
-        <button
-          type="button"
-          class="w-20 h-8 font-bold text-10 flex items-center justify-center rounded-2xl border border-main bg-white text-main"
-        >
-          주소 찾기
-        </button>
-      </div>
-    </div>
+    <BaseInputWithButton
+      id="address"
+      v-model="address"
+      type="text"
+      label="사업장 주소"
+      placeholder="주소를 입력해주세요."
+      button-text="주소 찾기"
+      :required="true"
+      @click="findAddr"
+    />
 
     <BaseInput
       id="addressDetail"
