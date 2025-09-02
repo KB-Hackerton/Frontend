@@ -11,7 +11,7 @@ defineProps({
     :type="type"
     :disabled="disabled"
     :class="[
-      'mx-auto w-[340px] h-[40px] rounded-xl font-bold text-20 flex items-center justify-center',
+      'mx-auto w-[340px] h-[40px] flex items-center justify-center rounded-xl font-semibold text-20',
       disabled ? 'bg-gray-300 text-white cursor-not-allowed' : '',
       color === 'main' ? 'bg-main text-white' : '',
       color === 'yellow' ? 'bg-yellow text-black' : '',
