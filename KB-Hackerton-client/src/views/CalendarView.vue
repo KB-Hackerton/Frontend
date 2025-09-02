@@ -123,21 +123,6 @@ function addDaysISO(isoDate, days = 1) {
   return `${yyyy}-${mm}-${dd}`
 }
 
-const fcEvents = computed(() =>
-  calendarAnnounceList.value.map((a) => ({
-    id: a.announce_id,
-    title: a.announce_title,
-    start: a.reqst_start_date.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3'),
-    end: a.reqst_end_date
-      ? addDaysISO(a.reqst_end_date.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3'))
-      : '9999-12-31',
-    allDay: true,
-
-    extendedProps: {
-      is_favorite: !!a.is_favorite,
-    },
-  })),
-)
 const calendarOptions = reactive({
   headerToolbar: false,
   plugins: [dayGridPlugin, interactionPlugin],
