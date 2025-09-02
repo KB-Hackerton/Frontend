@@ -1,5 +1,21 @@
 <script setup>
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
 import logoUrl from '@/assets/images/svg/mainLogo.svg?url'
+
+const router = useRouter()
+const auth = useAuthStore()
+
+const email = ref('')
+const password = ref('')
+
+async function onSubmit() {
+  const ok = await auth.loginUser(email.value, password.value)
+  if (ok) {
+    router.replace('/') // 로그인 성공 → 홈으로 이동
+  }
+}
 </script>
 
 <template>
@@ -12,12 +28,14 @@ import logoUrl from '@/assets/images/svg/mainLogo.svg?url'
     />
 
     <!-- 로그인 폼 -->
-    <form class="flex flex-col gap-8">
+    <form class="flex flex-col gap-6" @submit.prevent="onSubmit">
       <div>
         <label for="email" class="block text-16 text-gray-300">이메일</label>
         <input
           id="email"
+          v-model.trim="email"
           type="email"
+          autocomplete="email"
           placeholder="이메일을 입력해 주세요."
           class="w-full border-b border-gray-200 py-2 text-16 outline-none placeholder:text-gray-200"
         />
@@ -27,17 +45,21 @@ import logoUrl from '@/assets/images/svg/mainLogo.svg?url'
         <label for="password" class="block text-16 text-gray-300">비밀번호</label>
         <input
           id="password"
+          v-model.trim="password"
           type="password"
+          autocomplete="current-password"
           placeholder="비밀번호를 입력해 주세요."
           class="w-full border-b border-gray-200 py-2 text-16 outline-none placeholder:text-gray-200"
         />
       </div>
 
+      <p v-if="auth.error" class="text-red font-bold text-10 -mt-2 mb-1">{{ auth.error }}</p>
+
       <button
         type="submit"
         class="mx-auto w-[340px] h-[40px] bg-main text-white rounded-xl font-bold text-20 mt-2"
       >
-        로그인
+        {{ auth.loading ? '로그인 중...' : '로그인' }}
       </button>
     </form>
 
