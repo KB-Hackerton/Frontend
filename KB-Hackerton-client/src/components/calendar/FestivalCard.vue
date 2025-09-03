@@ -21,7 +21,7 @@ const toYmdNumFromRaw = (raw) => {
   return Number(digits)
 }
 
-const announcementStatus = computed(() => {
+const festivalStatus = computed(() => {
   const t = getTodayYmdNum()
   const s = toYmdNumFromRaw(props.festival.event_startdate)
   const e = toYmdNumFromRaw(props.festival.event_enddate)
@@ -46,13 +46,13 @@ const announcementStatus = computed(() => {
         <div>{{ props.festival.telname }}</div>
         <div>
           {{
-            `${props.festival.event_startdate} ${props.festival.event_enddate ? '~' + props.festival.event_enddate : ''}`
+            `${props.festival.event_startdate} ${props.festival.event_enddate != props.festival.event_startdate ? '~' + props.festival.event_enddate : ''}`
           }}
         </div>
       </div>
-      <div class="flex flex-col gap-2 items-end justify-between">
+      <div class="flex flex-col gap-2 items-end justify-end">
         <p class="semibold text-14">
-          {{ announcementStatus }}
+          {{ festivalStatus }}
         </p>
       </div>
     </div>
