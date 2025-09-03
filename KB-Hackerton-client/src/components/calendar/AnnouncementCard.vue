@@ -28,7 +28,7 @@ const announcementStatus = computed(() => {
   const s = toYmdNumFromRaw(props.announcement.reqst_start_date)
   const e = toYmdNumFromRaw(props.announcement.reqst_end_date)
 
-  if (t < s) return '진행전'
+  if (t < s) return '접수예정'
   else if (t > e) return '마감'
   else if (t >= s && t <= e) {
     if (e - t < 5) {
