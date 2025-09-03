@@ -1,0 +1,386 @@
+[
+  {
+    "notification_id": 1,
+    "title": "지원금 신청 마감 안내",
+    "content": "소상공인 전용 대출 지원 신청이 3일 후 마감됩니다.",
+    "noti_type": "notice",
+    "is_read": 0,
+    "created_at": "2025-08-25 09:30:00"
+  },
+  {
+    "notification_id": 2,
+    "title": "지역 축제 소식",
+    "content": "경주 전통시장 축제에서 소상공인 할인 부스를 운영합니다.",
+    "noti_type": "festival",
+    "is_read": 1,
+    "created_at": "2025-08-24 14:20:00"
+  },
+  {
+    "notification_id": 3,
+    "title": "긴급 SOS 요청",
+    "content": "인근 김밥천국에서 ‘김치 재고’ 긴급 공유 요청이 도착했습니다.",
+    "noti_type": "sos",
+    "is_read": 0,
+    "created_at": "2025-08-23 11:15:00"
+  },
+  {
+    "notification_id": 4,
+    "title": "서류 제출 안내",
+    "content": "경상남도 전통시장 활성화 지원금 신청 서류 12건이 미완료 상태입니다.",
+    "noti_type": "announce",
+    "is_read": 1,
+    "created_at": "2025-08-22 16:45:00"
+  },
+  {
+    "notification_id": 5,
+    "title": "시스템 점검 공지",
+    "content": "9월 5일 새벽 2시~5시까지 시스템 점검으로 일부 기능이 제한됩니다.",
+    "noti_type": "announce",
+    "is_read": 0,
+    "created_at": "2025-08-21 02:00:00"
+  },
+  {
+    "notification_id": 6,
+    "title": "소상공인 네트워킹 행사",
+    "content": "서울 강남구에서 열리는 소상공인 네트워킹 행사에 초대합니다.",
+    "noti_type": "festival",
+    "is_read": 0,
+    "created_at": "2025-08-20 18:10:00"
+  },
+  {
+    "notification_id": 7,
+    "title": "공지사항: 서비스 업데이트",
+    "content": "알림 서비스 UI가 개선되어 새로운 필터 기능을 제공합니다.",
+    "noti_type": "notice",
+    "is_read": 1,
+    "created_at": "2025-08-19 09:00:00"
+  },
+  {
+    "notification_id": 8,
+    "title": "긴급 SOS 요청",
+    "content": "부산 서면시장에서 ‘생수 50박스’ 긴급 지원 요청이 등록되었습니다.",
+    "noti_type": "sos",
+    "is_read": 0,
+    "created_at": "2025-08-18 12:30:00"
+  },
+  {
+    "notification_id": 9,
+    "title": "지원사업 설명회",
+    "content": "소상공인 디지털 전환 지원사업 설명회가 온라인으로 개최됩니다.",
+    "noti_type": "announce",
+    "is_read": 1,
+    "created_at": "2025-08-17 10:00:00"
+  },
+  {
+    "notification_id": 10,
+    "title": "전국 소상공인 동행축제",
+    "content": "전국 50여개 도시에서 소상공인 동행축제가 동시에 개최됩니다.",
+    "noti_type": "festival",
+    "is_read": 0,
+    "created_at": "2025-08-16 15:00:00"
+  },
+  {
+    "notification_id": 11,
+    "title": "긴급 SOS 요청",
+    "content": "대구 서구 시장에서 ‘쌀 20포대’ 긴급 지원 요청이 발생했습니다.",
+    "noti_type": "sos",
+    "is_read": 0,
+    "created_at": "2025-08-15 11:40:00"
+  },
+  {
+    "notification_id": 12,
+    "title": "지원금 접수 시작",
+    "content": "소상공인 에너지 절감 지원금 접수가 시작되었습니다.",
+    "noti_type": "notice",
+    "is_read": 1,
+    "created_at": "2025-08-14 09:10:00"
+  },
+  {
+    "notification_id": 13,
+    "title": "시스템 업데이트 완료",
+    "content": "알림 시스템 업데이트가 정상적으로 완료되었습니다.",
+    "noti_type": "announce",
+    "is_read": 1,
+    "created_at": "2025-08-13 22:00:00"
+  },
+  {
+    "notification_id": 14,
+    "title": "지역 축제 안내",
+    "content": "부산 자갈치 시장에서 전통 음식 축제가 열립니다.",
+    "noti_type": "festival",
+    "is_read": 0,
+    "created_at": "2025-08-12 19:00:00"
+  },
+  {
+    "notification_id": 15,
+    "title": "긴급 SOS 요청",
+    "content": "광주 남구 재래시장에서 ‘생닭 100마리’ SOS 요청이 도착했습니다.",
+    "noti_type": "sos",
+    "is_read": 1,
+    "created_at": "2025-08-11 08:50:00"
+  },
+  {
+    "notification_id": 16,
+    "title": "공지사항: 법령 개정",
+    "content": "소상공인 지원법 일부 개정에 따라 자금 지원 요건이 변경되었습니다.",
+    "noti_type": "notice",
+    "is_read": 0,
+    "created_at": "2025-08-10 13:20:00"
+  },
+  {
+    "notification_id": 17,
+    "title": "지역 상권 소식",
+    "content": "인천 신포동 전통시장에 야시장 프로그램이 신설됩니다.",
+    "noti_type": "festival",
+    "is_read": 1,
+    "created_at": "2025-08-09 17:40:00"
+  },
+  {
+    "notification_id": 18,
+    "title": "긴급 SOS 요청",
+    "content": "춘천 중앙시장에서 ‘생수 30박스’ 긴급 요청이 접수되었습니다.",
+    "noti_type": "sos",
+    "is_read": 0,
+    "created_at": "2025-08-08 15:00:00"
+  },
+  {
+    "notification_id": 19,
+    "title": "지원사업 설명회 안내",
+    "content": "경기도청에서 ‘소상공인 온라인 판로 지원사업’ 설명회가 열립니다.",
+    "noti_type": "announce",
+    "is_read": 0,
+    "created_at": "2025-08-07 11:00:00"
+  },
+  {
+    "notification_id": 20,
+    "title": "지원금 심사 결과 안내",
+    "content": "2025년 상반기 소상공인 정책자금 심사 결과가 발표되었습니다.",
+    "noti_type": "notice",
+    "is_read": 1,
+    "created_at": "2025-08-06 09:30:00"
+  },
+  {
+    "notification_id": 21,
+    "title": "지역 전통시장 행사",
+    "content": "대전 중앙시장 ‘푸드 페스티벌’이 개최됩니다.",
+    "noti_type": "festival",
+    "is_read": 0,
+    "created_at": "2025-08-05 10:00:00"
+  },
+  {
+    "notification_id": 22,
+    "title": "긴급 SOS 요청",
+    "content": "전주 남부시장에서 ‘채소 200상자’ SOS 요청이 발생했습니다.",
+    "noti_type": "sos",
+    "is_read": 1,
+    "created_at": "2025-08-04 16:40:00"
+  },
+  {
+    "notification_id": 23,
+    "title": "시스템 점검 완료",
+    "content": "8월 정기 시스템 점검이 완료되었습니다.",
+    "noti_type": "announce",
+    "is_read": 1,
+    "created_at": "2025-08-03 03:00:00"
+  },
+  {
+    "notification_id": 24,
+    "title": "지원금 접수 안내",
+    "content": "2025년 하반기 소상공인 지원금 신청 접수가 시작됩니다.",
+    "noti_type": "notice",
+    "is_read": 0,
+    "created_at": "2025-08-02 09:00:00"
+  },
+  {
+    "notification_id": 25,
+    "title": "지역 축제 홍보",
+    "content": "광명 전통시장에서 여름 맞이 특별 할인 행사가 진행됩니다.",
+    "noti_type": "festival",
+    "is_read": 0,
+    "created_at": "2025-08-01 19:00:00"
+  },
+  {
+    "notification_id": 26,
+    "title": "긴급 SOS 요청",
+    "content": "포항 죽도시장에서 ‘얼음 100박스’ 긴급 지원 요청이 발생했습니다.",
+    "noti_type": "sos",
+    "is_read": 0,
+    "created_at": "2025-07-31 12:30:00"
+  },
+  {
+    "notification_id": 27,
+    "title": "지원사업 안내",
+    "content": "소상공인 디지털 전환 지원사업 참여 모집이 공지되었습니다.",
+    "noti_type": "announce",
+    "is_read": 1,
+    "created_at": "2025-07-30 11:20:00"
+  },
+  {
+    "notification_id": 28,
+    "title": "공지사항: 플랫폼 수수료 변경",
+    "content": "온라인 결제 플랫폼 수수료율이 9월부터 조정됩니다.",
+    "noti_type": "notice",
+    "is_read": 0,
+    "created_at": "2025-07-29 15:00:00"
+  },
+  {
+    "notification_id": 29,
+    "title": "지역 문화 축제",
+    "content": "춘천 호반 축제가 열려 지역 소상공인 부스가 운영됩니다.",
+    "noti_type": "festival",
+    "is_read": 0,
+    "created_at": "2025-07-28 13:40:00"
+  },
+  {
+    "notification_id": 30,
+    "title": "긴급 SOS 요청",
+    "content": "수원 남문시장에서 ‘우유 200팩’ 긴급 SOS 요청이 접수되었습니다.",
+    "noti_type": "sos",
+    "is_read": 1,
+    "created_at": "2025-07-27 08:00:00"
+  },
+  {
+    "notification_id": 31,
+    "title": "지원금 결과 발표",
+    "content": "2025년 2분기 소상공인 정책자금 지원 심사 결과가 발표되었습니다.",
+    "noti_type": "notice",
+    "is_read": 1,
+    "created_at": "2025-07-26 09:00:00"
+  },
+  {
+    "notification_id": 32,
+    "title": "시스템 업그레이드 예정",
+    "content": "8월 10일 시스템 업그레이드 작업이 예정되어 있습니다.",
+    "noti_type": "announce",
+    "is_read": 0,
+    "created_at": "2025-07-25 21:00:00"
+  },
+  {
+    "notification_id": 33,
+    "title": "지역 축제 공지",
+    "content": "안동 탈춤 축제에 소상공인 플리마켓이 함께 진행됩니다.",
+    "noti_type": "festival",
+    "is_read": 0,
+    "created_at": "2025-07-24 10:00:00"
+  },
+  {
+    "notification_id": 34,
+    "title": "긴급 SOS 요청",
+    "content": "광양 시장에서 ‘과일 300박스’ SOS 요청이 등록되었습니다.",
+    "noti_type": "sos",
+    "is_read": 0,
+    "created_at": "2025-07-23 14:20:00"
+  },
+  {
+    "notification_id": 35,
+    "title": "지원금 접수 마감",
+    "content": "소상공인 혁신 지원금 접수가 오늘 자정 마감됩니다.",
+    "noti_type": "notice",
+    "is_read": 0,
+    "created_at": "2025-07-22 20:30:00"
+  },
+  {
+    "notification_id": 36,
+    "title": "공지사항: 시스템 점검",
+    "content": "7월 25일 새벽 2시~4시까지 정기 점검이 실시됩니다.",
+    "noti_type": "announce",
+    "is_read": 1,
+    "created_at": "2025-07-21 02:00:00"
+  },
+  {
+    "notification_id": 37,
+    "title": "지역 문화 소식",
+    "content": "제주 서귀포에서 ‘해녀축제’가 열립니다.",
+    "noti_type": "festival",
+    "is_read": 1,
+    "created_at": "2025-07-20 19:00:00"
+  },
+  {
+    "notification_id": 38,
+    "title": "긴급 SOS 요청",
+    "content": "서울 마포 전통시장에서 ‘채소 100박스’ SOS 요청이 접수되었습니다.",
+    "noti_type": "sos",
+    "is_read": 0,
+    "created_at": "2025-07-19 12:00:00"
+  },
+  {
+    "notification_id": 39,
+    "title": "지원사업 설명회 개최",
+    "content": "대전광역시청에서 소상공인 지원사업 설명회가 개최됩니다.",
+    "noti_type": "announce",
+    "is_read": 0,
+    "created_at": "2025-07-18 11:00:00"
+  },
+  {
+    "notification_id": 40,
+    "title": "지원금 결과 공지",
+    "content": "2025년 소상공인 정책자금 심사 결과가 발표되었습니다.",
+    "noti_type": "notice",
+    "is_read": 1,
+    "created_at": "2025-07-17 09:00:00"
+  },
+  {
+    "notification_id": 41,
+    "title": "지역 전통시장 페스티벌",
+    "content": "전북 전주 남부시장에서 여름 페스티벌이 개최됩니다.",
+    "noti_type": "festival",
+    "is_read": 0,
+    "created_at": "2025-07-16 18:00:00"
+  },
+  {
+    "notification_id": 42,
+    "title": "긴급 SOS 요청",
+    "content": "강릉 중앙시장에서 ‘어묵 50박스’ SOS 요청이 발생했습니다.",
+    "noti_type": "sos",
+    "is_read": 1,
+    "created_at": "2025-07-15 13:00:00"
+  },
+  {
+    "notification_id": 43,
+    "title": "공지사항: 전산 점검",
+    "content": "전산 시스템 점검으로 7월 20일 일부 서비스가 제한됩니다.",
+    "noti_type": "announce",
+    "is_read": 0,
+    "created_at": "2025-07-14 05:00:00"
+  },
+  {
+    "notification_id": 44,
+    "title": "지원금 신청 안내",
+    "content": "소상공인 창업 지원금 신청이 오늘부터 가능합니다.",
+    "noti_type": "notice",
+    "is_read": 0,
+    "created_at": "2025-07-13 10:00:00"
+  },
+  {
+    "notification_id": 45,
+    "title": "지역 축제 이벤트",
+    "content": "서울 남대문 시장에서 플리마켓 축제가 열립니다.",
+    "noti_type": "festival",
+    "is_read": 1,
+    "created_at": "2025-07-12 17:00:00"
+  },
+  {
+    "notification_id": 46,
+    "title": "긴급 SOS 요청",
+    "content": "부산 국제시장에서 ‘빵 200개’ 긴급 요청이 접수되었습니다.",
+    "noti_type": "sos",
+    "is_read": 0,
+    "created_at": "2025-07-11 12:00:00"
+  },
+  {
+    "notification_id": 47,
+    "title": "지원사업 설명회",
+    "content": "울산광역시청에서 소상공인 디지털화 지원 설명회가 열립니다.",
+    "noti_type": "announce",
+    "is_read": 1,
+    "created_at": "2025-07-10 09:00:00"
+  },
+  {
+    "notification_id": 48,
+    "title": "지원금 접수 시작",
+    "content": "소상공인 경영안정 지원금 신청 접수가 오늘 시작되었습니다.",
+    "noti_type": "notice",
+    "is_read": 0,
+    "created_at": "2025-07-09 09:30:00"
+  }
+]
