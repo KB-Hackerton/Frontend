@@ -12,15 +12,15 @@ const router = useRouter()
 const user = ref(userData)
 
 const quickMenuItems = [
-  { to: '/favorites', icon: 'solar:star-line-duotone', label: '즐겨찾기' },
+  { to: '/', icon: 'solar:star-line-duotone', label: '즐겨찾기' },
   { to: '/notice-list', icon: 'material-symbols:contract-outline-rounded', label: '공지사항' },
-  { to: '/chatbot', icon: 'fluent-mdl2:chat-bot', label: '챗봇' },
+  { to: '/', icon: 'fluent-mdl2:chat-bot', label: '챗봇' },
 ]
 
 const optionListItems = [
-  { to: '/settings', icon: 'material-symbols:settings-outline-rounded', label: '설정' },
-  { to: '/terms', icon: 'material-symbols:contract-outline-rounded', label: '이용약관' },
-  { to: '/faq', icon: 'material-symbols:help-outline', label: 'FAQ' },
+  { to: '/', icon: 'material-symbols:settings-outline-rounded', label: '설정' },
+  { to: '/', icon: 'material-symbols:contract-outline-rounded', label: '이용약관' },
+  { to: '/', icon: 'material-symbols:help-outline', label: 'FAQ' },
   { icon: 'material-symbols:logout', label: '로그아웃', onClick: logout, showArrow: false },
   { icon: 'lets-icons:sad', label: '회원탈퇴', onClick: withdraw, danger: true, showArrow: false },
 ]
@@ -28,7 +28,6 @@ const optionListItems = [
 // 로그아웃
 function logout() {
   console.log('로그아웃 실행')
-  // TODO: userStore.resetUser() 같은 초기화 필요
   router.replace('/login')
 }
 
@@ -36,7 +35,6 @@ function logout() {
 function withdraw() {
   if (confirm('정말 회원탈퇴를 진행하시겠습니까?')) {
     console.log('회원탈퇴 실행')
-    // TODO: API 호출 & 스토어 초기화 필요
     router.replace('/login')
   }
 }
@@ -66,10 +64,10 @@ function withdraw() {
         </div>
 
         <div class="flex gap-2 mt-3">
-          <router-link to="/business/edit" class="px-4 py-1 bg-gray-100 rounded-lg text-10 shadow">
+          <router-link to="/" class="px-4 py-1 bg-gray-100 rounded-lg text-10 shadow">
             사업 정보 변경
           </router-link>
-          <router-link to="/password/edit" class="px-4 py-1 bg-gray-100 rounded-lg text-10 shadow">
+          <router-link to="/" class="px-4 py-1 bg-gray-100 rounded-lg text-10 shadow">
             비밀번호 변경
           </router-link>
         </div>

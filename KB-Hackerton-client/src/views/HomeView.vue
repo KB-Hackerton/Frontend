@@ -84,12 +84,12 @@ function calcDday(dateStr) {
     <HomeList
       title="공지사항"
       moreText="공지사항 더보기"
-      moreLink="/notice"
+      moreLink="/notice-list"
       :items="
         notice.slice(0, 3).map((n) => ({
           title: n.title,
           link: `/`,
-          // link: `/notice/${n.notice_id}`,
+          // link: `/notice-list/${n.notice_id}`,
         }))
       "
     />
