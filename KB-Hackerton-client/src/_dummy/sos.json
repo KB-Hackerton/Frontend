@@ -1,0 +1,97 @@
+[
+  {
+    "sos_id": 1,
+    "member_id": 101,
+    "sos_title": "카페 모닝",
+    "sos_type": "stock",
+    "sos_content": "종이컵과 빨대가 부족합니다. 긴급히 요청합니다.",
+    "expires_at": "2025-09-05T23:59:59",
+    "created_at": "2025-09-04T09:00:00",
+    "is_complete": 0,
+    "is_deleted": 0,
+    "images": [
+      {
+        "sos_image_id": 1,
+        "storage_key": "sos/1/cafe-morning.png",
+        "is_deleted": 0,
+        "created_at": "2025-09-04T09:05:00"
+      }
+    ]
+  },
+  {
+    "sos_id": 2,
+    "member_id": 102,
+    "sos_title": "봄날 꽃집",
+    "sos_type": "stock",
+    "sos_content": "장미 50송이가 필요합니다. 급히 공급 부탁드려요.",
+    "expires_at": "2025-09-06T18:00:00",
+    "created_at": "2025-09-04T10:30:00",
+    "is_complete": 0,
+    "is_deleted": 0,
+    "images": [
+      {
+        "sos_image_id": 2,
+        "storage_key": "sos/2/flower-shop.png",
+        "is_deleted": 0,
+        "created_at": "2025-09-04T10:35:00"
+      }
+    ]
+  },
+  {
+    "sos_id": 3,
+    "member_id": 103,
+    "sos_title": "24시간 편의점",
+    "sos_type": "labor",
+    "sos_content": "야간 근무(교대) 알바를 구합니다.",
+    "expires_at": "2025-09-10T06:00:00",
+    "created_at": "2025-09-04T11:15:00",
+    "is_complete": 0,
+    "is_deleted": 0,
+    "images": [
+      {
+        "sos_image_id": 3,
+        "storage_key": "sos/3/convenience-store.png",
+        "is_deleted": 0,
+        "created_at": "2025-09-04T11:20:00"
+      }
+    ]
+  },
+  {
+    "sos_id": 4,
+    "member_id": 104,
+    "sos_title": "PC방",
+    "sos_type": "equipment",
+    "sos_content": "에어컨이 고장나서 수리 기사님이 필요합니다.",
+    "expires_at": "2025-09-07T20:00:00",
+    "created_at": "2025-09-04T12:00:00",
+    "is_complete": 0,
+    "is_deleted": 0,
+    "images": [
+      {
+        "sos_image_id": 4,
+        "storage_key": "sos/4/pc-room.png",
+        "is_deleted": 0,
+        "created_at": "2025-09-04T12:05:00"
+      }
+    ]
+  },
+  {
+    "sos_id": 5,
+    "member_id": 105,
+    "sos_title": "마트 창고",
+    "sos_type": "etc",
+    "sos_content": "물류 정리에 도움이 필요합니다. 단기 2시간.",
+    "expires_at": "2025-09-08T15:00:00",
+    "created_at": "2025-09-04T12:30:00",
+    "is_complete": 0,
+    "is_deleted": 0,
+    "images": [
+      {
+        "sos_image_id": 5,
+        "storage_key": "sos/5/warehouse.png",
+        "is_deleted": 0,
+        "created_at": "2025-09-04T12:35:00"
+      }
+    ]
+  }
+]
