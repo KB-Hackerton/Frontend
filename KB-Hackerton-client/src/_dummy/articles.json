@@ -1,0 +1,47 @@
+[
+  {
+    "article_id": 1,
+    "title": "소상공인 마케팅 성공 사례 공유 이벤트 개최",
+    "content": "경북 안동에서 열린 소상공인 마케팅 성공 사례 공유 이벤트가 성황리에 마무리되었습니다. 다양한 홍보 전략과 마케팅 방법이 소개되었습니다.",
+    "category": "경제",
+    "author": "김민수 기자",
+    "published_at": "2025-09-01 09:30:00",
+    "article_url": "https://example.com/articles/1"
+  },
+  {
+    "article_id": 2,
+    "title": "맞춤형 지원금 알림 서비스, 소상공인에게 큰 호응",
+    "content": "소상공인들이 필요한 시점에 맞춤형 지원금을 받을 수 있도록 알림 서비스가 새롭게 도입되었습니다.",
+    "category": "정책",
+    "author": "이영희 기자",
+    "published_at": "2025-09-02 14:00:00",
+    "article_url": "https://example.com/articles/2"
+  },
+  {
+    "article_id": 3,
+    "title": "정부·지자체, 소상공인 지원 정책 확대 발표",
+    "content": "정부와 지자체는 2025년 하반기부터 소상공인을 대상으로 한 다양한 지원 정책을 확대한다고 발표했습니다.",
+    "category": "정책",
+    "author": "박준형 기자",
+    "published_at": "2025-09-02 16:45:00",
+    "article_url": "https://example.com/articles/3"
+  },
+  {
+    "article_id": 4,
+    "title": "안동 국제탈춤페스티벌, 지역 경제 활성화 기대",
+    "content": "안동에서 열리는 국제탈춤페스티벌이 지역 소상공인들에게 새로운 기회를 제공할 것으로 기대됩니다.",
+    "category": "문화",
+    "author": "최지은 기자",
+    "published_at": "2025-09-03 11:20:00",
+    "article_url": "https://example.com/articles/4"
+  },
+  {
+    "article_id": 5,
+    "title": "온라인 판로 확대, 소상공인에게 돌파구 되나",
+    "content": "온라인 쇼핑몰 입점 및 디지털 전환이 소상공인들에게 새로운 성장 기회로 주목받고 있습니다.",
+    "category": "경제",
+    "author": "정우성 기자",
+    "published_at": "2025-09-03 13:10:00",
+    "article_url": "https://example.com/articles/5"
+  }
+]
