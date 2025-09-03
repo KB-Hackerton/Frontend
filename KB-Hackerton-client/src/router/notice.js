@@ -4,7 +4,7 @@ export default [
     name: 'noticeList',
     component: () => import('@/views/NoticeListView.vue'),
     meta: {
-      title: '공고 리스트',
+      title: '공지사항',
     },
   },
 ]
