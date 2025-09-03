@@ -193,10 +193,7 @@ const calendarOptions = reactive({
       })
 
       clickDateFestivalList.value = festivalList.value.filter((item) => {
-        return (
-          (item.reqst_start_date <= compact && item.reqst_end_date >= compact) ||
-          (item.reqst_start_date <= compact && item.reqst_end_date === '')
-        )
+        return item.event_startdate <= compact && item.event_enddate >= compact
       })
 
       // Move the calendar focus to this date (keeps week view, shifts the range if needed)
@@ -286,15 +283,9 @@ const calendarOptions = reactive({
     clickDateFestivalList.value = festivalList.value.filter((item) => {
       const start = item.event_startdate
       const end = item.event_enddate
-      if (end) {
-        // 종료일이 있으면 범위 비교
-        return start <= formatDate && formatDate <= end
-      }
-      // 종료일이 없으면 단일일 이벤트
-      return start === formatDate
-    })
 
-    console.log(`festivalList: ${JSON.stringify(clickDateFestivalList.value)}`)
+      return start <= formatDate && formatDate <= end
+    })
 
     detailView.value = true
     const api = calendarRef.value?.getApi()
