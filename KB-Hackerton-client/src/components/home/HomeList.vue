@@ -25,7 +25,7 @@ const props = defineProps({
         v-for="(item, i) in items"
         :key="i"
         :to="item.link"
-        class="block p-4 text-sm hover:bg-gray-50"
+        class="block p-4 text-12 hover:bg-gray-50"
       >
         {{ item.title }}
       </router-link>
