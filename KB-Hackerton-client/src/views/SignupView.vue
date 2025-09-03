@@ -1,7 +1,12 @@
 <script setup>
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { useSignupStore } from '@/stores/signup'
 import SignupStepPersonal from '@/components/signup/SignupStepPersonal.vue'
 import SignupStepBusiness from '@/components/signup/SignupStepBusiness.vue'
+
+const router = useRouter()
+const signupStore = useSignupStore()
 
 // 현재 단계 (1: 개인정보, 2: 사업정보)
 const step = ref(1)
@@ -11,6 +16,8 @@ function goNext() {
 }
 function handleComplete() {
   console.log('회원가입 완료!')
+  signupStore.resetSignup()
+  router.replace('/login')
 }
 </script>
 

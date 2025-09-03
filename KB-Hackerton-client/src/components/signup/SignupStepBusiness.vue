@@ -1,11 +1,13 @@
 <script setup>
 import { ref, computed } from 'vue'
+import { useSignupStore } from '@/stores/signup'
 import BaseInput from '../common/BaseInput.vue'
 import BaseButton from '../common/BaseButton.vue'
 import BaseInputWithButton from '../common/BaseInputWithButton.vue'
 import BaseSelect from '../common/BaseSelect.vue'
 
 const emit = defineEmits(['complete'])
+const signupStore = useSignupStore()
 
 // 입력값 관리
 const businessNum = ref('')
@@ -17,18 +19,72 @@ const categoryMid = ref('')
 const categorySub = ref('')
 const address = ref('')
 const addressDetail = ref('')
+
+// 사업자 등록번호
+const businessNumMessage = ref('')
+function checkBusinessNum() {
+  if (!/^\d{10}$/.test(businessNum.value)) {
+    businessNumMessage.value = '사업자 등록번호는 숫자 10자리입니다.'
+  } else {
+    businessNumMessage.value = ''
+  }
+}
+
+// 주소 찾기 (더미)
+function findAddr() {
+  // TODO: 다음(카카오) 주소검색 연동
+  console.log('주소 검색 실행')
+  address.value = '경북 안동시 제비원로 195'
+}
+
+// 유효성 검사
+const isFormValid = computed(() => {
+  return (
+    businessNum.value &&
+    !businessNumMessage.value &&
+    ceoName.value &&
+    companyName.value &&
+    openDate.value &&
+    categoryMain.value &&
+    categoryMid.value &&
+    categorySub.value &&
+    address.value
+  )
+})
+
+function completeSignup() {
+  signupStore.setBusinessInfo({
+    businessNum: businessNum.value,
+    ceoName: ceoName.value,
+    companyName: companyName.value,
+    openDate: openDate.value,
+    categoryMain: categoryMain.value,
+    categoryMid: categoryMid.value,
+    categorySub: categorySub.value,
+    address: address.value,
+    addressDetail: addressDetail.value,
+  })
+
+  console.log('✅ 최종 회원가입 데이터:', signupStore.getFinalInfo())
+  emit('complete')
+}
 </script>
 
 <template>
   <div class="flex flex-col gap-6 mt-5">
-    <BaseInput
-      id="businessNum"
-      v-model="businessNum"
-      label="사업자 등록번호"
-      placeholder="사업자 등록번호를 입력해주세요."
-      :required="true"
-      description="- 없이 숫자만 기입하시기 바랍니다."
-    />
+    <div>
+      <BaseInput
+        id="businessNum"
+        v-model="businessNum"
+        label="사업자 등록번호"
+        placeholder="숫자 10자리 입력"
+        :required="true"
+        @input="checkBusinessNum"
+      />
+      <p v-if="businessNumMessage" class="font-semibold text-gray-300 text-10 mt-1">
+        {{ businessNumMessage }}
+      </p>
+    </div>
 
     <BaseInput
       id="ceoName"
@@ -87,9 +143,10 @@ const addressDetail = ref('')
       v-model="address"
       type="text"
       label="사업장 주소"
-      placeholder="주소를 입력해주세요."
+      placeholder="주소 찾기로 주소를 입력해주세요."
       button-text="주소 찾기"
       :required="true"
+      :readonly="true"
       @click="findAddr"
     />
 
@@ -100,7 +157,9 @@ const addressDetail = ref('')
       placeholder="상세 주소를 입력해주세요."
     />
 
-    <BaseButton color="main" class="mt-6" @click="emit('complete')">가입하기</BaseButton>
+    <BaseButton color="main" class="mt-6" :disabled="!isFormValid" @click="completeSignup">
+      가입하기
+    </BaseButton>
   </div>
 </template>
 
