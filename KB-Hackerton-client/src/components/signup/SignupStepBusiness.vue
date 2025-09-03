@@ -79,6 +79,7 @@ function completeSignup() {
         label="사업자 등록번호"
         placeholder="숫자 10자리 입력"
         :required="true"
+        description=" - 없이 숫자만 기입하시기 바랍니다."
         @input="checkBusinessNum"
       />
       <p v-if="businessNumMessage" class="font-semibold text-gray-300 text-10 mt-1">
