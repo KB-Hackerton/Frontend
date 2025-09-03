@@ -8,6 +8,8 @@ import { Icon } from '@iconify/vue'
 import DropdownFilter from '@/components/calendar/DropdownFilter.vue'
 import AnnouncementCard from '@/components/calendar/AnnouncementCard.vue'
 import announce from '@/_dummy/announce.json'
+import festival from '@/_dummy/festival.json'
+import FestivalCard from '@/components/calendar/FestivalCard.vue'
 
 const calendarRef = ref(null)
 const currentTitle = ref('')
@@ -20,11 +22,12 @@ const clickDate = ref(null)
 const isFavorite = ref(false)
 
 const announceList = ref(announce)
+const festivalList = ref(festival)
 
 const clickDateAnnounceList = ref([])
+const clickDateFestivalList = ref([])
 
 // 종료일 포함 여부: true면 종료 ‘당일 포함’, false면 종료 ‘당일부터 gray’
-
 const END_INCLUSIVE = true
 
 // Helper: Format Date object to YYYY-MM-DD
@@ -44,10 +47,6 @@ const checkAnnounceEnd = (event) => {
   today.setHours(0, 0, 0, 0)
 
   const endDateRaw = new Date(event.end)
-  // END_INCLUSIVE=true일 때는 fcEvents에서 이미 +1 되어 있음
-  // → 오늘 >= end(배타일)이면 마감(=다음날부터 gray)
-  // END_INCLUSIVE=false일 때는 +1을 안 했으니,
-  // → 오늘 >= end(당일 포함)으로 해석하려면 여기서 보정 +1
   const endDate = new Date(endDateRaw)
 
   if (!END_INCLUSIVE) {
@@ -58,12 +57,14 @@ const checkAnnounceEnd = (event) => {
   endDate.setHours(0, 0, 0, 0)
   return today >= endDate
 }
-
+const displayFestivalList = computed(() => {
+  return clickDateFestivalList.value
+})
 const displayedAnnounceList = computed(() => {
   if (isFavorite.value) {
     if (filter.value !== '전체') {
       return clickDateAnnounceList.value.filter((item) => {
-        return item.is_favorite && item.hashtags.replace('#', '') === filter.value
+        return item.is_favorite && item.lcategory.replace('#', '') === filter.value
       })
     }
     return clickDateAnnounceList.value.filter((item) => {
@@ -71,17 +72,21 @@ const displayedAnnounceList = computed(() => {
     })
   } else if (filter.value !== '전체') {
     return clickDateAnnounceList.value.filter((item) => {
-      return item.hashtags.replace('#', '') === filter.value
+      return item.lcategory.replace('#', '') === filter.value
     })
   }
   return clickDateAnnounceList.value
+})
+
+const calendarFestivalList = computed(() => {
+  return festivalList.value
 })
 
 const calendarAnnounceList = computed(() => {
   if (isFavorite.value) {
     if (filter.value !== '전체') {
       return announceList.value.filter((item) => {
-        return item.is_favorite && item.hashtags.replace('#', '') === filter.value
+        return item.is_favorite && item.lcategory.replace('#', '') === filter.value
       })
     }
     return announceList.value.filter((item) => {
@@ -89,7 +94,7 @@ const calendarAnnounceList = computed(() => {
     })
   } else if (filter.value !== '전체') {
     return announceList.value.filter((item) => {
-      return item.hashtags.replace('#', '') === filter.value
+      return item.lcategory.replace('#', '') === filter.value
     })
   }
   return announceList.value
@@ -187,6 +192,13 @@ const calendarOptions = reactive({
         )
       })
 
+      clickDateFestivalList.value = festivalList.value.filter((item) => {
+        return (
+          (item.reqst_start_date <= compact && item.reqst_end_date >= compact) ||
+          (item.reqst_start_date <= compact && item.reqst_end_date === '')
+        )
+      })
+
       // Move the calendar focus to this date (keeps week view, shifts the range if needed)
       const api = calendarRef.value?.getApi()
       api?.gotoDate(d)
@@ -214,7 +226,29 @@ const calendarOptions = reactive({
     return clickDate.value && clickDate.value === iso ? ['fc-kb-cell-selected'] : []
   },
   events: (fetchInfo, success) => {
-    const rangeEndISO = fmtISO(fetchInfo.end) // view end (exclusive)
+    const rangeEndISO = fmtISO(fetchInfo.end)
+    if (filter.value === '축제') {
+      const festivalList = calendarFestivalList.value.map((a) => {
+        const startISO = a.event_startdate.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3')
+        const hasEnd = !!a.event_enddate
+        const rawEndISO = hasEnd
+          ? a.event_enddate.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3')
+          : null
+        const endISO = hasEnd ? (END_INCLUSIVE ? addDaysISO(rawEndISO, 1) : rawEndISO) : null // open-ended → single-day only
+
+        return {
+          id: a.festival_id,
+          title: a.festival_title,
+          start: startISO,
+          end: endISO,
+          allDay: true,
+          extendedProps: {
+            openEnded: !hasEnd,
+          },
+        }
+      })
+      success(filter.value === '축제' ? festivalList : list)
+    }
     const list = calendarAnnounceList.value.map((a) => {
       const startISO = a.reqst_start_date.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3')
       const hasEnd = !!a.reqst_end_date
@@ -235,13 +269,12 @@ const calendarOptions = reactive({
         },
       }
     })
-    success(list)
+    success(filter.value === '축제' ? festivalList : list)
   },
   dateClick: (arg) => {
     clickDate.value = arg.dateStr
 
     const formatDate = clickDate.value.replaceAll('-', '')
-    console.log(`formatDate: ${formatDate}`)
 
     clickDateAnnounceList.value = announceList.value.filter((item) => {
       return (
@@ -249,6 +282,20 @@ const calendarOptions = reactive({
         (item.reqst_start_date <= formatDate && item.reqst_end_date === '')
       )
     })
+
+    clickDateFestivalList.value = festivalList.value.filter((item) => {
+      const start = item.event_startdate
+      const end = item.event_enddate
+      if (end) {
+        // 종료일이 있으면 범위 비교
+        return start <= formatDate && formatDate <= end
+      }
+      // 종료일이 없으면 단일일 이벤트
+      return start === formatDate
+    })
+
+    console.log(`festivalList: ${JSON.stringify(clickDateFestivalList.value)}`)
+
     detailView.value = true
     const api = calendarRef.value?.getApi()
     if (api) {
@@ -362,6 +409,7 @@ function showMonth() {
               :class="checkAnnounceEnd(event) ? 'bg-gray-200' : getRandomColorById(event.id)"
             >
               <Icon
+                v-if="filter !== '축제'"
                 icon="material-symbols:kid-star"
                 :class="event.extendedProps.is_favorite ? 'text-yellow mr-1' : 'text-gray-300 mr-1'"
                 class="size-4"
@@ -375,13 +423,24 @@ function showMonth() {
       </div>
 
       <div
-        v-if="detailView"
+        v-if="detailView && filter !== '축제'"
         class="w-full flex-1 min-h-0 overflow-y-auto relative z-10 bg-white [&::-webkit-scrollbar]:hidden"
       >
         <AnnouncementCard
           v-for="a in displayedAnnounceList"
           :announcement="a"
           :key="a.announce_id"
+        />
+      </div>
+
+      <div
+        v-if="detailView && filter === '축제'"
+        class="w-full flex-1 min-h-0 overflow-y-auto relative z-10 bg-white [&::-webkit-scrollbar]:hidden"
+      >
+        <FestivalCard
+          v-for="festival in displayFestivalList"
+          :festival="festival"
+          :key="festival.festival_id"
         />
       </div>
     </div>
