@@ -6,6 +6,7 @@ import user from '@/router/user.js'
 import announce from '@/router/announce.js'
 import festival from '@/router/festival.js'
 import notice from '@/router/notice.js'
+import mypage from '@/router/mypage.js'
 import article from '@/router/article.js'
 
 const router = createRouter({
@@ -67,6 +68,7 @@ const router = createRouter({
         ...announce,
         ...festival,
         ...notice,
+        ...mypage,
         ...article,
       ],
     },
