@@ -5,12 +5,16 @@ import notification from '@/_dummy/notification'
 import { computed, ref } from 'vue'
 import NotificationModal from '@/components/modal/NotificationModal.vue'
 
-const displayNotificationList = computed(() => {
-  return notification
-})
-
 const isModal = ref(false)
 const modalData = ref(null)
+const filter = ref('all')
+
+const displayNotificationList = computed(() => {
+  if (filter.value === 'sos') return notification.filter((n) => n.noti_type === 'sos')
+  else if (filter.value === 'announce')
+    return notification.filter((n) => n.noti_type === 'announce')
+  return notification
+})
 
 const openModal = (notification) => {
   isModal.value = true
@@ -50,9 +54,12 @@ const notificationAllRead = () => {
     <div class="flex justify-between">
       <DropdownFilter
         :options="[
+          { value: 'all', label: '전체' },
           { value: 'sos', label: 'SOS' },
           { value: 'announce', label: '공고' },
         ]"
+        :filter="filter"
+        @update:filter="filter = $event"
       />
       <button
         class="text-10 semibold text-white bg-main rounded-[10px] px-4 py-1 shadow-custom"
