@@ -5,6 +5,7 @@ import DefaultLayout from '@/components/layouts/DefaultLayout.vue'
 import user from '@/router/user.js'
 import announce from '@/router/announce.js'
 import festival from '@/router/festival.js'
+import mypage from '@/router/mypage.js'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -64,6 +65,7 @@ const router = createRouter({
         ...user,
         ...announce,
         ...festival,
+        ...mypage,
       ],
     },
   ],
