@@ -28,7 +28,10 @@ const emit = defineEmits(['close'])
         <p class="semibold text-14 text-black">공고 리스트</p>
       </div>
 
-      <div class="border-b border-gray-200 px-4 py-3">
+      <div
+        class="border-b border-gray-200 px-4 py-3"
+        @click="(router.push({ name: 'festivalList' }), emit('close'))"
+      >
         <p class="semibold text-14 text-black">축제 리스트</p>
       </div>
 
