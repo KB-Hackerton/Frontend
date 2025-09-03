@@ -28,13 +28,13 @@ function calcDday(dateStr) {
     <HomeSection
       title="최근 공고"
       moreText="공고 더보기"
-      moreLink="/announce"
+      moreLink="/announce-list"
       :items="
         announce.slice(0, 3).map((a) => ({
           title: a.announce_title,
           dday: calcDday(a.reqst_end_date),
           link: `/`,
-          // link: `/announce/${a.announce_id}`,
+          // link: `/announce-list/${a.announce_id}`,
         }))
       "
     />
@@ -42,12 +42,12 @@ function calcDday(dateStr) {
     <HomeSection
       title="최근 축제 정보"
       moreText="축제 더보기"
-      moreLink="/festival"
+      moreLink="/festival-list"
       :items="
         festival.slice(0, 3).map((f) => ({
           title: f.festival_title,
           link: `/`,
-          // link: `/festival/${f.festival_id}`,
+          // link: `/festival-list/${f.festival_id}`,
         }))
       "
     />
@@ -69,13 +69,13 @@ function calcDday(dateStr) {
     <HomeSection
       title="최근 본 공고"
       moreText="공고 더보기"
-      moreLink="/announce"
+      moreLink="/announce-list"
       :items="
         announce.slice(0, 3).map((a) => ({
           title: a.announce_title,
           dday: calcDday(a.reqst_end_date),
           link: `/`,
-          // link: `/announce/${a.announce_id}`,
+          // link: `/announce-list/${a.announce_id}`,
         }))
       "
     />
