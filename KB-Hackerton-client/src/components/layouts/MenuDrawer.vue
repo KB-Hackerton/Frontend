@@ -17,7 +17,10 @@ const emit = defineEmits(['close'])
     </div>
 
     <div>
-      <div class="border-b border-gray-200 px-4 py-3">
+      <div
+        class="border-b border-gray-200 px-4 py-3"
+        @click="(router.push({ name: 'mypage' }), emit('close'))"
+      >
         <p class="semibold text-14 text-black">마이페이지</p>
       </div>
 

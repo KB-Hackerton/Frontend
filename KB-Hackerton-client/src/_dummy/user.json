@@ -1,0 +1,35 @@
+{
+  "member_id": 1,
+  "member_email": "test@test.com",
+  "member_name": "김감자",
+  "created_at": "2025-09-02T04:12:45.000+00:00",
+  "status": "active",
+  "help_count": 10,
+  "badge": "도움왕",
+  "authMap": [{ "authority": "Member" }],
+
+  "profile_image": {
+    "profile_image_id": 1,
+    "is_deleted": false,
+    "created_at": "2025-09-02T04:12:45.000+00:00",
+    "storage_key": "https://example-bucket.s3.amazonaws.com/profile1.png"
+  },
+
+  "business": {
+    "business_id": 1,
+    "business_nm": "감자네 슈퍼마켓",
+    "business_addr": "경북 안동시 제비원로 195",
+    "business_addr_detail": "1층",
+    "business_open_date": "2020-05-01",
+
+    "business_class": {
+      "business_class_id": 1,
+      "major_code": "R01",
+      "major_name": "소매업",
+      "middle_code": "R0101",
+      "middle_name": "슈퍼마켓",
+      "minor_code": "R010101",
+      "minor_name": "식료품 소매"
+    }
+  }
+}
