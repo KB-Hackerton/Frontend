@@ -4,7 +4,7 @@ export default [
     name: 'festivalList',
     component: () => import('@/views/FestivalListView.vue'),
     meta: {
-      title: '공고 리스트',
+      title: '축제 리스트',
     },
   },
 ]
