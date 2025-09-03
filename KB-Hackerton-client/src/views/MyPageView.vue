@@ -13,7 +13,7 @@ const user = ref(userData)
 
 const quickMenuItems = [
   { to: '/favorites', icon: 'solar:star-line-duotone', label: '즐겨찾기' },
-  { to: '/notice', icon: 'material-symbols:contract-outline-rounded', label: '공지사항' },
+  { to: '/notice-list', icon: 'material-symbols:contract-outline-rounded', label: '공지사항' },
   { to: '/chatbot', icon: 'fluent-mdl2:chat-bot', label: '챗봇' },
 ]
 

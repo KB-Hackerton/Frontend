@@ -66,6 +66,8 @@ const router = createRouter({
         ...user,
         ...announce,
         ...festival,
+        ...notice,
+        ...mypage,
       ],
     },
   ],
