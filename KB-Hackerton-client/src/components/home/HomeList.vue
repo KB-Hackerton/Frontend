@@ -12,7 +12,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <section class="bg-white py-3 mb-3">
+  <section class="bg-white py-4 mb-3">
     <div class="flex justify-between items-center px-3 mb-2">
       <h2 class="font-bold text-18">{{ title }}</h2>
       <router-link :to="moreLink" class="text-12 text-gray-400 cursor-pointer">
@@ -20,7 +20,7 @@ const props = defineProps({
       </router-link>
     </div>
 
-    <div class="bg-gray-100 rounded-xl shadow divide-y mx-1">
+    <div class="bg-gray-100 rounded-xl shadow divide-y mx-3">
       <router-link
         v-for="(item, i) in items"
         :key="i"
