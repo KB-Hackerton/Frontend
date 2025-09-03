@@ -1,0 +1,452 @@
+[
+  {
+    "article_id": 1,
+    "title": "국회, 선거제 개편 논의 재점화",
+    "content": "정치개혁특위가 선거제 개편 초안을 다시 상정했습니다. 이번 초안은 권역별 비례성 강화를 골자로 하며, 세부안은 향후 공청회를 통해 보완될 예정입니다.",
+    "category": "정치",
+    "author": "남정순",
+    "published_at": "2025-05-08T04:44:45",
+    "article_url": "https://sinjang.kr/"
+  },
+  {
+    "article_id": 2,
+    "title": "G7 외무장관 회의, 공동성명 채택",
+    "content": "주요 7개국 외무장관들이 지역 안보와 글로벌 공급망 안정화에 대한 공동성명을 채택했습니다. 참가국들은 국제 공조 강화를 재확인했습니다.",
+    "category": "국제",
+    "author": "장영순",
+    "published_at": "2025-05-07T01:11:29",
+    "article_url": "https://ju.com/"
+  },
+  {
+    "article_id": 3,
+    "title": "보건당국, 여름철 호흡기 질환 주의보",
+    "content": "질병관리청은 여름철 실내 밀집행사 증가로 호흡기 질환 확산 가능성이 높다며 개인 위생 수칙 준수를 당부했습니다. 특히 고위험군은 마스크 착용을 권고했습니다.",
+    "category": "건강",
+    "author": "황민수",
+    "published_at": "2025-08-26T15:07:18",
+    "article_url": "https://www.yangi.com/"
+  },
+  {
+    "article_id": 4,
+    "title": "상반기 수출, 반도체 주도로 회복세",
+    "content": "산업통상자원부는 상반기 수출이 반도체 부문 호조에 힘입어 전년 대비 증가했다고 밝혔습니다. 전문가들은 하반기에도 개선 흐름이 이어질 것으로 전망했습니다.",
+    "category": "경제",
+    "author": "박보람",
+    "published_at": "2025-04-10T19:04:18",
+    "article_url": "https://www.ju.org/"
+  },
+  {
+    "article_id": 5,
+    "title": "유엔 총회, 기후위기 공동대응 촉구",
+    "content": "유엔 총회에서 각국 정상들이 탄소감축 목표 상향과 기후기금 확대에 뜻을 모았습니다. 개발도상국 지원 방안도 의제로 논의됐습니다.",
+    "category": "국제",
+    "author": "이민준",
+    "published_at": "2025-05-07T11:14:08",
+    "article_url": "http://heohanbag.org/"
+  },
+  {
+    "article_id": 6,
+    "title": "서울시, 야간 안심귀가 서비스 확대",
+    "content": "서울시는 심야 시간대 귀가 안전을 위해 안심구역과 순찰 인력을 확대한다고 밝혔습니다. 하반기에는 시민 참여형 신고 시스템도 도입됩니다.",
+    "category": "사회",
+    "author": "김서연",
+    "published_at": "2025-07-10T05:12:15",
+    "article_url": "http://www.yuhanhoesa.com/"
+  },
+  {
+    "article_id": 7,
+    "title": "여성 건강 주간, 예방 캠페인 시작",
+    "content": "보건의료단체가 여성 질환 조기 발견을 위한 무료 상담과 검진 쿠폰을 제공합니다. 온라인 교육 프로그램도 순차적으로 공개됩니다.",
+    "category": "건강",
+    "author": "류예준",
+    "published_at": "2025-02-03T20:35:11",
+    "article_url": "https://www.yuhanhoesa.kr/"
+  },
+  {
+    "article_id": 8,
+    "title": "여름 휴가철 맞아 교통 안전 캠페인 전개",
+    "content": "경찰청은 휴가철 음주운전 단속을 강화하고 고속도로 합동 계도를 실시합니다. 대중교통 증편과 혼잡 안내 서비스도 확대됩니다.",
+    "category": "사회",
+    "author": "안성진",
+    "published_at": "2025-07-10T21:23:28",
+    "article_url": "http://www.yuhanhoesa.kr/"
+  },
+  {
+    "article_id": 9,
+    "title": "정당 지도부, 당 혁신안 놓고 회동",
+    "content": "여야 지도부가 당내 쇄신 과제를 논의하기 위해 비공개 회동을 가졌습니다. 당헌·당규 개정 여부가 핵심 쟁점으로 떠올랐습니다.",
+    "category": "정치",
+    "author": "장영희",
+    "published_at": "2025-04-26T12:21:29",
+    "article_url": "http://www.yu.kr/"
+  },
+  {
+    "article_id": 10,
+    "title": "프로야구, 후반기 순위 경쟁 본격화",
+    "content": "각 구단이 외국인 선수 교체와 불펜 보강에 나서며 순위 경쟁이 치열해지고 있습니다. 주말 3연전 결과에 관심이 쏠립니다.",
+    "category": "스포츠",
+    "author": "김병철",
+    "published_at": "2025-05-31T04:29:20",
+    "article_url": "https://www.gimgwagi.kr/"
+  },
+  {
+    "article_id": 11,
+    "title": "아세안 정상회의, 역내 협력 강화 합의",
+    "content": "아세안 회원국들은 디지털 전환과 친환경 인프라 투자를 공동 추진하기로 했습니다. 인적 교류 확대 방안도 포함됐습니다.",
+    "category": "국제",
+    "author": "양지연",
+    "published_at": "2025-09-01T02:18:57",
+    "article_url": "http://gimgimjang.org/"
+  },
+  {
+    "article_id": 12,
+    "title": "물가 안정세, 기준금리 동결 전망",
+    "content": "소비자물가 상승률 둔화로 기준금리 동결 가능성이 커졌습니다. 금융당국은 가계부채 관리 기조를 유지한다는 방침입니다.",
+    "category": "경제",
+    "author": "민시우",
+    "published_at": "2025-03-23T02:19:05",
+    "article_url": "https://bagmin.com/"
+  },
+  {
+    "article_id": 13,
+    "title": "청년 자원봉사 주간, 지역사회 참여 확대",
+    "content": "지자체와 민간단체가 연계해 환경 정화와 돌봄 활동을 진행합니다. 참가자에게는 봉사시간과 소정의 기념품이 제공됩니다.",
+    "category": "사회",
+    "author": "이건우",
+    "published_at": "2025-06-19T14:14:41",
+    "article_url": "https://jusighoesa.com/"
+  },
+  {
+    "article_id": 14,
+    "title": "동계스포츠 대표팀, 전지훈련 돌입",
+    "content": "대표팀은 고지대에서 체력 훈련에 집중하며 국제대회 대비에 박차를 가하고 있습니다. 코칭스태프는 기량 점검을 병행합니다.",
+    "category": "스포츠",
+    "author": "박순자",
+    "published_at": "2025-01-31T15:03:41",
+    "article_url": "https://www.ju.net/"
+  },
+  {
+    "article_id": 15,
+    "title": "도심 재개발 구역, 주민설명회 개최",
+    "content": "재개발 추진 구역에서 교통·주거 대책을 주제로 주민설명회가 열렸습니다. 주민 의견은 설계 보완에 반영될 예정입니다.",
+    "category": "사회",
+    "author": "이영자",
+    "published_at": "2025-08-30T13:52:24",
+    "article_url": "https://icacoe.com/"
+  },
+  {
+    "article_id": 16,
+    "title": "국립현대미술관, 신진 작가 특별전",
+    "content": "국립현대미술관이 신진 작가들의 실험적 작품을 조명하는 특별전을 개막했습니다. 전시는 다음 달 말까지 이어집니다.",
+    "category": "문화",
+    "author": "한민준",
+    "published_at": "2025-04-22T08:39:38",
+    "article_url": "http://gimimgim.org/"
+  },
+  {
+    "article_id": 17,
+    "title": "노년층 건강강좌, 생활습관 개선 강조",
+    "content": "보건소가 주관한 건강강좌에서 균형 잡힌 식단과 규칙적 운동의 중요성이 강조됐습니다. 무료 건강 상담도 함께 진행됐습니다.",
+    "category": "건강",
+    "author": "박현준",
+    "published_at": "2025-06-01T11:58:46",
+    "article_url": "https://igim.com/"
+  },
+  {
+    "article_id": 18,
+    "title": "프로축구, 유망주 활약으로 순위 요동",
+    "content": "주중 경기에서 신예 선수들이 돋보이는 활약을 펼치며 팀 순위에 변화를 가져왔습니다. 다음 라운드가 분수령이 될 전망입니다.",
+    "category": "스포츠",
+    "author": "한준호",
+    "published_at": "2025-03-04T03:09:09",
+    "article_url": "https://gwaggo.com/"
+  },
+  {
+    "article_id": 19,
+    "title": "유럽연합, 무역 규범 개정안 발표",
+    "content": "EU 집행위가 공정무역 강화를 위한 규범 개정안을 공개했습니다. 디지털 서비스 분야에 대한 규정도 포함됐습니다.",
+    "category": "국제",
+    "author": "김영호",
+    "published_at": "2025-05-20T13:17:54",
+    "article_url": "http://yuhanhoesa.kr/"
+  },
+  {
+    "article_id": 20,
+    "title": "여름철 식중독 주의… 식재료 보관 철저",
+    "content": "보건당국은 고온다습한 날씨에 따라 식중독 위험이 커졌다며 조리 전후 손씻기와 냉장 보관을 강조했습니다.",
+    "category": "건강",
+    "author": "오하윤",
+    "published_at": "2025-07-19T15:51:49",
+    "article_url": "https://jusighoesa.com/"
+  },
+  {
+    "article_id": 21,
+    "title": "만성질환 관리 앱, 사용자 만족도 높아",
+    "content": "병원 연계형 건강관리 애플리케이션의 만족도가 높게 나타났습니다. 데이터 기반 맞춤형 코칭 기능이 호평을 받았습니다.",
+    "category": "건강",
+    "author": "나명자",
+    "published_at": "2025-06-10T06:38:59",
+    "article_url": "https://honggimyun.com/"
+  },
+  {
+    "article_id": 22,
+    "title": "겨울철 독감 대비 무료 접종 계획 발표",
+    "content": "정부는 취약계층을 대상으로 한 무료 독감 예방접종 일정을 공개했습니다. 접종 예약은 보건소와 지정 의료기관에서 가능합니다.",
+    "category": "건강",
+    "author": "백서연",
+    "published_at": "2025-01-22T15:39:28",
+    "article_url": "http://yu.org/"
+  },
+  {
+    "article_id": 23,
+    "title": "지역 축제, 친환경 운영 도입",
+    "content": "지자체는 일회용품 사용을 줄이기 위해 다회용컵 보증금 제도를 시범 운영합니다. 시민들의 자발적 참여가 관건입니다.",
+    "category": "사회",
+    "author": "양윤서",
+    "published_at": "2025-07-07T15:00:43",
+    "article_url": "https://www.yu.com/"
+  },
+  {
+    "article_id": 24,
+    "title": "국제 원자재 가격 변동, 시장 예의주시",
+    "content": "원자재 가격이 변동성을 보이면서 각국 중앙은행의 대응에 관심이 쏠립니다. 수입 물가에 미치는 영향도 분석되고 있습니다.",
+    "category": "국제",
+    "author": "이현지",
+    "published_at": "2025-06-30T00:21:17",
+    "article_url": "https://www.ju.kr/"
+  },
+  {
+    "article_id": 25,
+    "title": "지역 복지관, 어르신 여름나기 지원",
+    "content": "폭염 대비 선풍기와 냉방비 지원 사업이 진행됩니다. 방문 건강관리 서비스도 확대됩니다.",
+    "category": "사회",
+    "author": "조준영",
+    "published_at": "2025-05-27T01:35:07",
+    "article_url": "http://www.ju.org/"
+  },
+  {
+    "article_id": 26,
+    "title": "국가대표 선발전, 신예들의 약진",
+    "content": "선발전에서 신예 선수들이 두각을 나타내며 대표팀 구성이 새로워지고 있습니다. 코치진은 경쟁 구도를 반긴다는 입장입니다.",
+    "category": "스포츠",
+    "author": "강동현",
+    "published_at": "2025-07-21T08:48:32",
+    "article_url": "http://ju.org/"
+  },
+  {
+    "article_id": 27,
+    "title": "정계, 개헌 논의 수면 위로",
+    "content": "여야 일부 의원들이 개헌 필요성을 제기하며 공론화에 나섰습니다. 정치권에서는 찬반 논쟁이 가열되고 있습니다.",
+    "category": "정치",
+    "author": "홍은영",
+    "published_at": "2025-05-03T06:54:17",
+    "article_url": "https://www.gimyunhwang.com/"
+  },
+  {
+    "article_id": 28,
+    "title": "테니스 메이저 대회, 한국 선수 8강 진출",
+    "content": "한국 선수가 메이저 대회에서 8강에 오르며 돌풍을 일으켰습니다. 공격적인 리턴 플레이가 승리의 원동력이 됐습니다.",
+    "category": "스포츠",
+    "author": "이도윤",
+    "published_at": "2025-05-26T03:12:40",
+    "article_url": "https://hongi.com/"
+  },
+  {
+    "article_id": 29,
+    "title": "봄철 알레르기, 생활 속 관리법 공개",
+    "content": "전문가들은 환기 시 미세먼지를 피하고, 실내 습도를 일정하게 유지하라고 조언합니다. 증상이 심하면 전문의 상담이 필요합니다.",
+    "category": "건강",
+    "author": "박정수",
+    "published_at": "2025-05-01T02:29:50",
+    "article_url": "https://www.ju.kr/"
+  },
+  {
+    "article_id": 30,
+    "title": "비수기 택배 물량, 지역 상권과 상생 모델 모색",
+    "content": "물류업계가 비수기 물량을 지역 상권과 연계해 상생 방안을 추진합니다. 소상공인 배송 지원 프로그램이 검토되고 있습니다.",
+    "category": "사회",
+    "author": "장우진",
+    "published_at": "2025-02-12T18:56:04",
+    "article_url": "https://www.ijo.com/"
+  },
+  {
+    "article_id": 31,
+    "title": "도시 문화재 야간 개장, 시민 호응",
+    "content": "대표 문화재의 야간 개장이 큰 호응을 얻고 있습니다. 해설 프로그램과 음악 공연이 함께 진행됩니다.",
+    "category": "문화",
+    "author": "오예은",
+    "published_at": "2025-04-26T11:29:43",
+    "article_url": "http://yu.com/"
+  },
+  {
+    "article_id": 32,
+    "title": "독립서점 페스티벌, 지역 작가와 만남",
+    "content": "독립서점들이 모여 북토크와 사인회를 진행합니다. 지역 출판 생태계를 위한 협업 모델도 소개됩니다.",
+    "category": "문화",
+    "author": "김민석",
+    "published_at": "2025-01-25T16:57:41",
+    "article_url": "http://www.gimju.kr/"
+  },
+  {
+    "article_id": 33,
+    "title": "자원순환의 날, 분리배출 캠페인 확대",
+    "content": "환경단체와 지자체가 합동으로 분리배출 교육을 실시합니다. 시민 참여형 보상 프로그램도 시행될 예정입니다.",
+    "category": "사회",
+    "author": "박성호",
+    "published_at": "2025-01-04T19:12:29",
+    "article_url": "http://www.coesongi.kr/"
+  },
+  {
+    "article_id": 34,
+    "title": "중소기업 경기전망지수 소폭 개선",
+    "content": "중소기업 경기전망지수가 소비 회복 기대감으로 소폭 개선됐습니다. 다만 원자재 비용 부담은 여전히 변수로 꼽힙니다.",
+    "category": "경제",
+    "author": "우중수",
+    "published_at": "2025-04-01T08:18:46",
+    "article_url": "http://yuhanhoesa.com/"
+  },
+  {
+    "article_id": 35,
+    "title": "코스피, 외국인 매수에 상승 마감",
+    "content": "외국인 투자자 순매수로 코스피 지수가 상승 마감했습니다. IT 대형주가 강세를 보였습니다.",
+    "category": "경제",
+    "author": "허승민",
+    "published_at": "2025-07-22T08:14:14",
+    "article_url": "https://ju.kr/"
+  },
+  {
+    "article_id": 36,
+    "title": "정당 공천제도 개선안, 당내 토론 본격화",
+    "content": "공천제도 투명성을 높이기 위한 개선안이 당내 토론에 부쳐졌습니다. 공정성 확보 장치 도입이 핵심으로 거론됩니다.",
+    "category": "정치",
+    "author": "이시우",
+    "published_at": "2025-08-01T11:27:38",
+    "article_url": "http://www.ihwangbag.kr/"
+  },
+  {
+    "article_id": 37,
+    "title": "국가대표, 국제대회 종합 2위 달성",
+    "content": "한국 대표팀이 국제대회에서 종합 2위를 기록했습니다. 체계적인 전력 분석과 선수층 두께가 성과로 이어졌다는 평가입니다.",
+    "category": "스포츠",
+    "author": "김민준",
+    "published_at": "2025-08-31T21:44:47",
+    "article_url": "https://gimson.net/"
+  },
+  {
+    "article_id": 38,
+    "title": "여야, 국회 일정 정상화 합의",
+    "content": "여야가 주요 법안 처리를 위해 국회 일정을 정상화하기로 합의했습니다. 예산 심사와 민생 법안이 우선 처리될 예정입니다.",
+    "category": "정치",
+    "author": "홍현숙",
+    "published_at": "2025-04-22T05:51:48",
+    "article_url": "https://www.jusighoesa.com/"
+  },
+  {
+    "article_id": 39,
+    "title": "국내 스타트업, 양자암호통신 기술 시연",
+    "content": "국내 스타트업이 양자암호 기반 통신 기술을 시연했습니다. 상용화 단계로의 진입 가능성이 주목됩니다.",
+    "category": "기술",
+    "author": "이서윤",
+    "published_at": "2025-06-23T01:02:45",
+    "article_url": "http://jusighoesa.com/"
+  },
+  {
+    "article_id": 40,
+    "title": "원자재 가격 안정에 제조업 체감경기 개선",
+    "content": "원자재 가격 안정세가 이어지며 제조업 체감경기가 개선됐다는 조사 결과가 나왔습니다. 수출 신제품 효과도 반영됐습니다.",
+    "category": "경제",
+    "author": "차승민",
+    "published_at": "2025-07-24T05:02:16",
+    "article_url": "http://www.yuhanhoesa.net/"
+  },
+  {
+    "article_id": 41,
+    "title": "가계대출 증가세 둔화… DSR 관리 지속",
+    "content": "금융당국은 총부채원리금상환비율(DSR) 관리 기조를 유지하겠다고 밝혔습니다. 시장 연착륙을 위한 점진적 조정이 예고됩니다.",
+    "category": "경제",
+    "author": "한옥순",
+    "published_at": "2025-07-02T02:51:03",
+    "article_url": "http://www.nocoe.org/"
+  },
+  {
+    "article_id": 42,
+    "title": "지방 공연예술제, 지역 순회 시작",
+    "content": "지방 소도시를 순회하는 공연예술제가 막을 올렸습니다. 지역 예술가와의 협업 프로그램이 눈길을 끕니다.",
+    "category": "문화",
+    "author": "문미영",
+    "published_at": "2025-02-11T07:27:08",
+    "article_url": "http://www.yuhanhoesa.net/"
+  },
+  {
+    "article_id": 43,
+    "title": "국내 IT기업, 생성형 AI 서비스 고도화",
+    "content": "국내 주요 IT기업이 생성형 AI를 활용한 고객 지원과 문서 자동화 서비스를 잇달아 공개했습니다. 개인정보 보호 대책도 함께 제시됐습니다.",
+    "category": "기술",
+    "author": "박시우",
+    "published_at": "2025-03-13T06:31:20",
+    "article_url": "https://www.ju.kr/"
+  },
+  {
+    "article_id": 44,
+    "title": "국가대표 배구팀, 네이션스리그 선전",
+    "content": "배구 대표팀이 안정적인 서브와 블로킹으로 선전했습니다. 감독은 선수단 컨디션 관리에 집중하겠다고 밝혔습니다.",
+    "category": "스포츠",
+    "author": "김주원",
+    "published_at": "2025-07-27T06:41:25",
+    "article_url": "https://www.yu.kr/"
+  },
+  {
+    "article_id": 45,
+    "title": "여야, 상임위 재배분 놓고 이견",
+    "content": "상임위원회 재배분을 둘러싸고 여야 간 이견이 계속되고 있습니다. 원 구성 협상이 장기화될 조짐입니다.",
+    "category": "정치",
+    "author": "김현숙",
+    "published_at": "2025-04-27T15:27:34",
+    "article_url": "http://www.gimigim.org/"
+  },
+  {
+    "article_id": 46,
+    "title": "연초 소비 부진, 유통업계 프로모션 강화",
+    "content": "유통업계가 소비 진작을 위해 대규모 할인행사를 예고했습니다. 온라인과 오프라인을 연계한 마케팅이 강화됩니다.",
+    "category": "경제",
+    "author": "나우진",
+    "published_at": "2025-01-02T23:31:25",
+    "article_url": "http://yu.kr/"
+  },
+  {
+    "article_id": 47,
+    "title": "청소년 정신건강, 학교 상담 프로그램 확대",
+    "content": "교육당국은 청소년 정신건강 지원을 위해 학교 기반 상담 프로그램을 확대하기로 했습니다. 지역 치료기관과의 연계도 강화됩니다.",
+    "category": "건강",
+    "author": "김지아",
+    "published_at": "2025-05-12T23:05:50",
+    "article_url": "https://www.ryugimgweon.org/"
+  },
+  {
+    "article_id": 48,
+    "title": "개도국 지원 확대 위한 개발협력 포럼 개최",
+    "content": "각국 개발협력기관이 모여 지원 효율성 제고 방안을 논의했습니다. 민관 협력 모델이 대안으로 제시됐습니다.",
+    "category": "국제",
+    "author": "김수민",
+    "published_at": "2025-03-26T07:19:08",
+    "article_url": "http://coeson.com/"
+  },
+  {
+    "article_id": 49,
+    "title": "공공미술 프로젝트, 도심 곳곳에 설치",
+    "content": "새로운 공공미술 작품이 도심 주요 거점에 설치되었습니다. 시민 참여형 작품이 관심을 끌고 있습니다.",
+    "category": "문화",
+    "author": "이성현",
+    "published_at": "2025-06-14T12:47:12",
+    "article_url": "https://www.gimgim.com/"
+  },
+  {
+    "article_id": 50,
+    "title": "물가·고용 지표 혼조… 경기 향방 주목",
+    "content": "최근 발표된 물가와 고용 지표가 엇갈린 흐름을 보였습니다. 시장은 다음 달 정책 결정 방향에 촉각을 곤두세우고 있습니다.",
+    "category": "경제",
+    "author": "안시우",
+    "published_at": "2025-03-03T06:31:30",
+    "article_url": "http://jusighoesa.com/"
+  }
+]
