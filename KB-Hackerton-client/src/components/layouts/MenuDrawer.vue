@@ -37,7 +37,9 @@ const emit = defineEmits(['close'])
 
       <div
         class="border-b border-gray-200 px-4 py-3"
-        @click="(router.push({ name: 'noticeList' }), emit('close'))"
+        @click="
+          (router.push({ name: 'noticeList', query: { page: 1, q: undefined } }), emit('close'))
+        "
       >
         <p class="semibold text-14 text-black">공지사항</p>
       </div>
