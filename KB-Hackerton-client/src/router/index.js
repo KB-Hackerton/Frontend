@@ -6,7 +6,7 @@ import user from '@/router/user.js'
 import announce from '@/router/announce.js'
 import festival from '@/router/festival.js'
 import notice from '@/router/notice.js'
-import news from '@/router/news.js'
+import article from '@/router/article.js'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -67,7 +67,7 @@ const router = createRouter({
         ...announce,
         ...festival,
         ...notice,
-        ...news,
+        ...article,
       ],
     },
   ],

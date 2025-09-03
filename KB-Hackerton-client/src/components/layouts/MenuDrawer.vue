@@ -45,9 +45,7 @@ const emit = defineEmits(['close'])
       </div>
       <div
         class="border-b border-gray-200 px-4 py-3"
-        @click="
-          (router.push({ name: 'newsList', query: { page: 1, q: undefined } }), emit('close'))
-        "
+        @click="(router.push({ name: 'article', query: { page: 1, q: undefined } }), emit('close'))"
       >
         <p class="semibold text-14 text-black">관련 뉴스</p>
       </div>
