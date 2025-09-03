@@ -33,7 +33,7 @@ const currentLabel = computed(() => {
 <template>
   <div>
     <button
-      class="flex items-center gap-1 w-[5rem] h-[1.8rem] bg-main rounded-[8px] px-2 shadow-custom"
+      class="flex items-center gap-1 w-[5.5rem] h-[1.8rem] bg-main rounded-[8px] px-2 shadow-custom"
       @click="open = !open"
     >
       <span class="bold text-12 text-white flex-1">{{ currentLabel }}</span>

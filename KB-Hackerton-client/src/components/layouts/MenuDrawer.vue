@@ -1,4 +1,5 @@
 <script setup>
+import router from '@/router'
 import { Icon } from '@iconify/vue'
 
 const emit = defineEmits(['close'])
@@ -20,16 +21,26 @@ const emit = defineEmits(['close'])
         <p class="semibold text-14 text-black">마이페이지</p>
       </div>
 
-      <div class="border-b border-gray-200 px-4 py-3">
+      <div
+        class="border-b border-gray-200 px-4 py-3"
+        @click="(router.push({ name: 'announceList' }), emit('close'))"
+      >
         <p class="semibold text-14 text-black">공고 리스트</p>
       </div>
 
-      <div class="border-b border-gray-200 px-4 py-3">
+      <div
+        class="border-b border-gray-200 px-4 py-3"
+        @click="(router.push({ name: 'festivalList' }), emit('close'))"
+      >
         <p class="semibold text-14 text-black">축제 리스트</p>
       </div>
 
       <div class="border-b border-gray-200 px-4 py-3">
         <p class="semibold text-14 text-black">공지사항</p>
+      </div>
+
+      <div class="border-b border-gray-200 px-4 py-3">
+        <p class="semibold text-14 text-black">챗봇</p>
       </div>
     </div>
   </div>
