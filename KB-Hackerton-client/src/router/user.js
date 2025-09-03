@@ -4,12 +4,12 @@ export default [
     name: 'login',
     component: () => import('@/views/LoginView.vue'),
   },
-  // {
-  //   path: 'join',
-  //   name: 'join',
-  //   component: () => import('@/views/JoinView.vue'),
-  //   meta: { title: '회원 가입' },
-  // },
+  {
+    path: '/signup',
+    name: 'signup',
+    component: () => import('@/views/SignupView.vue'),
+    meta: { title: '회원가입' },
+  },
   // {
   //   path: 'find-password',
   //   name: 'find-password',

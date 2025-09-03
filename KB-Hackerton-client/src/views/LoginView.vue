@@ -57,7 +57,7 @@ async function onSubmit() {
     </form>
 
     <!-- 카카오 로그인 -->
-    <BaseButton color="yellow" class="mt-4">카카오로 이용하기</BaseButton>
+    <BaseButton color="yellow" class="mt-4 bg-yellow text-black">카카오로 이용하기</BaseButton>
 
     <!-- 하단 링크 -->
     <nav class="mt-10 flex justify-center gap-3 text-16 text-black">
