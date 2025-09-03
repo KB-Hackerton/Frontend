@@ -85,7 +85,7 @@ const notificationAllRead = () => {
     >
       알림 전체 삭제
     </button>
-    <div v-if="isModal" class="fixed inset-0 bg-gray-300/65 z-[90]" @click="isModal = false"></div>
+    <div v-if="isModal" class="fixed inset-0 bg-black/55 z-[90]" @click="isModal = false"></div>
 
     <NotificationModal
       v-if="isModal"
