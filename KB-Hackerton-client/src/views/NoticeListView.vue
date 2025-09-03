@@ -1,6 +1,6 @@
 <script setup>
 import SearchBar from '@/components/announce/SearchBar.vue'
-import NoticeCard from '@/components/notice/noticeCard.vue'
+import NoticeCard from '@/components/notice/NoticeCard.vue'
 import { computed, ref, watch } from 'vue'
 import notice from '@/_dummy/notice_dummy'
 import Paging from '@/components/common/Paging.vue'
