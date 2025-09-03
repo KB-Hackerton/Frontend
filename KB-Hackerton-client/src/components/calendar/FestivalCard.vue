@@ -35,12 +35,12 @@ const festivalStatus = computed(() => {
 <template>
   <div
     class="my-2 p-2 rounded-xl"
-    :class="announcementStatus === '마감' ? 'border border-gray-200 ' : 'border border-black '"
+    :class="festivalStatus === '종료' ? 'border border-gray-200 ' : 'border border-black '"
   >
     <div class="flex justify-between">
       <div
         class="flex flex-col gap-3 bold text-14"
-        :class="announcementStatus === '마감' ? 'text-gray-300' : ''"
+        :class="festivalStatus === '종료' ? 'text-gray-300' : ''"
       >
         <div>{{ props.festival.festival_title }}</div>
         <div>{{ props.festival.telname }}</div>
