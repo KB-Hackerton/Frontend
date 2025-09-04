@@ -15,4 +15,12 @@ export default [
       title: '공고',
     },
   },
+  {
+    path: '/announces/:announce_id/docs-check',
+    name: 'announceDocsCheckList',
+    component: () => import('@/views/AnnounceDocsChecklistView.vue'),
+    meta: {
+      title: '제출 서류 체크',
+    },
+  },
 ]
