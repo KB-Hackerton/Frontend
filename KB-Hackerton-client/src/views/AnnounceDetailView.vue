@@ -25,9 +25,7 @@ const documents = [
 </script>
 
 <template>
-  <div
-    class="flex flex-col h-full gap-8 items-center overflow-scroll [&::-webkit-scrollbar]:hidden pt-3"
-  >
+  <div class="flex flex-col h-full gap-8 items-center pt-3">
     <h1 class="text-18 bold text-center px-4">{{ announceDetail.announce_title }}</h1>
     <p class="text-14 text-center semibold">
       {{
