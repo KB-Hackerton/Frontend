@@ -43,7 +43,7 @@ const Dday = computed(() => {
     v-slot="{ navigate }"
   >
     <div
-      class="bg-white rounded-xl h-[8rem] flex flex-col justify-between shadow-[0px_4px_8px_1px_rgba(0,0,0,0.22)] p-4 hover:cursor-pointer"
+      class="bg-white rounded-xl h-[9rem] flex flex-col justify-between shadow-[0px_4px_8px_1px_rgba(0,0,0,0.22)] p-4 hover:cursor-pointer"
       @click="navigate"
     >
       <div class="flex justify-between gap-4">
@@ -76,7 +76,7 @@ const Dday = computed(() => {
             <Icon icon="material-symbols:arrow-forward-ios-rounded" />
           </button>
           <div class="flex flex-col items-end">
-            <p class="text-10 bold">서류 준비도: 65%</p>
+            <p class="text-10 bold">(5/6)</p>
             <div class="w-[10rem] h-2 bg-gray-200 rounded-full">
               <div class="h-2 bg-blue rounded-full" style="width: 65%"></div>
             </div>
