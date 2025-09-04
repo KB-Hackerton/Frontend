@@ -7,4 +7,12 @@ export default [
       title: '공지사항',
     },
   },
+  {
+    path: '/notice-detail/:notice_id',
+    name: 'noticeDetail',
+    component: () => import('@/views/NoticeDetailView.vue'),
+    meta: {
+      title: '공지사항',
+    },
+  },
 ]
