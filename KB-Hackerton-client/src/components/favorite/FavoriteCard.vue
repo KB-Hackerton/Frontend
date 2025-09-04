@@ -70,7 +70,12 @@ const Dday = computed(() => {
         <div class="flex items-center justify-between">
           <button
             class="flex items-center reqular text-14 bg-pink-100 text-white p-1 px-2 rounded-[7px]"
-            @click.stop="$router.push('/')"
+            @click.stop="
+              $router.push({
+                name: 'announceDocsCheckList',
+                params: { announce_id: props.favorite.announce_id },
+              })
+            "
           >
             서류 준비하기
             <Icon icon="material-symbols:arrow-forward-ios-rounded" />
