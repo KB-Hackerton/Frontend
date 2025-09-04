@@ -1,0 +1,212 @@
+[
+  {
+    "announce_id": 1,
+    "announce_title": "2025 지역 소상공인 지원사업 공고",
+    "documents": [
+      { "id": 1, "name": "지원 신청서 1부", "checked": true },
+      { "id": 2, "name": "사업계획서 1부", "checked": true },
+      { "id": 3, "name": "임차료 사용 계획서 1부", "checked": false },
+      { "id": 4, "name": "주민등록초본 1부", "checked": false },
+      { "id": 5, "name": "가족관계증명서 1부", "checked": true },
+      { "id": 6, "name": "소득금액증명원 1부", "checked": true },
+      { "id": 7, "name": "부가세 납부 확인서 1부", "checked": false },
+      { "id": 8, "name": "사업자등록증 사본", "checked": true },
+      { "id": 9, "name": "임대차계약서 사본", "checked": false },
+      { "id": 10, "name": "4대 보험 가입확인서", "checked": true }
+    ]
+  },
+  {
+    "announce_id": 2,
+    "announce_title": "2025 기술 혁신 스타트업 지원사업",
+    "documents": [
+      { "id": 1, "name": "참가 신청서", "checked": true },
+      { "id": 2, "name": "R&D 연구개발계획서", "checked": false },
+      { "id": 3, "name": "특허·지식재산권 증명서", "checked": true },
+      { "id": 4, "name": "법인 등기부등본", "checked": true },
+      { "id": 5, "name": "재무제표(최근 2년)", "checked": false },
+      { "id": 6, "name": "투자유치 실적 자료", "checked": true },
+      { "id": 7, "name": "연구원 인력 현황표", "checked": false },
+      { "id": 8, "name": "지분 구조표", "checked": true },
+      { "id": 9, "name": "사업자등록증 사본", "checked": false },
+      { "id": 10, "name": "개인정보 동의서", "checked": true }
+    ]
+  },
+  {
+    "announce_id": 3,
+    "announce_title": "청년 창업 경진대회 참가자 모집",
+    "documents": [
+      { "id": 1, "name": "참가 신청서", "checked": true },
+      { "id": 2, "name": "아이디어 제안서(PPT)", "checked": true },
+      { "id": 3, "name": "재학·졸업 증명서", "checked": false },
+      { "id": 4, "name": "참여자 신분증 사본", "checked": false },
+      { "id": 5, "name": "개인정보 동의서", "checked": true },
+      { "id": 6, "name": "참여 서약서", "checked": true },
+      { "id": 7, "name": "경진대회 발표자료", "checked": false },
+      { "id": 8, "name": "팀 구성원 명단", "checked": true },
+      { "id": 9, "name": "청년 창업활동 증빙자료", "checked": false },
+      { "id": 10, "name": "포트폴리오", "checked": true }
+    ]
+  },
+  {
+    "announce_id": 4,
+    "announce_title": "2025 소상공인 온라인 판로지원",
+    "documents": [
+      { "id": 1, "name": "참가 신청서", "checked": true },
+      { "id": 2, "name": "온라인 입점 계획서", "checked": false },
+      { "id": 3, "name": "제품 소개서", "checked": true },
+      { "id": 4, "name": "사업자등록증 사본", "checked": false },
+      { "id": 5, "name": "통신판매업 신고증", "checked": true },
+      { "id": 6, "name": "최근 매출 증빙자료", "checked": false },
+      { "id": 7, "name": "세금계산서 발행 내역", "checked": true },
+      { "id": 8, "name": "개인정보 동의서", "checked": true },
+      { "id": 9, "name": "온라인몰 스크린샷", "checked": false },
+      { "id": 10, "name": "라이브커머스 기획서", "checked": true }
+    ]
+  },
+  {
+    "announce_id": 5,
+    "announce_title": "스마트공방 구축 지원사업",
+    "documents": [
+      { "id": 1, "name": "지원 신청서", "checked": true },
+      { "id": 2, "name": "공방 개선 계획서", "checked": true },
+      { "id": 3, "name": "장비 도입 견적서", "checked": false },
+      { "id": 4, "name": "공방 내부 사진", "checked": true },
+      { "id": 5, "name": "사업자등록증 사본", "checked": false },
+      { "id": 6, "name": "임대차계약서", "checked": true },
+      { "id": 7, "name": "세금 납부 확인서", "checked": false },
+      { "id": 8, "name": "고용보험 가입자 명부", "checked": true },
+      { "id": 9, "name": "소득금액증명원", "checked": false },
+      { "id": 10, "name": "개인정보 동의서", "checked": true }
+    ]
+  },
+  {
+    "announce_id": 6,
+    "announce_title": "프리랜서·긱워커 금융역량 강화 교육",
+    "documents": [
+      { "id": 1, "name": "참가 신청서", "checked": true },
+      { "id": 2, "name": "프리랜서 활동 증빙자료", "checked": true },
+      { "id": 3, "name": "주민등록초본", "checked": false },
+      { "id": 4, "name": "개인정보 동의서", "checked": true },
+      { "id": 5, "name": "세무 신고 내역", "checked": false },
+      { "id": 6, "name": "소득금액증명원", "checked": true },
+      { "id": 7, "name": "교육 참가 서약서", "checked": true },
+      { "id": 8, "name": "신분증 사본", "checked": false },
+      { "id": 9, "name": "대출 이력 확인서", "checked": false },
+      { "id": 10, "name": "온라인 교육 수강확인서", "checked": true }
+    ]
+  },
+  {
+    "announce_id": 7,
+    "announce_title": "지역 축제 상인부스 지원",
+    "documents": [
+      { "id": 1, "name": "부스 신청서", "checked": true },
+      { "id": 2, "name": "사업자등록증 사본", "checked": true },
+      { "id": 3, "name": "축제 참가 서약서", "checked": false },
+      { "id": 4, "name": "신분증 사본", "checked": true },
+      { "id": 5, "name": "판매 물품 설명서", "checked": true },
+      { "id": 6, "name": "세금계산서 사본", "checked": false },
+      { "id": 7, "name": "위생 관리 서약서", "checked": false },
+      { "id": 8, "name": "보험 가입 확인서", "checked": true },
+      { "id": 9, "name": "안전관리계획서", "checked": true },
+      { "id": 10, "name": "개인정보 동의서", "checked": false }
+    ]
+  },
+  {
+    "announce_id": 8,
+    "announce_title": "AI 서비스 고도화 바우처",
+    "documents": [
+      { "id": 1, "name": "지원 신청서", "checked": true },
+      { "id": 2, "name": "AI 적용 계획서", "checked": false },
+      { "id": 3, "name": "서비스 아키텍처 다이어그램", "checked": true },
+      { "id": 4, "name": "개발 인력 현황표", "checked": true },
+      { "id": 5, "name": "지적재산권 보유 현황", "checked": false },
+      { "id": 6, "name": "최근 투자 유치 내역", "checked": true },
+      { "id": 7, "name": "데이터 보안 정책 문서", "checked": false },
+      { "id": 8, "name": "사업자등록증 사본", "checked": true },
+      { "id": 9, "name": "재무제표", "checked": false },
+      { "id": 10, "name": "개인정보 동의서", "checked": true }
+    ]
+  },
+  {
+    "announce_id": 9,
+    "announce_title": "지역 상권 르네상스 사업 참여 점포 모집",
+    "documents": [
+      { "id": 1, "name": "참가 신청서", "checked": true },
+      { "id": 2, "name": "점포 사진", "checked": true },
+      { "id": 3, "name": "상권 분석자료", "checked": false },
+      { "id": 4, "name": "사업자등록증 사본", "checked": true },
+      { "id": 5, "name": "임대차계약서", "checked": false },
+      { "id": 6, "name": "재무제표", "checked": true },
+      { "id": 7, "name": "소득금액증명원", "checked": false },
+      { "id": 8, "name": "고용보험 가입자 명부", "checked": true },
+      { "id": 9, "name": "마케팅 계획서", "checked": true },
+      { "id": 10, "name": "개인정보 동의서", "checked": false }
+    ]
+  },
+  {
+    "announce_id": 10,
+    "announce_title": "여성창업 패키지(멘토링·IR·자금연계)",
+    "documents": [
+      { "id": 1, "name": "참가 신청서", "checked": true },
+      { "id": 2, "name": "사업계획서", "checked": true },
+      { "id": 3, "name": "멘토링 희망 분야 작성서", "checked": false },
+      { "id": 4, "name": "IR 발표자료", "checked": true },
+      { "id": 5, "name": "여성 예비창업자 증빙자료", "checked": false },
+      { "id": 6, "name": "주민등록등본", "checked": true },
+      { "id": 7, "name": "가족관계증명서", "checked": true },
+      { "id": 8, "name": "개인정보 동의서", "checked": false },
+      { "id": 9, "name": "참여 서약서", "checked": true },
+      { "id": 10, "name": "재무제표", "checked": false }
+    ]
+  },
+  {
+    "announce_id": 11,
+    "announce_title": "지역 제조 소공인 스마트 장비 임차 지원",
+    "documents": [
+      { "id": 1, "name": "신청서", "checked": true },
+      { "id": 2, "name": "장비 사용 계획서", "checked": true },
+      { "id": 3, "name": "임차 견적서", "checked": false },
+      { "id": 4, "name": "사업자등록증 사본", "checked": false },
+      { "id": 5, "name": "소득금액증명원", "checked": true },
+      { "id": 6, "name": "세금 납부 확인서", "checked": true },
+      { "id": 7, "name": "4대 보험 가입확인서", "checked": false },
+      { "id": 8, "name": "재무제표", "checked": true },
+      { "id": 9, "name": "개인정보 동의서", "checked": false },
+      { "id": 10, "name": "장비 도입 필요성 보고서", "checked": true }
+    ]
+  },
+  {
+    "announce_id": 12,
+    "announce_title": "소셜벤처 ESG 경영 컨설팅 지원",
+    "documents": [
+      { "id": 1, "name": "참가 신청서", "checked": true },
+      { "id": 2, "name": "ESG 자가진단표", "checked": false },
+      { "id": 3, "name": "소셜벤처 인증서", "checked": true },
+      { "id": 4, "name": "사업계획서", "checked": true },
+      { "id": 5, "name": "재무제표", "checked": false },
+      { "id": 6, "name": "컨설팅 수요조사서", "checked": true },
+      { "id": 7, "name": "고용현황 증명자료", "checked": false },
+      { "id": 8, "name": "환경 관련 인증서", "checked": true },
+      { "id": 9, "name": "개인정보 동의서", "checked": true },
+      { "id": 10, "name": "참여 서약서", "checked": false }
+    ]
+  },
+  {
+    "announce_id": 13,
+    "announce_title": "[울산] 중구 2025년 성남 원도심 빈점포 창업 소상공인 지원사업 참여자 추가 모집 연장 공고",
+    "documents": [
+      { "id": 1, "name": "지원 신청서 1부", "checked": true },
+      { "id": 2, "name": "사업계획서 1부", "checked": true },
+      { "id": 3, "name": "개인정보 수집·이용 제공 동의서 1부", "checked": true },
+      { "id": 4, "name": "참여서약서 1부", "checked": true },
+      { "id": 5, "name": "주민등록초본 1부", "checked": true },
+      { "id": 6, "name": "가족관계증명서 각 1부 (본인, 부, 모)", "checked": true },
+      { "id": 7, "name": "사실증명(사업자등록사실여부) 1부", "checked": false },
+      { "id": 8, "name": "사실증명(총사업자등록내역) 1부", "checked": false },
+      { "id": 9, "name": "사업자등록증 및 임대차계약서(사본) 1부", "checked": true },
+      { "id": 10, "name": "국세 완납증명서 및 지방세 완납증명서 1부", "checked": false },
+      { "id": 11, "name": "4대 보험 가입확인서 1부", "checked": true },
+      { "id": 12, "name": "소상공인지식배움터 온라인 교육 수료증 2부", "checked": false }
+    ]
+  }
+]
