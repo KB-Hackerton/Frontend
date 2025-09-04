@@ -2,6 +2,8 @@
   {
     "announce_id": 1,
     "announce_title": "2025 지역 소상공인 지원사업 공고",
+    "reqst_start_date": "20250901",
+    "reqst_end_date": "",
     "documents": [
       { "id": 1, "name": "지원 신청서 1부", "checked": true },
       { "id": 2, "name": "사업계획서 1부", "checked": true },
@@ -18,6 +20,8 @@
   {
     "announce_id": 2,
     "announce_title": "2025 기술 혁신 스타트업 지원사업",
+    "reqst_start_date": "20250902",
+    "reqst_end_date": "20250904",
     "documents": [
       { "id": 1, "name": "참가 신청서", "checked": true },
       { "id": 2, "name": "R&D 연구개발계획서", "checked": false },
@@ -34,6 +38,8 @@
   {
     "announce_id": 3,
     "announce_title": "청년 창업 경진대회 참가자 모집",
+    "reqst_start_date": "20250910",
+    "reqst_end_date": "20250920",
     "documents": [
       { "id": 1, "name": "참가 신청서", "checked": true },
       { "id": 2, "name": "아이디어 제안서(PPT)", "checked": true },
@@ -50,6 +56,8 @@
   {
     "announce_id": 4,
     "announce_title": "2025 소상공인 온라인 판로지원",
+    "reqst_start_date": "20250905",
+    "reqst_end_date": "20250925",
     "documents": [
       { "id": 1, "name": "참가 신청서", "checked": true },
       { "id": 2, "name": "온라인 입점 계획서", "checked": false },
@@ -66,6 +74,8 @@
   {
     "announce_id": 5,
     "announce_title": "스마트공방 구축 지원사업",
+    "reqst_start_date": "20250907",
+    "reqst_end_date": "20250930",
     "documents": [
       { "id": 1, "name": "지원 신청서", "checked": true },
       { "id": 2, "name": "공방 개선 계획서", "checked": true },
@@ -82,6 +92,8 @@
   {
     "announce_id": 6,
     "announce_title": "프리랜서·긱워커 금융역량 강화 교육",
+    "reqst_start_date": "20250908",
+    "reqst_end_date": "20250918",
     "documents": [
       { "id": 1, "name": "참가 신청서", "checked": true },
       { "id": 2, "name": "프리랜서 활동 증빙자료", "checked": true },
@@ -98,6 +110,8 @@
   {
     "announce_id": 7,
     "announce_title": "지역 축제 상인부스 지원",
+    "reqst_start_date": "20250910",
+    "reqst_end_date": "20250922",
     "documents": [
       { "id": 1, "name": "부스 신청서", "checked": true },
       { "id": 2, "name": "사업자등록증 사본", "checked": true },
@@ -114,6 +128,8 @@
   {
     "announce_id": 8,
     "announce_title": "AI 서비스 고도화 바우처",
+    "reqst_start_date": "20250912",
+    "reqst_end_date": "20251001",
     "documents": [
       { "id": 1, "name": "지원 신청서", "checked": true },
       { "id": 2, "name": "AI 적용 계획서", "checked": false },
@@ -130,6 +146,8 @@
   {
     "announce_id": 9,
     "announce_title": "지역 상권 르네상스 사업 참여 점포 모집",
+    "reqst_start_date": "20250915",
+    "reqst_end_date": "20251010",
     "documents": [
       { "id": 1, "name": "참가 신청서", "checked": true },
       { "id": 2, "name": "점포 사진", "checked": true },
@@ -146,6 +164,8 @@
   {
     "announce_id": 10,
     "announce_title": "여성창업 패키지(멘토링·IR·자금연계)",
+    "reqst_start_date": "20250912",
+    "reqst_end_date": "20250930",
     "documents": [
       { "id": 1, "name": "참가 신청서", "checked": true },
       { "id": 2, "name": "사업계획서", "checked": true },
@@ -162,6 +182,8 @@
   {
     "announce_id": 11,
     "announce_title": "지역 제조 소공인 스마트 장비 임차 지원",
+    "reqst_start_date": "20250916",
+    "reqst_end_date": "20250927",
     "documents": [
       { "id": 1, "name": "신청서", "checked": true },
       { "id": 2, "name": "장비 사용 계획서", "checked": true },
@@ -178,6 +200,8 @@
   {
     "announce_id": 12,
     "announce_title": "소셜벤처 ESG 경영 컨설팅 지원",
+    "reqst_start_date": "20250803",
+    "reqst_end_date": "20250907",
     "documents": [
       { "id": 1, "name": "참가 신청서", "checked": true },
       { "id": 2, "name": "ESG 자가진단표", "checked": false },
@@ -194,6 +218,8 @@
   {
     "announce_id": 13,
     "announce_title": "[울산] 중구 2025년 성남 원도심 빈점포 창업 소상공인 지원사업 참여자 추가 모집 연장 공고",
+    "reqst_start_date": "20250825",
+    "reqst_end_date": "20250905",
     "documents": [
       { "id": 1, "name": "지원 신청서 1부", "checked": true },
       { "id": 2, "name": "사업계획서 1부", "checked": true },
