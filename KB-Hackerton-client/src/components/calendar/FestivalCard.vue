@@ -1,5 +1,6 @@
 <script setup>
 import { computed, defineProps } from 'vue'
+import { RouterLink } from 'vue-router'
 const props = defineProps({
   festival: {
     type: Object,
@@ -33,30 +34,32 @@ const festivalStatus = computed(() => {
 </script>
 
 <template>
-  <div
-    class="my-2 p-2 rounded-xl"
-    :class="festivalStatus === '종료' ? 'border border-gray-200 ' : 'border border-black '"
-  >
-    <div class="flex justify-between">
-      <div
-        class="flex flex-col gap-3 bold text-14"
-        :class="festivalStatus === '종료' ? 'text-gray-300' : ''"
-      >
-        <div>{{ props.festival.festival_title }}</div>
-        <div>{{ props.festival.telname }}</div>
-        <div>
-          {{
-            `${props.festival.event_startdate} ${props.festival.event_enddate != props.festival.event_startdate ? '~' + props.festival.event_enddate : ''}`
-          }}
+  <RouterLink :to="{ name: 'festivalDetail', params: { festival_id: props.festival.festival_id } }">
+    <div
+      class="my-2 p-2 rounded-xl"
+      :class="festivalStatus === '종료' ? 'border border-gray-200 ' : 'border border-black '"
+    >
+      <div class="flex justify-between">
+        <div
+          class="flex flex-col gap-3 bold text-14"
+          :class="festivalStatus === '종료' ? 'text-gray-300' : ''"
+        >
+          <div>{{ props.festival.festival_title }}</div>
+          <div>{{ props.festival.telname }}</div>
+          <div>
+            {{
+              `${props.festival.event_startdate} ${props.festival.event_enddate != props.festival.event_startdate ? '~' + props.festival.event_enddate : ''}`
+            }}
+          </div>
+        </div>
+        <div class="flex flex-col gap-2 items-end justify-end">
+          <p class="semibold text-14">
+            {{ festivalStatus }}
+          </p>
         </div>
       </div>
-      <div class="flex flex-col gap-2 items-end justify-end">
-        <p class="semibold text-14">
-          {{ festivalStatus }}
-        </p>
-      </div>
     </div>
-  </div>
+  </RouterLink>
 </template>
 
 <style scoped></style>
