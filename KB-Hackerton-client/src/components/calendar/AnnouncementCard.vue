@@ -1,6 +1,7 @@
 <script setup>
 import { Icon } from '@iconify/vue'
 import { computed, defineProps } from 'vue'
+import { RouterLink } from 'vue-router'
 const props = defineProps({
   announcement: {
     type: Object,
@@ -41,44 +42,46 @@ const announcementStatus = computed(() => {
 </script>
 
 <template>
-  <div
-    class="my-2 p-2 rounded-xl"
-    :class="announcementStatus === '마감' ? 'border border-gray-200 ' : 'border border-black '"
-  >
-    <div class="flex justify-between">
-      <div
-        class="flex flex-col gap-3 bold text-14"
-        :class="announcementStatus === '마감' ? 'text-gray-300' : ''"
-      >
-        <div>{{ props.announcement.announce_title }}</div>
-        <div>{{ props.announcement.exc_InsttNm }}</div>
-        <div>
-          {{
-            `${props.announcement.reqst_start_date} ~ ${props.announcement.reqst_end_date ? props.announcement.reqst_end_date : '예산소진시 까지'}`
-          }}
+  <RouterLink :to="{ name: 'announceDetail', params: { announce_id: announcement.announce_id } }">
+    <div
+      class="my-2 p-2 rounded-xl"
+      :class="announcementStatus === '마감' ? 'border border-gray-200 ' : 'border border-black '"
+    >
+      <div class="flex justify-between">
+        <div
+          class="flex flex-col gap-3 bold text-14"
+          :class="announcementStatus === '마감' ? 'text-gray-300' : ''"
+        >
+          <div>{{ props.announcement.announce_title }}</div>
+          <div>{{ props.announcement.exc_InsttNm }}</div>
+          <div>
+            {{
+              `${props.announcement.reqst_start_date} ~ ${props.announcement.reqst_end_date ? props.announcement.reqst_end_date : '예산소진시 까지'}`
+            }}
+          </div>
+        </div>
+        <div class="flex flex-col gap-2 items-end justify-between">
+          <Icon
+            icon="material-symbols:kid-star"
+            class="size-5"
+            :class="props.announcement.is_favorite ? 'text-green' : 'text-gray-300'"
+          />
+          <p
+            class="semibold text-14 whitespace-nowrap"
+            :class="
+              announcementStatus === '마감임박'
+                ? 'text-red'
+                : announcementStatus === '마감'
+                  ? 'text-gray-300'
+                  : ''
+            "
+          >
+            {{ announcementStatus }}
+          </p>
         </div>
       </div>
-      <div class="flex flex-col gap-2 items-end justify-between">
-        <Icon
-          icon="material-symbols:kid-star"
-          class="size-5"
-          :class="props.announcement.is_favorite ? 'text-green' : 'text-gray-300'"
-        />
-        <p
-          class="semibold text-14"
-          :class="
-            announcementStatus === '마감임박'
-              ? 'text-red'
-              : announcementStatus === '마감'
-                ? 'text-gray-300'
-                : ''
-          "
-        >
-          {{ announcementStatus }}
-        </p>
-      </div>
     </div>
-  </div>
+  </RouterLink>
 </template>
 
 <style scoped></style>
