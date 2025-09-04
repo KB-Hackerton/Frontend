@@ -1,5 +1,5 @@
 <script setup>
-import { ref, reactive, onMounted, nextTick, watch, computed } from 'vue'
+import { ref, reactive, onMounted, onUnmounted, nextTick, watch, computed } from 'vue'
 import FullCalendar from '@fullcalendar/vue3'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
@@ -12,6 +12,7 @@ import festival from '@/_dummy/festival.json'
 import FestivalCard from '@/components/calendar/FestivalCard.vue'
 
 const calendarRef = ref(null)
+const calWrapRef = ref(null)
 const currentTitle = ref('')
 const filter = ref('전체')
 
@@ -20,6 +21,61 @@ const detailView = ref(false)
 const clickDate = ref(null)
 
 const isFavorite = ref(false)
+// Prevent accidental first click on the list right after switching to week view
+const suppressListClick = ref(false)
+const onListClickCapture = (e) => {
+  if (suppressListClick.value) {
+    e.preventDefault?.()
+    e.stopPropagation?.()
+  }
+}
+
+// ===== Robust global guard (timestamp-based) =====
+const SUPPRESS_MS = 300
+const lastViewSwitchAt = ref(0)
+const startViewSwitchGuard = () => {
+  suppressListClick.value = true
+  lastViewSwitchAt.value = performance.now()
+  setTimeout(() => {
+    suppressListClick.value = false
+  }, SUPPRESS_MS)
+}
+const globalRetargetGuard = (e) => {
+  // Block during the suppression window (handles click retargeting & delayed taps)
+  if (performance.now() - lastViewSwitchAt.value < SUPPRESS_MS) {
+    // Need passive:false for touchstart to allow preventDefault
+    e.preventDefault?.()
+    e.stopPropagation?.()
+    e.stopImmediatePropagation?.()
+  }
+}
+onMounted(() => {
+  const types = [
+    'pointerdown',
+    'pointerup',
+    'mousedown',
+    'mouseup',
+    'touchstart',
+    'touchend',
+    'click',
+  ]
+  types.forEach((t) =>
+    window.addEventListener(t, globalRetargetGuard, { capture: true, passive: false }),
+  )
+})
+onUnmounted(() => {
+  const types = [
+    'pointerdown',
+    'pointerup',
+    'mousedown',
+    'mouseup',
+    'touchstart',
+    'touchend',
+    'click',
+  ]
+  types.forEach((t) => window.removeEventListener(t, globalRetargetGuard, { capture: true }))
+})
+// ================================================
 
 const announceList = ref(announce)
 const festivalList = ref(festival)
@@ -270,6 +326,10 @@ const calendarOptions = reactive({
   },
   dateClick: (arg) => {
     clickDate.value = arg.dateStr
+    // Stop the original month-cell click from propagating/retargeting
+    arg.jsEvent?.preventDefault?.()
+    arg.jsEvent?.stopPropagation?.()
+    arg.jsEvent?.stopImmediatePropagation?.()
 
     const formatDate = clickDate.value.replaceAll('-', '')
 
@@ -287,10 +347,20 @@ const calendarOptions = reactive({
       return start <= formatDate && formatDate <= end
     })
 
+    // Enable guard window (timestamp-based) to block retargeted interactions
+    startViewSwitchGuard()
     detailView.value = true
     const api = calendarRef.value?.getApi()
     if (api) {
       api.changeView('dayGridWeek', arg.date)
+      // Keep the calendar in view to avoid jumping straight to the list
+      nextTick(() => {
+        try {
+          calWrapRef?.value?.scrollIntoView?.({ block: 'start' })
+        } finally {
+          // (robust timestamp-based guard is global, no one-shot needed)
+        }
+      })
       // (title will be updated by datesSet listener)
     }
   },
@@ -347,6 +417,8 @@ function showMonth() {
   const api = calendarRef.value?.getApi()
   clickDate.value = null
   detailView.value = false
+  // Start guard to avoid any lingering tap/click being retargeted to the month grid or header
+  startViewSwitchGuard()
   if (api) {
     api.changeView('dayGridMonth', clickDate.value || undefined)
   }
@@ -387,6 +459,7 @@ function showMonth() {
 
     <div class="flex flex-col flex-1 min-h-0">
       <div
+        ref="calWrapRef"
         :class="
           detailView
             ? 'flex-none min-h-0 overflow-hidden relative h-[15rem] md:h-[360px] lg:h-[420px]'
@@ -415,7 +488,13 @@ function showMonth() {
 
       <div
         v-if="detailView && filter !== '축제'"
-        class="w-full flex-1 min-h-0 overflow-y-auto relative z-10 bg-white [&::-webkit-scrollbar]:hidden"
+        @click.capture="onListClickCapture"
+        @pointerdown.capture="onListClickCapture"
+        @mousedown.capture="onListClickCapture"
+        :class="[
+          'w-full flex-1 min-h-0 overflow-y-auto relative z-10 bg-white [&::-webkit-scrollbar]:hidden',
+          suppressListClick ? 'pointer-events-none' : '',
+        ]"
       >
         <AnnouncementCard
           v-for="a in displayedAnnounceList"
@@ -426,7 +505,13 @@ function showMonth() {
 
       <div
         v-if="detailView && filter === '축제'"
-        class="w-full flex-1 min-h-0 overflow-y-auto relative z-10 bg-white [&::-webkit-scrollbar]:hidden"
+        @click.capture="onListClickCapture"
+        @pointerdown.capture="onListClickCapture"
+        @mousedown.capture="onListClickCapture"
+        :class="[
+          'w-full flex-1 min-h-0 overflow-y-auto relative z-10 bg-white [&::-webkit-scrollbar]:hidden',
+          suppressListClick ? 'pointer-events-none' : '',
+        ]"
       >
         <FestivalCard
           v-for="festival in displayFestivalList"
