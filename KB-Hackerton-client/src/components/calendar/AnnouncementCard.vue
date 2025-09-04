@@ -65,7 +65,7 @@ const announcementStatus = computed(() => {
           :class="props.announcement.is_favorite ? 'text-green' : 'text-gray-300'"
         />
         <p
-          class="semibold text-14"
+          class="semibold text-14 whitespace-nowrap"
           :class="
             announcementStatus === '마감임박'
               ? 'text-red'
