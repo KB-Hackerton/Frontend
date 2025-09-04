@@ -16,8 +16,8 @@
     "how_to_register": "온라인 신청 시스템을 통해 접수",
     "call_company": "중소기업통합콜센터(1357)",
     "reqst_start_date": "20250901",
-    "reqst_end_date": "20250901",
-    "is_favorite": false
+    "reqst_end_date": "",
+    "is_favorite": true
   },
   {
     "announce_id": 2,
@@ -36,7 +36,7 @@
     "how_to_register": "사업 전용 홈페이지에서 온라인 접수",
     "call_company": "산업기술진흥원 상담센터(1234-5678)",
     "reqst_start_date": "20250902",
-    "reqst_end_date": "20250905",
+    "reqst_end_date": "20250904",
     "is_favorite": true
   },
   {
@@ -235,8 +235,8 @@
     "hashtags": "#경영",
     "how_to_register": "온라인 접수 후 서면평가",
     "call_company": "KoSEA 고객센터(031-000-0000)",
-    "reqst_start_date": "20250918",
-    "reqst_end_date": "20251002",
+    "reqst_start_date": "20250803",
+    "reqst_end_date": "20250907",
     "is_favorite": true
   },
   {
