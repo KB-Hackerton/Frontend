@@ -9,10 +9,11 @@ const router = useRouter()
 const pageTitle = computed(() => route.meta.title || '')
 
 const isDrawerOpen = ref(false)
-const back = computed(() => route.meta.back || 'home')
+const back = computed(() => route.meta.back || '')
 
 const goBack = () => {
-  router.push({ name: back.value })
+  if (back.value) router.push({ name: back.value })
+  else router.go(-1)
 }
 </script>
 
