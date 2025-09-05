@@ -4,7 +4,7 @@ defineProps({
   modelValue: String,
   label: String,
   required: { type: Boolean, default: false },
-  options: { type: Array, default: () => [] }, // 드롭다운 옵션 리스트
+  options: { type: Array, default: () => [] }, // [{ value, label }] 형태 지원
 })
 
 defineEmits(['update:modelValue'])
@@ -23,9 +23,9 @@ defineEmits(['update:modelValue'])
       class="w-full border-b py-2 text-16 outline-none"
       @change="$emit('update:modelValue', $event.target.value)"
     >
-      <option disabled value="">선택해주세요</option>
-      <option v-for="(opt, idx) in options" :key="idx" :value="opt">
-        {{ opt }}
+      <option disabled value="">대분류부터 선택해주세요</option>
+      <option v-for="(opt, idx) in options" :key="idx" :value="opt.value">
+        {{ opt.label }}
       </option>
     </select>
   </div>

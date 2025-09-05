@@ -20,16 +20,17 @@
     "business_nm": "감자네 슈퍼마켓",
     "business_addr": "경북 안동시 제비원로 195",
     "business_addr_detail": "1층",
+    "business_code": "1123456789",
     "business_open_date": "2020-05-01",
 
     "business_class": {
       "business_class_id": 1,
-      "major_code": "R01",
+      "major_code": "G2",
       "major_name": "소매업",
-      "middle_code": "R0101",
-      "middle_name": "슈퍼마켓",
-      "minor_code": "R010101",
-      "minor_name": "식료품 소매"
+      "middle_code": "G204",
+      "middle_name": "종합 소매업",
+      "minor_code": "G20404",
+      "minor_name": "슈퍼마켓"
     }
   }
 }
