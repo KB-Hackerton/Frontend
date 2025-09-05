@@ -73,6 +73,14 @@ const router = createRouter({
             title: '설정',
           },
         },
+        {
+          path: '/terms-of-service',
+          name: 'termsOfService',
+          component: () => import('@/views/TermsOfServiceView.vue'),
+          meta: {
+            title: '이용약관',
+          },
+        },
         ...user,
         ...announce,
         ...festival,
