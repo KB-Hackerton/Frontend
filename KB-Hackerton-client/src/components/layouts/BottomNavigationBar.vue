@@ -5,7 +5,13 @@ import { useRoute } from 'vue-router'
 import { computed } from 'vue'
 const route = useRoute()
 
-const hiddenPrefixes = ['/login', '/signup', '/sos/create', '/find-password']
+const hiddenPrefixes = [
+  '/login',
+  '/signup',
+  '/sos/create',
+  '/find-password',
+  '/membership/terminate',
+]
 
 const isHidden = computed(() => hiddenPrefixes.some((prefix) => route.path.startsWith(prefix)))
 </script>

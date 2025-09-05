@@ -19,6 +19,10 @@ const classes = computed(() => {
       return 'bg-yellow text-black'
     case 'gray':
       return 'bg-gray-200 text-black'
+    case 'gray-300':
+      return 'bg-gray-300 text-white'
+    case 'blue':
+      return 'bg-blue text-white'
     default:
       return 'bg-gray-100 text-black'
   }
