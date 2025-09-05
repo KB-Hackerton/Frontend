@@ -18,7 +18,7 @@ const quickMenuItems = [
 ]
 
 const optionListItems = [
-  { to: '/', icon: 'material-symbols:settings-outline-rounded', label: '설정' },
+  { to: '/setting', icon: 'material-symbols:settings-outline-rounded', label: '설정' },
   { to: '/', icon: 'material-symbols:contract-outline-rounded', label: '이용약관' },
   { to: '/', icon: 'material-symbols:help-outline', label: 'FAQ' },
   { icon: 'material-symbols:logout', label: '로그아웃', onClick: logout, showArrow: false },
