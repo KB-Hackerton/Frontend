@@ -22,7 +22,14 @@ const optionListItems = [
   { to: '/terms-of-service', icon: 'material-symbols:contract-outline-rounded', label: '이용약관' },
   { to: '/', icon: 'material-symbols:help-outline', label: 'FAQ' },
   { icon: 'material-symbols:logout', label: '로그아웃', onClick: logout, showArrow: false },
-  { icon: 'lets-icons:sad', label: '회원탈퇴', onClick: withdraw, danger: true, showArrow: false },
+  {
+    to: '/membership/terminate',
+    icon: 'lets-icons:sad',
+    label: '회원탈퇴',
+    onClick: withdraw,
+    danger: true,
+    showArrow: false,
+  },
 ]
 
 // 로그아웃
