@@ -1,10 +1,12 @@
 <script setup>
-import { ref, computed, watch } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import { useSignupStore } from '@/stores/signup'
-import BaseInput from '../common/BaseInput.vue'
-import BaseButton from '../common/BaseButton.vue'
-import BaseInputWithButton from '../common/BaseInputWithButton.vue'
-import BaseSelect from '../common/BaseSelect.vue'
+import BaseInput from '@/components/common/BaseInput.vue'
+import BaseButton from '@/components/common/BaseButton.vue'
+import BaseInputWithButton from '@/components/common/BaseInputWithButton.vue'
+import BaseSelect from '@/components/common/BaseSelect.vue'
+
+import userData from '@/_dummy/user.json'
 import businessClassData from '@/_dummy/business_class.json'
 
 const emit = defineEmits(['complete'])
@@ -23,6 +25,32 @@ const addressDetail = ref('')
 
 const middleOptions = ref([])
 const minorOptions = ref([])
+
+const businessNumMessage = ref('')
+
+onMounted(() => {
+  if (userData.business) {
+    businessNum.value = userData.business.business_code || '' // 사업자등록번호
+    ceoName.value = userData.member_name || ''
+    companyName.value = userData.business.business_nm || ''
+    openDate.value = userData.business.business_open_date || ''
+    categoryMain.value = userData.business.business_class.major_code || ''
+    categoryMid.value = userData.business.business_class.middle_code || ''
+    categorySub.value = userData.business.business_class.minor_code || ''
+    address.value = userData.business.business_addr || ''
+    addressDetail.value = userData.business.business_addr_detail || ''
+
+    const major = businessClassData.find((m) => m.major_code === categoryMain.value)
+    middleOptions.value = major
+      ? major.middles.map((mid) => ({ value: mid.middle_code, label: mid.middle_name }))
+      : []
+
+    const middle = major?.middles.find((mid) => mid.middle_code === categoryMid.value)
+    minorOptions.value = middle
+      ? middle.minors.map((min) => ({ value: min.minor_code, label: min.minor_name }))
+      : []
+  }
+})
 
 // 대분류 선택 → 중분류 옵션 변경
 watch(categoryMain, (newVal, oldVal) => {
@@ -59,7 +87,6 @@ watch(categoryMid, (newVal, oldVal) => {
 })
 
 // 사업자 등록번호
-const businessNumMessage = ref('')
 function checkBusinessNum() {
   if (!/^\d{10}$/.test(businessNum.value)) {
     businessNumMessage.value = '사업자 등록번호는 숫자 10자리입니다.'
@@ -109,7 +136,7 @@ function completeSignup() {
 </script>
 
 <template>
-  <div class="flex flex-col gap-6 mt-5">
+  <div class="flex flex-col gap-6 my-5">
     <div>
       <BaseInput
         id="businessNum"
@@ -197,7 +224,7 @@ function completeSignup() {
     />
 
     <BaseButton color="main" class="mt-6" :disabled="!isFormValid" @click="completeSignup">
-      가입하기
+      수정하기
     </BaseButton>
   </div>
 </template>

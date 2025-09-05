@@ -67,11 +67,14 @@ function withdraw() {
       <div class="ml-5 flex-1">
         <div class="flex items-center gap-2">
           <h2 class="font-bold text-26">{{ user.member_name }}</h2>
-          <span class="font-medium text-16 text-gradient">도움 주민</span>
+          <span class="font-medium text-16 text-gradient">{{ user.badge }}</span>
         </div>
 
         <div class="flex gap-2 mt-3">
-          <router-link to="/" class="px-4 py-1 bg-gray-100 rounded-lg text-10 shadow">
+          <router-link
+            to="/mypage/business-edit"
+            class="px-4 py-1 bg-gray-100 rounded-lg text-10 shadow"
+          >
             사업 정보 변경
           </router-link>
           <router-link to="/" class="px-4 py-1 bg-gray-100 rounded-lg text-10 shadow">

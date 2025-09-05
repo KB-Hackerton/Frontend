@@ -1,0 +1,709 @@
+[
+  {
+    "major_code": "G2",
+    "major_name": "소매업",
+    "middles": [
+      {
+        "middle_code": "G202",
+        "middle_name": "자동차 부품 및 내장품 소매업",
+        "minors": [
+          { "minor_code": "G20201", "minor_name": "타이어 소매업" },
+          { "minor_code": "G20202", "minor_name": "자동차 부품 소매업" }
+        ]
+      },
+      {
+        "middle_code": "G203",
+        "middle_name": "모터사이클 및 부품 소매업",
+        "minors": [{ "minor_code": "G20301", "minor_name": "모터사이클 및 부품 소매업" }]
+      },
+      {
+        "middle_code": "G204",
+        "middle_name": "종합 소매업",
+        "minors": [
+          { "minor_code": "G20404", "minor_name": "슈퍼마켓" },
+          { "minor_code": "G20405", "minor_name": "편의점" },
+          { "minor_code": "G20499", "minor_name": "그 외 기타 종합 소매업" }
+        ]
+      },
+      {
+        "middle_code": "G205",
+        "middle_name": "식료품 소매업",
+        "minors": [
+          { "minor_code": "G20501", "minor_name": "곡물/곡분 소매업" },
+          { "minor_code": "G20502", "minor_name": "가축 사료 소매업" },
+          { "minor_code": "G20503", "minor_name": "정육점" },
+          { "minor_code": "G20504", "minor_name": "건어물/젓갈 소매업" },
+          { "minor_code": "G20505", "minor_name": "수산물 소매업" },
+          { "minor_code": "G20506", "minor_name": "채소/과일 소매업" },
+          { "minor_code": "G20507", "minor_name": "아이스크림 할인점" },
+          { "minor_code": "G20508", "minor_name": "건강보조식품 소매업" },
+          { "minor_code": "G20509", "minor_name": "반찬/식료품 소매업" }
+        ]
+      },
+      {
+        "middle_code": "G206",
+        "middle_name": "음료 소매업",
+        "minors": [
+          { "minor_code": "G20601", "minor_name": "얼음 소매업" },
+          { "minor_code": "G20602", "minor_name": "주류 소매업" },
+          { "minor_code": "G20603", "minor_name": "생수/음료 소매업" },
+          { "minor_code": "G20604", "minor_name": "우유 소매업" }
+        ]
+      },
+      {
+        "middle_code": "G207",
+        "middle_name": "담배 소매업",
+        "minors": [{ "minor_code": "G20701", "minor_name": "담배/전자담배 소매업" }]
+      },
+      {
+        "middle_code": "G208",
+        "middle_name": "가전제품 및 정보 통신장비 소매업",
+        "minors": [
+          { "minor_code": "G20801", "minor_name": "컴퓨터/소프트웨어 소매업" },
+          { "minor_code": "G20802", "minor_name": "핸드폰 소매업" },
+          { "minor_code": "G20803", "minor_name": "가전제품 소매업" }
+        ]
+      },
+      {
+        "middle_code": "G209",
+        "middle_name": "섬유, 의복, 신발 및 가죽제품 소매업",
+        "minors": [
+          { "minor_code": "G20901", "minor_name": "남성 의류 소매업" },
+          { "minor_code": "G20902", "minor_name": "여성 의류 소매업" },
+          { "minor_code": "G20903", "minor_name": "유아용 의류 소매업" },
+          { "minor_code": "G20904", "minor_name": "한복 소매업" },
+          { "minor_code": "G20905", "minor_name": "기타 의류 소매업" },
+          { "minor_code": "G20906", "minor_name": "침구류/커튼 소매업" },
+          { "minor_code": "G20907", "minor_name": "액세서리/잡화 소매업" },
+          { "minor_code": "G20908", "minor_name": "가발 소매업" },
+          { "minor_code": "G20909", "minor_name": "실/섬유제품 소매업" },
+          { "minor_code": "G20910", "minor_name": "신발 소매업" },
+          { "minor_code": "G20911", "minor_name": "가방 소매업" }
+        ]
+      },
+      {
+        "middle_code": "G210",
+        "middle_name": "철물, 공구, 창호 및 건설자재 소매업",
+        "minors": [
+          { "minor_code": "G21001", "minor_name": "철물/공구 소매업" },
+          { "minor_code": "G21002", "minor_name": "벽지/장판/마루 소매업" },
+          { "minor_code": "G21003", "minor_name": "건설/건축자재 소매업" },
+          { "minor_code": "G21099", "minor_name": "기타 건설/건축자재 소매업" }
+        ]
+      },
+      {
+        "middle_code": "G211",
+        "middle_name": "가구 소매업",
+        "minors": [{ "minor_code": "G21101", "minor_name": "가구 소매업" }]
+      },
+      {
+        "middle_code": "G212",
+        "middle_name": "기타 생활용품 소매업",
+        "minors": [
+          { "minor_code": "G21201", "minor_name": "전기용품/조명장치 소매업" },
+          { "minor_code": "G21202", "minor_name": "주방/가정용품 소매업" },
+          { "minor_code": "G21203", "minor_name": "악기 소매업" }
+        ]
+      },
+      {
+        "middle_code": "G213",
+        "middle_name": "문화, 오락 및 여가 용품 소매업",
+        "minors": [
+          { "minor_code": "G21301", "minor_name": "서점" },
+          { "minor_code": "G21302", "minor_name": "문구/회화용품 소매업" },
+          { "minor_code": "G21303", "minor_name": "음반/비디오물 소매업" },
+          { "minor_code": "G21304", "minor_name": "운동용품 소매업" },
+          { "minor_code": "G21305", "minor_name": "자전거 소매업" },
+          { "minor_code": "G21306", "minor_name": "장난감 소매업" }
+        ]
+      },
+      {
+        "middle_code": "G214",
+        "middle_name": "연료소매업",
+        "minors": [
+          { "minor_code": "G21401", "minor_name": "주유소" },
+          { "minor_code": "G21402", "minor_name": "가스 충전소" },
+          { "minor_code": "G21403", "minor_name": "가정용 연료 소매업" }
+        ]
+      },
+      {
+        "middle_code": "G215",
+        "middle_name": "의약품, 의료용 기구, 화장품 및 방향제 소매업",
+        "minors": [
+          { "minor_code": "G21501", "minor_name": "약국" },
+          { "minor_code": "G21502", "minor_name": "의료기기 소매업" },
+          { "minor_code": "G21503", "minor_name": "화장품 소매업" }
+        ]
+      },
+      {
+        "middle_code": "G216",
+        "middle_name": "사무용 기기, 안경, 사진장비 및 정밀기기 소매업",
+        "minors": [
+          { "minor_code": "G21601", "minor_name": "사무기기 소매업" },
+          { "minor_code": "G21602", "minor_name": "안경렌즈 소매업" },
+          { "minor_code": "G21603", "minor_name": "사진기/기타 광학기기 소매업" }
+        ]
+      },
+      {
+        "middle_code": "G217",
+        "middle_name": "시계 및 귀금속 소매업",
+        "minors": [{ "minor_code": "G21701", "minor_name": "시계/귀금속 소매업" }]
+      },
+      {
+        "middle_code": "G218",
+        "middle_name": "예술품, 기념품 및 장식용품 소매업",
+        "minors": [
+          { "minor_code": "G21801", "minor_name": "예술품 소매업" },
+          { "minor_code": "G21802", "minor_name": "기념품점" }
+        ]
+      },
+      {
+        "middle_code": "G219",
+        "middle_name": "화초 및 식물 소매업",
+        "minors": [{ "minor_code": "G21901", "minor_name": "꽃집" }]
+      },
+      {
+        "middle_code": "G220",
+        "middle_name": "애완용 동물 및 관련용품 소매업",
+        "minors": [{ "minor_code": "G22001", "minor_name": "애완동물/애완용품 소매업" }]
+      },
+      {
+        "middle_code": "G221",
+        "middle_name": "기타 상품 전문 소매업",
+        "minors": [{ "minor_code": "G22199", "minor_name": "그 외 기타 상품 전문 소매업" }]
+      },
+      {
+        "middle_code": "G222",
+        "middle_name": "중고 상품 소매업",
+        "minors": [{ "minor_code": "G22201", "minor_name": "중고 상품 소매업" }]
+      }
+    ]
+  },
+  {
+    "major_code": "I1",
+    "major_name": "숙박업",
+    "middles": [
+      {
+        "middle_code": "I101",
+        "middle_name": "일반 및 생활 숙박시설 운영업",
+        "minors": [
+          { "minor_code": "I10101", "minor_name": "호텔/리조트" },
+          { "minor_code": "I10102", "minor_name": "여관/모텔" },
+          { "minor_code": "I10103", "minor_name": "펜션" },
+          { "minor_code": "I10104", "minor_name": "캠핑/글램핑" }
+        ]
+      },
+      {
+        "middle_code": "I102",
+        "middle_name": "기타 숙박업",
+        "minors": [
+          { "minor_code": "I10201", "minor_name": "기숙사/고시원" },
+          { "minor_code": "I10299", "minor_name": "그 외 기타 숙박업" }
+        ]
+      }
+    ]
+  },
+  {
+    "major_code": "I2",
+    "major_name": "음식점업",
+    "middles": [
+      {
+        "middle_code": "I201",
+        "middle_name": "한식 음식점업",
+        "minors": [
+          { "minor_code": "I20101", "minor_name": "백반/한정식" },
+          { "minor_code": "I20102", "minor_name": "국/탕/찌개류" },
+          { "minor_code": "I20103", "minor_name": "족발/보쌈" },
+          { "minor_code": "I20104", "minor_name": "전/부침개" },
+          { "minor_code": "I20105", "minor_name": "국수/칼국수" },
+          { "minor_code": "I20106", "minor_name": "냉면/밀면" },
+          { "minor_code": "I20107", "minor_name": "돼지고기 구이/찜" },
+          { "minor_code": "I20108", "minor_name": "소고기 구이/찜" },
+          { "minor_code": "I20109", "minor_name": "곱창 전골/구이" },
+          { "minor_code": "I20110", "minor_name": "닭/오리고기 구이/찜" },
+          { "minor_code": "I20111", "minor_name": "횟집" },
+          { "minor_code": "I20112", "minor_name": "해산물 구이/찜" },
+          { "minor_code": "I20113", "minor_name": "복 요리 전문" },
+          { "minor_code": "I20199", "minor_name": "기타 한식 음식점" }
+        ]
+      },
+      {
+        "middle_code": "I202",
+        "middle_name": "중식 음식점업",
+        "minors": [
+          { "minor_code": "I20201", "minor_name": "중국집" },
+          { "minor_code": "I20202", "minor_name": "마라탕/훠궈" }
+        ]
+      },
+      {
+        "middle_code": "I203",
+        "middle_name": "일식 음식점업",
+        "minors": [
+          { "minor_code": "I20301", "minor_name": "일식 회/초밥" },
+          { "minor_code": "I20302", "minor_name": "일식 카레/돈가스/덮밥" },
+          { "minor_code": "I20303", "minor_name": "일식 면 요리" },
+          { "minor_code": "I20399", "minor_name": "기타 일식 음식점" }
+        ]
+      },
+      {
+        "middle_code": "I204",
+        "middle_name": "서양식 음식점업",
+        "minors": [
+          { "minor_code": "I20401", "minor_name": "경양식" },
+          { "minor_code": "I20402", "minor_name": "파스타/스테이크" },
+          { "minor_code": "I20403", "minor_name": "패밀리레스토랑" },
+          { "minor_code": "I20499", "minor_name": "기타 서양식 음식점" }
+        ]
+      },
+      {
+        "middle_code": "I205",
+        "middle_name": "동남아시아 음식점업",
+        "minors": [
+          { "minor_code": "I20501", "minor_name": "베트남식 전문" },
+          { "minor_code": "I20599", "minor_name": "기타 동남아식 전문" }
+        ]
+      },
+      {
+        "middle_code": "I206",
+        "middle_name": "기타 외국식 음식점업",
+        "minors": [{ "minor_code": "I20601", "minor_name": "분류 안된 외국식 음식점" }]
+      },
+      {
+        "middle_code": "I207",
+        "middle_name": "구내식당 및 뷔페",
+        "minors": [
+          { "minor_code": "I20701", "minor_name": "구내식당" },
+          { "minor_code": "I20702", "minor_name": "뷔페" }
+        ]
+      },
+      {
+        "middle_code": "I210",
+        "middle_name": "기타 간이 음식점업",
+        "minors": [
+          { "minor_code": "I21001", "minor_name": "빵/도넛" },
+          { "minor_code": "I21002", "minor_name": "떡/한과" },
+          { "minor_code": "I21003", "minor_name": "피자" },
+          { "minor_code": "I21004", "minor_name": "버거" },
+          { "minor_code": "I21005", "minor_name": "토스트/샌드위치/샐러드" },
+          { "minor_code": "I21006", "minor_name": "치킨" },
+          { "minor_code": "I21007", "minor_name": "김밥/만두/분식" },
+          { "minor_code": "I21008", "minor_name": "아이스크림/빙수" },
+          { "minor_code": "I21099", "minor_name": "그 외 기타 간이 음식점" }
+        ]
+      },
+      {
+        "middle_code": "I211",
+        "middle_name": "주점업",
+        "minors": [
+          { "minor_code": "I21101", "minor_name": "일반 유흥 주점" },
+          { "minor_code": "I21102", "minor_name": "무도 유흥 주점" },
+          { "minor_code": "I21103", "minor_name": "생맥주 전문" },
+          { "minor_code": "I21104", "minor_name": "요리 주점" }
+        ]
+      },
+      {
+        "middle_code": "I212",
+        "middle_name": "비알코올 음료점업",
+        "minors": [{ "minor_code": "I21201", "minor_name": "카페" }]
+      }
+    ]
+  },
+  {
+    "major_code": "L1",
+    "major_name": "부동산업",
+    "middles": [
+      {
+        "middle_code": "L102",
+        "middle_name": "부동산관련 서비스업",
+        "minors": [{ "minor_code": "L10203", "minor_name": "부동산 중개/대리업" }]
+      }
+    ]
+  },
+  {
+    "major_code": "M1",
+    "major_name": "전문, 과학 및 기술 서비스업",
+    "middles": [
+      {
+        "middle_code": "M103",
+        "middle_name": "법무관련 서비스업",
+        "minors": [
+          { "minor_code": "M10301", "minor_name": "변호사" },
+          { "minor_code": "M10302", "minor_name": "변리사" },
+          { "minor_code": "M10303", "minor_name": "법무사" },
+          { "minor_code": "M10306", "minor_name": "행정사" },
+          { "minor_code": "M10307", "minor_name": "공인노무사" },
+          { "minor_code": "M10399", "minor_name": "기타 법무관련 서비스업" }
+        ]
+      },
+      {
+        "middle_code": "M104",
+        "middle_name": "회계 및 세무관련 서비스업",
+        "minors": [
+          { "minor_code": "M10401", "minor_name": "공인회계사" },
+          { "minor_code": "M10402", "minor_name": "세무사" },
+          { "minor_code": "M10499", "minor_name": "기타 회계 관련 서비스업" }
+        ]
+      },
+      {
+        "middle_code": "M105",
+        "middle_name": "광고업",
+        "minors": [
+          { "minor_code": "M10501", "minor_name": "광고 대행업" },
+          { "minor_code": "M10502", "minor_name": "옥외/전시 광고 대행업" },
+          { "minor_code": "M10503", "minor_name": "광고 매체 판매업" },
+          { "minor_code": "M10504", "minor_name": "광고물 설계/제작업" },
+          { "minor_code": "M10599", "minor_name": "기타 광고 관련 서비스업" }
+        ]
+      },
+      {
+        "middle_code": "M106",
+        "middle_name": "시장 조사 및 여론 조사업",
+        "minors": [{ "minor_code": "M10601", "minor_name": "시장 조사 및 여론 조사업" }]
+      },
+      {
+        "middle_code": "M107",
+        "middle_name": "회사 본부 및 경영 컨설팅 서비스업",
+        "minors": [{ "minor_code": "M10703", "minor_name": "경영 컨설팅업" }]
+      },
+      {
+        "middle_code": "M109",
+        "middle_name": "건축 기술, 엔지니어링 및 관련 기술 서비스업",
+        "minors": [
+          { "minor_code": "M10901", "minor_name": "건축 설계 및 관련 서비스업" },
+          { "minor_code": "M10902", "minor_name": "도시 계획 및 조경 설계 서비스업" },
+          { "minor_code": "M10903", "minor_name": "건물 및 토목 엔지니어링 서비스업" },
+          { "minor_code": "M10904", "minor_name": "환경 관련 엔지니어링 서비스업" },
+          { "minor_code": "M10999", "minor_name": "기타 엔지니어링 서비스업" }
+        ]
+      },
+      {
+        "middle_code": "M111",
+        "middle_name": "수의업",
+        "minors": [{ "minor_code": "M11101", "minor_name": "동물병원" }]
+      },
+      {
+        "middle_code": "M112",
+        "middle_name": "전문 디자인업",
+        "minors": [
+          { "minor_code": "M11201", "minor_name": "인테리어 디자인업" },
+          { "minor_code": "M11202", "minor_name": "제품 디자인업" },
+          { "minor_code": "M11203", "minor_name": "시각 디자인업" },
+          { "minor_code": "M11204", "minor_name": "패션/섬유/기타 전문 디자인업" }
+        ]
+      },
+      {
+        "middle_code": "M113",
+        "middle_name": "사진 촬영 및 처리업",
+        "minors": [{ "minor_code": "M11301", "minor_name": "사진촬영업" }]
+      },
+      {
+        "middle_code": "M114",
+        "middle_name": "인쇄 및 제품 제작업",
+        "minors": [{ "minor_code": "M11401", "minor_name": "명함/간판/광고물 제작" }]
+      },
+      {
+        "middle_code": "M115",
+        "middle_name": "그 외 기타 전문, 과학 및 기술 서비스업",
+        "minors": [
+          { "minor_code": "M11502", "minor_name": "번역/통역 서비스업" },
+          { "minor_code": "M11504", "minor_name": "사업/무형 재산권 중개업" }
+        ]
+      }
+    ]
+  },
+  {
+    "major_code": "N1",
+    "major_name": "사업시설 관리, 사업 지원 및 임대 서비스업",
+    "middles": [
+      {
+        "middle_code": "N101",
+        "middle_name": "사업시설 유지ㆍ관리 서비스업",
+        "minors": [{ "minor_code": "N10101", "minor_name": "사업시설 유지·관리 서비스업" }]
+      },
+      {
+        "middle_code": "N102",
+        "middle_name": "건물ㆍ산업설비 청소 및 방제 서비스업",
+        "minors": [
+          { "minor_code": "N10201", "minor_name": "건축물 일반 청소업" },
+          { "minor_code": "N10202", "minor_name": "산업설비, 운송장비 및 공공장소 청소업" },
+          { "minor_code": "N10203", "minor_name": "소독, 구충 및 방제 서비스업" }
+        ]
+      },
+      {
+        "middle_code": "N103",
+        "middle_name": "조경관리 및 유지 서비스업",
+        "minors": [{ "minor_code": "N10301", "minor_name": "조경 유지·관리 서비스업" }]
+      },
+      {
+        "middle_code": "N104",
+        "middle_name": "고용 알선 및 인력 공급업",
+        "minors": [
+          { "minor_code": "N10401", "minor_name": "고용 알선업" },
+          { "minor_code": "N10402", "minor_name": "임시/일용 인력 공급업" },
+          { "minor_code": "N10403", "minor_name": "상용 인력 공급 및 인사관리 서비스업" }
+        ]
+      },
+      {
+        "middle_code": "N105",
+        "middle_name": "여행사 및 기타 여행 보조 서비스업",
+        "minors": [
+          { "minor_code": "N10501", "minor_name": "여행사" },
+          { "minor_code": "N10599", "minor_name": "기타 여행 보조/예약 서비스업" }
+        ]
+      },
+      {
+        "middle_code": "N107",
+        "middle_name": "사무 지원 서비스업",
+        "minors": [
+          { "minor_code": "N10703", "minor_name": "복사업" },
+          { "minor_code": "N10799", "minor_name": "기타 사무 지원 서비스업" }
+        ]
+      },
+      {
+        "middle_code": "N108",
+        "middle_name": "기타 사업 지원 서비스업",
+        "minors": [
+          { "minor_code": "N10802", "minor_name": "전시/컨벤션/행사 대행 서비스업" },
+          { "minor_code": "N10805", "minor_name": "포장/충전업" }
+        ]
+      },
+      {
+        "middle_code": "N109",
+        "middle_name": "운송장비 대여업",
+        "minors": [
+          { "minor_code": "N10901", "minor_name": "자동차 대여업" },
+          { "minor_code": "N10999", "minor_name": "기타 운송장비 대여업" }
+        ]
+      },
+      {
+        "middle_code": "N110",
+        "middle_name": "개인 및 가정용품 대여업",
+        "minors": [
+          { "minor_code": "N11001", "minor_name": "스포츠/레크리에이션 용품 대여업" },
+          { "minor_code": "N11002", "minor_name": "음반/비디오물 대여업" },
+          { "minor_code": "N11003", "minor_name": "만화방" },
+          { "minor_code": "N11004", "minor_name": "의류 대여업" },
+          { "minor_code": "N11099", "minor_name": "기타 개인/가정용품 대여업" }
+        ]
+      },
+      {
+        "middle_code": "N111",
+        "middle_name": "산업용 기계 및 장비 대여업",
+        "minors": [
+          { "minor_code": "N11101", "minor_name": "건설기계/장비 대여업" },
+          { "minor_code": "N11102", "minor_name": "컴퓨터/사무기기 대여업" },
+          { "minor_code": "N11199", "minor_name": "기타 산업용 기계/장비 대여업" }
+        ]
+      }
+    ]
+  },
+  {
+    "major_code": "P1",
+    "major_name": "교육 서비스업",
+    "middles": [
+      {
+        "middle_code": "P105",
+        "middle_name": "일반 교육기관",
+        "minors": [{ "minor_code": "P10501", "minor_name": "입시·교과학원" }]
+      },
+      {
+        "middle_code": "P106",
+        "middle_name": "기타 교육기관",
+        "minors": [
+          { "minor_code": "P10601", "minor_name": "태권도/무술학원" },
+          { "minor_code": "P10603", "minor_name": "요가/필라테스 학원" },
+          { "minor_code": "P10605", "minor_name": "레크리에이션 교육기관" },
+          { "minor_code": "P10607", "minor_name": "청소년 수련시설" },
+          { "minor_code": "P10609", "minor_name": "음악학원" },
+          { "minor_code": "P10611", "minor_name": "미술학원" },
+          { "minor_code": "P10613", "minor_name": "기타 예술/스포츠 교육기관" },
+          { "minor_code": "P10615", "minor_name": "외국어학원" },
+          { "minor_code": "P10617", "minor_name": "전문자격/고시학원" },
+          { "minor_code": "P10619", "minor_name": "사회교육시설" },
+          { "minor_code": "P10621", "minor_name": "직원 훈련기관" },
+          { "minor_code": "P10623", "minor_name": "운전학원" },
+          { "minor_code": "P10625", "minor_name": "기타 기술/직업 훈련학원" },
+          { "minor_code": "P10627", "minor_name": "컴퓨터 학원" },
+          { "minor_code": "P10629", "minor_name": "그 외 기타 교육기관" }
+        ]
+      },
+      {
+        "middle_code": "P107",
+        "middle_name": "교육 지원 서비스업",
+        "minors": [
+          { "minor_code": "P10701", "minor_name": "교육컨설팅업" },
+          { "minor_code": "P10799", "minor_name": "기타 교육지원 서비스업" }
+        ]
+      }
+    ]
+  },
+  {
+    "major_code": "Q1",
+    "major_name": "보건의료업",
+    "middles": [
+      {
+        "middle_code": "Q101",
+        "middle_name": "병원",
+        "minors": [
+          { "minor_code": "Q10101", "minor_name": "종합병원" },
+          { "minor_code": "Q10102", "minor_name": "일반병원" },
+          { "minor_code": "Q10103", "minor_name": "치과병원" },
+          { "minor_code": "Q10104", "minor_name": "한방병원" },
+          { "minor_code": "Q10105", "minor_name": "요양병원" }
+        ]
+      },
+      {
+        "middle_code": "Q102",
+        "middle_name": "의원",
+        "minors": [
+          { "minor_code": "Q10201", "minor_name": "내과/소아과 의원" },
+          { "minor_code": "Q10202", "minor_name": "외과 의원" },
+          { "minor_code": "Q10203", "minor_name": "신경/정신과 의원" },
+          { "minor_code": "Q10204", "minor_name": "피부/비뇨기과 의원" },
+          { "minor_code": "Q10205", "minor_name": "안과 의원" },
+          { "minor_code": "Q10206", "minor_name": "이비인후과 의원" },
+          { "minor_code": "Q10207", "minor_name": "산부인과 의원" },
+          { "minor_code": "Q10208", "minor_name": "성형외과 의원" },
+          { "minor_code": "Q10209", "minor_name": "기타 의원" },
+          { "minor_code": "Q10210", "minor_name": "치과의원" },
+          { "minor_code": "Q10211", "minor_name": "한의원" },
+          { "minor_code": "Q10212", "minor_name": "방사선 진단/병리 검사 의원" }
+        ]
+      },
+      {
+        "middle_code": "Q104",
+        "middle_name": "기타 보건업",
+        "minors": [{ "minor_code": "Q10402", "minor_name": "유사 의료업" }]
+      }
+    ]
+  },
+  {
+    "major_code": "R1",
+    "major_name": "예술, 스포츠 및 여가관련 서비스업",
+    "middles": [
+      {
+        "middle_code": "R102",
+        "middle_name": "도서관, 사적지 및 유사 여가관련 서비스업",
+        "minors": [{ "minor_code": "R10202", "minor_name": "독서실/스터디 카페" }]
+      },
+      {
+        "middle_code": "R103",
+        "middle_name": "스포츠 서비스업",
+        "minors": [
+          { "minor_code": "R10306", "minor_name": "종합 스포츠시설" },
+          { "minor_code": "R10307", "minor_name": "헬스장" },
+          { "minor_code": "R10308", "minor_name": "수영장" },
+          { "minor_code": "R10309", "minor_name": "볼링장" },
+          { "minor_code": "R10310", "minor_name": "당구장" },
+          { "minor_code": "R10311", "minor_name": "골프 연습장" },
+          { "minor_code": "R10312", "minor_name": "테니스장" },
+          { "minor_code": "R10313", "minor_name": "탁구장" },
+          { "minor_code": "R10314", "minor_name": "기타 스포츠시설 운영업" },
+          { "minor_code": "R10316", "minor_name": "스쿼시/라켓볼장" }
+        ]
+      },
+      {
+        "middle_code": "R104",
+        "middle_name": "유원지 및 기타 오락관련 서비스업",
+        "minors": [
+          { "minor_code": "R10402", "minor_name": "비디오방" },
+          { "minor_code": "R10404", "minor_name": "전자 게임장" },
+          { "minor_code": "R10405", "minor_name": "기타 오락장" },
+          { "minor_code": "R10406", "minor_name": "PC방" },
+          { "minor_code": "R10407", "minor_name": "노래방" },
+          { "minor_code": "R10408", "minor_name": "낚시터 운영업" },
+          { "minor_code": "R10409", "minor_name": "수상/해양 레저업" },
+          { "minor_code": "R10410", "minor_name": "복권 발행/판매업" },
+          { "minor_code": "R10414", "minor_name": "바둑/장기/체스 경기 운영업" },
+          { "minor_code": "R10499", "minor_name": "기타 오락관련 서비스업" }
+        ]
+      }
+    ]
+  },
+  {
+    "major_code": "S2",
+    "major_name": "수리 및 개인 서비스업",
+    "middles": [
+      {
+        "middle_code": "S201",
+        "middle_name": "컴퓨터 및 주변 기기 수리업",
+        "minors": [{ "minor_code": "S20101", "minor_name": "컴퓨터/노트북/프린터 수리업" }]
+      },
+      {
+        "middle_code": "S202",
+        "middle_name": "통신장비 수리업",
+        "minors": [{ "minor_code": "S20201", "minor_name": "핸드폰/통신장비 수리업" }]
+      },
+      {
+        "middle_code": "S203",
+        "middle_name": "자동차 수리 및 세차업",
+        "minors": [
+          { "minor_code": "S20301", "minor_name": "자동차 정비소" },
+          { "minor_code": "S20302", "minor_name": "자동차 세차장" }
+        ]
+      },
+      {
+        "middle_code": "S204",
+        "middle_name": "모터사이클 수리업",
+        "minors": [{ "minor_code": "S20401", "minor_name": "모터사이클 수리업" }]
+      },
+      {
+        "middle_code": "S205",
+        "middle_name": "가전제품 수리업",
+        "minors": [{ "minor_code": "S20501", "minor_name": "가전제품 수리업" }]
+      },
+      {
+        "middle_code": "S206",
+        "middle_name": "기타 개인 및 가정용품 수리업",
+        "minors": [
+          { "minor_code": "S20601", "minor_name": "의류/이불 수선업" },
+          { "minor_code": "S20602", "minor_name": "가죽/가방/신발 수선업" },
+          { "minor_code": "S20603", "minor_name": "시계/귀금속/악기 수리업" },
+          { "minor_code": "S20699", "minor_name": "그 외 기타 개인/가정용품 수리업" }
+        ]
+      },
+      {
+        "middle_code": "S207",
+        "middle_name": "이용 및 미용업",
+        "minors": [
+          { "minor_code": "S20701", "minor_name": "미용실" },
+          { "minor_code": "S20702", "minor_name": "피부 관리실" },
+          { "minor_code": "S20703", "minor_name": "네일숍" }
+        ]
+      },
+      {
+        "middle_code": "S208",
+        "middle_name": "욕탕, 마사지 및 기타 신체 관리 서비스업",
+        "minors": [
+          { "minor_code": "S20801", "minor_name": "목욕탕/사우나" },
+          { "minor_code": "S20802", "minor_name": "마사지/안마" },
+          { "minor_code": "S20803", "minor_name": "체형/비만 관리" }
+        ]
+      },
+      {
+        "middle_code": "S209",
+        "middle_name": "세탁업",
+        "minors": [
+          { "minor_code": "S20901", "minor_name": "세탁소" },
+          { "minor_code": "S20902", "minor_name": "셀프 빨래방" }
+        ]
+      },
+      {
+        "middle_code": "S210",
+        "middle_name": "장례식장 및 관련 서비스업",
+        "minors": [
+          { "minor_code": "S21001", "minor_name": "장례식장" },
+          { "minor_code": "S21002", "minor_name": "화장터/묘지/납골당" }
+        ]
+      },
+      {
+        "middle_code": "S211",
+        "middle_name": "기타 개인서비스",
+        "minors": [
+          { "minor_code": "S21101", "minor_name": "예식장업" },
+          { "minor_code": "S21105", "minor_name": "결혼 상담 서비스업" }
+        ]
+      }
+    ]
+  }
+]
