@@ -431,7 +431,11 @@ function showMonth() {
         <div class="fc-custom-title bold text-18">
           {{ currentTitle }}
         </div>
-        <ToggleSwitch :label="'즐겨찾기'" @click="isFavorite = !isFavorite" />
+        <ToggleSwitch
+          :label="'즐겨찾기'"
+          :isChecked="isFavorite"
+          @click="isFavorite = !isFavorite"
+        />
       </div>
       <button
         v-if="detailView"
