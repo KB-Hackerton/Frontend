@@ -1,5 +1,6 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed } from 'vue'
+import router from '@/router'
 
 import SosFilterBar from '@/components/sos/SosFilterBar.vue'
 import KakaoMap from '@/components/sos/KakaoMap.vue'
@@ -23,8 +24,8 @@ const filteredList = computed(() => {
   return sosItems.value.filter((item) => cats.includes(typeMap[item.sos_type]))
 })
 
-function goToRegister() {
-  router.push('/sos/register')
+function goToCreate() {
+  router.push('/sos/create')
 }
 
 function handleSelect(item) {
@@ -58,7 +59,7 @@ function closeDetail() {
 
     <button
       v-if="!selectedItem"
-      @click="goToRegister"
+      @click="goToCreate"
       class="absolute bottom-[52%] right-4 bg-main text-white text-18 rounded-2xl px-4 py-2 z-[1000]"
     >
       +
