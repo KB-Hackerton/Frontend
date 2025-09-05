@@ -1,7 +1,8 @@
 <script setup>
-import { computed } from 'vue'
+import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import BaseButton from '../common/BaseButton.vue'
+import SosDelete from '@/components/sos/SosDelete.vue'
 
 const router = useRouter()
 
@@ -41,6 +42,13 @@ const urgency = computed(() => {
 
 function goToEdit(item) {
   router.push({ name: 'sos-edit', params: { id: item.sos_id } })
+}
+
+const showDeleteModal = ref(false)
+
+function handleDelete() {
+  console.log('삭제 진행!')
+  showDeleteModal.value = false
 }
 </script>
 
@@ -92,9 +100,11 @@ function goToEdit(item) {
     </div>
 
     <div v-if="isOwner" class="flex gap-3 mt-6">
-      <BaseButton color="gray" class="flex-1" @click="$emit('delete', item)"> 삭제하기 </BaseButton>
+      <BaseButton color="gray" class="flex-1" @click="showDeleteModal = true">삭제하기</BaseButton>
       <BaseButton class="flex-1" @click="goToEdit(item)">수정하기</BaseButton>
     </div>
     <BaseButton v-else class="mt-6" @click="$emit('chat', item)"> 채팅하기 </BaseButton>
   </div>
+
+  <SosDelete :show="showDeleteModal" @close="showDeleteModal = false" @confirm="handleDelete" />
 </template>
