@@ -4,18 +4,24 @@ import { useRouter } from 'vue-router'
 import BaseButton from '../common/BaseButton.vue'
 import SosDelete from '@/components/sos/SosDelete.vue'
 
+// Router
 const router = useRouter()
 
+// Props & Emits
 const props = defineProps({
   item: { type: Object, required: true },
   isOwner: { type: Boolean, default: true }, // 내가 올린 SOS인지 여부
 })
-
 const emit = defineEmits(['close', 'chat', 'edit', 'delete'])
 
+// State
+const showDeleteModal = ref(false)
+
+// Type Mapping
 const typeMap = { stock: '물품', labor: '인력', equipment: '고장', etc: '기타' }
 const typeLabel = computed(() => typeMap[props.item.sos_type] ?? '기타')
 
+// Computed
 const expireTime = computed(() => {
   if (!props.item.expires_at) return ''
   const date = new Date(props.item.expires_at)
@@ -28,23 +34,18 @@ const expireTime = computed(() => {
 
 const urgency = computed(() => {
   if (!props.item.expires_at) return { text: '보통', color: 'text-green' }
+
   const now = new Date()
   const end = new Date(props.item.expires_at)
-  const diffMs = end.getTime() - now.getTime()
-  const diffMin = diffMs / (1000 * 60)
+  const diffMin = (end.getTime() - now.getTime()) / (1000 * 60)
 
-  if (diffMin <= 5) {
-    return { text: '급함', color: 'text-red' }
-  } else {
-    return { text: '보통', color: 'text-green' }
-  }
+  return diffMin <= 5 ? { text: '급함', color: 'text-red' } : { text: '보통', color: 'text-green' }
 })
 
+// Methods
 function goToEdit(item) {
   router.push({ name: 'sos-edit', params: { id: item.sos_id } })
 }
-
-const showDeleteModal = ref(false)
 
 function handleDelete() {
   console.log('삭제 진행!')
@@ -72,10 +73,11 @@ function handleDelete() {
     </div>
 
     <div>
-      <div class="flex flex-start items-end mb-2">
+      <div class="mb-2 flex items-end">
         <p class="font-bold text-20">내용</p>
-        <p class="text-12 text-gray-300 ml-2">채팅 중 (3건)</p>
+        <p class="ml-2 text-12 text-gray-300">채팅 중 (3건)</p>
       </div>
+
       <div>
         <p class="text-14 text-gray-300">
           <span :class="urgency.color">{{ urgency.text }}</span> · {{ typeLabel }} · 오늘
@@ -83,7 +85,7 @@ function handleDelete() {
         </p>
       </div>
 
-      <div class="text-14 text-black font-medium mt-2">
+      <div class="font-medium mt-2 text-14 text-black">
         <p>제목: {{ item.sos_title }}</p>
         <p>내용: {{ item.sos_content }}</p>
       </div>
@@ -94,12 +96,12 @@ function handleDelete() {
         v-for="img in item.sos_image"
         :key="img.sos_image_id"
         :src="img.storage_key"
-        class="w-28 h-20 rounded-lg object-cover"
         alt="sos 이미지"
+        class="w-24 h-24 rounded-lg object-cover"
       />
     </div>
 
-    <div v-if="isOwner" class="flex gap-3 mt-6">
+    <div v-if="isOwner" class="mt-6 flex gap-3">
       <BaseButton color="gray" class="flex-1" @click="showDeleteModal = true">삭제하기</BaseButton>
       <BaseButton class="flex-1" @click="goToEdit(item)">수정하기</BaseButton>
     </div>

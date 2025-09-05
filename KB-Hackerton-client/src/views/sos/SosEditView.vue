@@ -5,10 +5,12 @@ import SosFilterBar from '@/components/sos/SosFilterBar.vue'
 import BaseButton from '@/components/common/BaseButton.vue'
 import sosData from '@/_dummy/sos.json'
 
+// Router & SOS 데이터
 const route = useRoute()
 const sosId = Number(route.params.id)
 const sos = sosData.find((item) => item.sos_id === sosId)
 
+// State
 const selectedCategory = ref('')
 const expiresAt = ref('')
 const title = ref('')
@@ -26,6 +28,7 @@ onMounted(() => {
   }
 })
 
+// Methods
 function handleImageUpload(event) {
   const files = Array.from(event.target.files)
   for (const file of files) {
@@ -78,24 +81,21 @@ function editSos() {
 
 <template>
   <div class="p-4 space-y-6">
-    <!-- 요청 카테고리 -->
     <div>
-      <p class="font-bold text-14 text-black mb-2">요청 카테고리</p>
-      <!-- SosFilterBar에서 전체 옵션 제거한 버전 사용 -->
+      <p class="mb-2 font-bold text-14 text-black">요청 카테고리</p>
       <SosFilterBar v-model:selected="selectedCategory" :showAll="false" :multiple="false" />
     </div>
 
-    <!-- SOS 종료시간 -->
     <div>
-      <p class="font-bold text-14 text-black mb-1">
-        SOS 종료시각 <span class="text-12 text-gray-300">(최대 오늘 자정까지만 가능합니다)</span>
+      <p class="mb-1 font-bold text-14 text-black">
+        SOS 종료시각
+        <span class="text-12 text-gray-300">(최대 오늘 자정까지만 가능합니다)</span>
       </p>
-      <input type="time" v-model="expiresAt" class="border rounded p-2 w-32" />
+      <input type="time" v-model="expiresAt" class="w-32 border rounded p-2" />
     </div>
 
-    <!-- 요청 제목 -->
     <div>
-      <p class="font-bold text-14 text-black mb-1">요청 제목</p>
+      <p class="mb-1 font-bold text-14 text-black">요청 제목</p>
       <input
         v-model="title"
         type="text"
@@ -105,10 +105,10 @@ function editSos() {
       />
     </div>
 
-    <!-- 요청 내용 -->
     <div>
-      <p class="font-bold text-14 text-black mb-1">
-        요청 내용 <span class="text-12 text-gray-300">(최대 100자)</span>
+      <p class="mb-1 font-bold text-14 text-black">
+        요청 내용
+        <span class="text-12 text-gray-300">(최대 100자)</span>
       </p>
       <textarea
         v-model="content"
@@ -119,17 +119,16 @@ function editSos() {
       ></textarea>
     </div>
 
-    <!-- 사진 업로드 -->
     <div>
       <p class="font-bold text-14 text-black mb-1">
-        사진 <span class="text-12 text-gray-300">(최대 3장)</span>
+        사진
+        <span class="text-12 text-gray-300">(최대 3장)</span>
       </p>
-      <div class="flex items-center gap-3 flex-wrap">
-        <!-- 추가 버튼 -->
+      <div class="flex flex-wrap items-center gap-3">
         <label
           v-if="imageFiles.length < 3"
           for="image-upload"
-          class="w-24 h-24 border rounded-lg flex items-center justify-center text-2xl text-gray-400 cursor-pointer"
+          class="w-24 h-24 flex items-center justify-center border rounded-lg text-2xl text-gray-400 cursor-pointer"
         >
           +
         </label>
@@ -142,12 +141,11 @@ function editSos() {
           @change="handleImageUpload"
         />
 
-        <!-- 업로드된 이미지 목록 -->
         <div v-for="(img, index) in imageFiles" :key="index" class="relative">
-          <img :src="img" alt="업로드된 이미지" class="w-24 h-24 object-cover rounded-lg border" />
+          <img :src="img" alt="업로드된 이미지" class="w-24 h-24 rounded-lg border object-cover" />
           <button
             type="button"
-            class="absolute top-1 right-1 bg-black bg-opacity-50 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center"
+            class="absolute top-1 right-1 w-5 h-5 flex items-center justify-center rounded-full bg-black bg-opacity-50 text-white text-12"
             @click="removeImage(index)"
           >
             ✕
@@ -157,6 +155,6 @@ function editSos() {
     </div>
 
     <!-- 등록 버튼 -->
-    <BaseButton class="mt-6" @click="editSos"> 수정하기 </BaseButton>
+    <BaseButton class="mt-6" @click="editSos">수정하기</BaseButton>
   </div>
 </template>

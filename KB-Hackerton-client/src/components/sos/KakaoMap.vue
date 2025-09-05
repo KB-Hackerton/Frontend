@@ -4,16 +4,18 @@ import { render } from 'vue'
 import { Icon } from '@iconify/vue'
 import { loadKakaoMapSdk } from '@/utils/KakaoMapLoader.js'
 
+// Props & Emits
 const props = defineProps({
   items: { type: Array, default: () => [] },
   selected: { type: Object, default: null },
 })
-
 const emit = defineEmits(['select'])
 
+// State
 let map
 let overlays = []
 
+// Icon Mapping
 const iconMap = {
   stock: 'solar:box-linear',
   labor: 'fluent:person-16-regular',
@@ -21,6 +23,7 @@ const iconMap = {
   etc: 'famicons:help',
 }
 
+// Helpers
 function getUrgencyColor(expiresAt) {
   if (!expiresAt) return '#16a34a'
   const now = new Date()
@@ -30,6 +33,7 @@ function getUrgencyColor(expiresAt) {
   return diffMin <= 5 ? '#dc2626' : '#16a34a'
 }
 
+// Init Map
 async function initMap() {
   const kakao = await loadKakaoMapSdk()
   const container = document.getElementById('map')
@@ -38,10 +42,10 @@ async function initMap() {
     level: 5,
   }
   map = new kakao.maps.Map(container, options)
-
   renderMarkers(props.items)
 }
 
+// Render Markers
 function renderMarkers(items) {
   overlays.forEach((o) => o.setMap(null))
   overlays = []
@@ -58,14 +62,14 @@ function renderMarkers(items) {
 
         const urgencyColor = getUrgencyColor(sos.expires_at)
 
-        // 마커 + 상호명 DOM
+        // Marker DOM
         const markerContent = document.createElement('div')
         markerContent.style.display = 'flex'
         markerContent.style.flexDirection = 'column'
         markerContent.style.alignItems = 'center'
         markerContent.style.gap = '4px'
 
-        // 동그라미 컨테이너
+        // Circle
         const circle = document.createElement('div')
         circle.style.background = 'white'
         circle.style.border = `2px solid ${urgencyColor}`
@@ -79,11 +83,11 @@ function renderMarkers(items) {
         circle.style.color = 'black'
         circle.style.boxShadow = '0 2px 6px rgba(0,0,0,0.2)'
 
-        // Vue Iconify Icon 렌더링
+        // Icon
         const iconVNode = h(Icon, { icon: iconMap[sos.sos_type] || 'famicons:help' })
         render(iconVNode, circle)
 
-        // 상호명
+        // Label
         const label = document.createElement('div')
         label.style.fontSize = '12px'
         label.style.fontWeight = 'bold'
@@ -117,10 +121,12 @@ function renderMarkers(items) {
   })
 }
 
+// Lifecycle
 onMounted(() => {
   initMap()
 })
 
+// Watch
 watch(
   () => props.items,
   (newItems) => {

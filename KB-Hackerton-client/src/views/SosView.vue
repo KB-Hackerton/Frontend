@@ -1,16 +1,18 @@
 <script setup>
 import { ref, computed } from 'vue'
 import router from '@/router'
-
 import SosFilterBar from '@/components/sos/SosFilterBar.vue'
 import KakaoMap from '@/components/sos/KakaoMap.vue'
 import SosList from '@/components/sos/SosList.vue'
 import SosDetail from '@/components/sos/SosDetail.vue'
 import sosData from '@/_dummy/sos.json'
 
+// State
 const sosItems = ref(sosData)
 const selectedCategories = ref(['전체'])
 const selectedItem = ref(null)
+
+// Category Mapping
 const typeMap = {
   stock: '물품',
   labor: '인력',
@@ -18,12 +20,14 @@ const typeMap = {
   etc: '기타',
 }
 
+// Computed
 const filteredList = computed(() => {
   const cats = selectedCategories.value
   if (cats.includes('전체')) return sosItems.value
   return sosItems.value.filter((item) => cats.includes(typeMap[item.sos_type]))
 })
 
+// Handlers
 function goToCreate() {
   router.push('/sos/create')
 }
@@ -39,14 +43,14 @@ function closeDetail() {
 function handleEdit(item) {
   router.push({
     name: 'sos-edit',
-    params: { id: item.sos_id }, // /sos/edit/:id
-    state: { item }, // 선택된 item을 그대로 넘김
+    params: { id: item.sos_id },
+    state: { item },
   })
 }
 </script>
 
 <template>
-  <div class="h-full flex flex-col bg-white relative">
+  <div class="relative h-full flex flex-col bg-white">
     <SosFilterBar v-if="!selectedItem" v-model:selected="selectedCategories" class="z-20" />
 
     <div class="absolute inset-0">
@@ -68,7 +72,7 @@ function handleEdit(item) {
     <button
       v-if="!selectedItem"
       @click="goToCreate"
-      class="absolute bottom-[52%] right-4 bg-main text-white text-18 rounded-2xl px-4 py-2 z-[1000]"
+      class="absolute bottom-[52%] right-4 rounded-2xl px-4 py-2 bg-main text-white text-18 z-[1000]"
     >
       +
     </button>
