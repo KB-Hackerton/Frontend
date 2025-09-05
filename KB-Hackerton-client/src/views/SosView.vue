@@ -1,7 +1,67 @@
-<script setup></script>
+<script setup>
+import { ref, computed, onMounted } from 'vue'
+
+import SosFilterBar from '@/components/sos/SosFilterBar.vue'
+import KakaoMap from '@/components/sos/KakaoMap.vue'
+import SosList from '@/components/sos/SosList.vue'
+import SosDetail from '@/components/sos/SosDetail.vue'
+import sosData from '@/_dummy/sos.json'
+
+const sosItems = ref(sosData)
+const selectedCategories = ref(['전체'])
+const selectedItem = ref(null)
+const typeMap = {
+  stock: '물품',
+  labor: '인력',
+  equipment: '고장',
+  etc: '기타',
+}
+
+const filteredList = computed(() => {
+  const cats = selectedCategories.value
+  if (cats.includes('전체')) return sosItems.value
+  return sosItems.value.filter((item) => cats.includes(typeMap[item.sos_type]))
+})
+
+function goToRegister() {
+  router.push('/sos/register')
+}
+
+function handleSelect(item) {
+  selectedItem.value = item
+}
+
+function closeDetail() {
+  selectedItem.value = null
+}
+</script>
 
 <template>
-  <div class="w-full text-center">SOS</div>
-</template>
+  <div class="h-full flex flex-col bg-white relative">
+    <SosFilterBar v-if="!selectedItem" v-model:selected="selectedCategories" class="z-20" />
 
-<style scoped></style>
+    <div class="absolute inset-0">
+      <KakaoMap :items="filteredList" :selected="selectedItem" @select="handleSelect" />
+    </div>
+
+    <div
+      class="absolute bottom-0 left-0 right-0 max-h-[50%] min-h-[50%] bg-white rounded-t-2xl p-4 z-[999] overflow-y-auto"
+    >
+      <template v-if="selectedItem">
+        <SosDetail :item="selectedItem" @close="closeDetail" />
+      </template>
+      <template v-else>
+        <div class="font-bold text-20 px-1">SOS 목록</div>
+        <SosList :items="filteredList" @select="handleSelect" />
+      </template>
+    </div>
+
+    <button
+      v-if="!selectedItem"
+      @click="goToRegister"
+      class="absolute bottom-[52%] right-4 bg-main text-white text-18 rounded-2xl px-4 py-2 z-[1000]"
+    >
+      +
+    </button>
+  </div>
+</template>

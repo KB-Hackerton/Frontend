@@ -2,95 +2,165 @@
   {
     "sos_id": 1,
     "member_id": 101,
-    "sos_title": "카페 모닝",
+    "sos_title": "종이컵과 빨대 요청",
     "sos_type": "stock",
     "sos_content": "종이컵과 빨대가 부족합니다. 긴급히 요청합니다.",
     "expires_at": "2025-09-05T23:59:59",
-    "created_at": "2025-09-04T09:00:00",
+    "created_at": "2025-09-05T09:00:00",
     "is_complete": 0,
     "is_deleted": 0,
-    "images": [
+    "member": {
+      "badge": "도움 촌장"
+    },
+    "business": {
+      "business_nm": "카페 모닝",
+      "business_addr": "경북 안동시 문화광장길 42",
+      "business_addr_detail": "1층"
+    },
+    "profile_image": [
+      {
+        "is_deleted": 1,
+        "profile_image_url": "https://example-bucket.s3.amazonaws.com/profile2.png"
+      }
+    ],
+    "sos_image": [
       {
         "sos_image_id": 1,
         "storage_key": "sos/1/cafe-morning.png",
         "is_deleted": 0,
-        "created_at": "2025-09-04T09:05:00"
+        "created_at": "2025-09-05T09:05:00"
       }
     ]
   },
   {
     "sos_id": 2,
     "member_id": 102,
-    "sos_title": "봄날 꽃집",
+    "sos_title": "도와주세요!!ㅠㅠ 장미 50송이 급구",
     "sos_type": "stock",
     "sos_content": "장미 50송이가 필요합니다. 급히 공급 부탁드려요.",
-    "expires_at": "2025-09-06T18:00:00",
-    "created_at": "2025-09-04T10:30:00",
+    "expires_at": "2025-09-05T18:00:00",
+    "created_at": "2025-09-05T10:30:00",
     "is_complete": 0,
     "is_deleted": 0,
-    "images": [
+    "member": {
+      "badge": "도움 일꾼"
+    },
+    "business": {
+      "business_nm": "봄날 꽃집",
+      "business_addr": "경북 안동시 경동로 656",
+      "business_addr_detail": "홈플러스 2층"
+    },
+    "profile_image": [
+      {
+        "is_deleted": 0,
+        "profile_image_url": "https://example-bucket.s3.amazonaws.com/profile3.png"
+      }
+    ],
+    "sos_image": [
       {
         "sos_image_id": 2,
         "storage_key": "sos/2/flower-shop.png",
         "is_deleted": 0,
-        "created_at": "2025-09-04T10:35:00"
+        "created_at": "2025-09-05T10:35:00"
       }
     ]
   },
   {
     "sos_id": 3,
     "member_id": 103,
-    "sos_title": "24시간 편의점",
+    "sos_title": "급히 알바구합니다",
     "sos_type": "labor",
     "sos_content": "야간 근무(교대) 알바를 구합니다.",
-    "expires_at": "2025-09-10T06:00:00",
-    "created_at": "2025-09-04T11:15:00",
+    "expires_at": "2025-09-05T16:00:00",
+    "created_at": "2025-09-05T11:15:00",
     "is_complete": 0,
     "is_deleted": 0,
-    "images": [
+    "member": {
+      "badge": "도움 주민"
+    },
+    "business": {
+      "business_nm": "24시간 편의점",
+      "business_addr": "경북 안동시 번영길 30",
+      "business_addr_detail": "1층"
+    },
+    "profile_image": [
+      {
+        "is_deleted": 0,
+        "profile_image_url": "https://example-bucket.s3.amazonaws.com/profile4.png"
+      }
+    ],
+    "sos_image": [
       {
         "sos_image_id": 3,
         "storage_key": "sos/3/convenience-store.png",
         "is_deleted": 0,
-        "created_at": "2025-09-04T11:20:00"
+        "created_at": "2025-09-05T11:20:00"
       }
     ]
   },
   {
     "sos_id": 4,
     "member_id": 104,
-    "sos_title": "PC방",
+    "sos_title": "아는 수리 기사님 있으면 알려주세요",
     "sos_type": "equipment",
     "sos_content": "에어컨이 고장나서 수리 기사님이 필요합니다.",
-    "expires_at": "2025-09-07T20:00:00",
-    "created_at": "2025-09-04T12:00:00",
+    "expires_at": "2025-09-05T20:00:00",
+    "created_at": "2025-09-05T12:00:00",
     "is_complete": 0,
     "is_deleted": 0,
-    "images": [
+    "member": {
+      "badge": "도움 손님"
+    },
+    "business": {
+      "business_nm": "PC방",
+      "business_addr": "경북 안동시 중앙시장길 28",
+      "business_addr_detail": ""
+    },
+    "profile_image": [
+      {
+        "is_deleted": 0,
+        "profile_image_url": "https://example-bucket.s3.amazonaws.com/profile5.png"
+      }
+    ],
+    "sos_image": [
       {
         "sos_image_id": 4,
         "storage_key": "sos/4/pc-room.png",
         "is_deleted": 0,
-        "created_at": "2025-09-04T12:05:00"
+        "created_at": "2025-09-05T12:05:00"
       }
     ]
   },
   {
     "sos_id": 5,
     "member_id": 105,
-    "sos_title": "마트 창고",
+    "sos_title": "마트 창고 정리 도움 필요",
     "sos_type": "etc",
     "sos_content": "물류 정리에 도움이 필요합니다. 단기 2시간.",
-    "expires_at": "2025-09-08T15:00:00",
-    "created_at": "2025-09-04T12:30:00",
+    "expires_at": "2025-09-05T15:00:00",
+    "created_at": "2025-09-05T12:30:00",
     "is_complete": 0,
+    "member": {
+      "badge": "도움 반장"
+    },
     "is_deleted": 0,
-    "images": [
+    "business": {
+      "business_nm": "마트 창고",
+      "business_addr": "경북 안동시 동부길 5-6",
+      "business_addr_detail": ""
+    },
+    "profile_image": [
+      {
+        "is_deleted": 0,
+        "profile_image_url": "https://example-bucket.s3.amazonaws.com/profile6.png"
+      }
+    ],
+    "sos_image": [
       {
         "sos_image_id": 5,
         "storage_key": "sos/5/warehouse.png",
         "is_deleted": 0,
-        "created_at": "2025-09-04T12:35:00"
+        "created_at": "2025-09-05T12:35:00"
       }
     ]
   }

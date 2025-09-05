@@ -36,7 +36,7 @@ const router = createRouter({
           name: 'sos',
           component: () => import('@/views/SosView.vue'),
           meta: {
-            title: 'SOS',
+            title: '도와주이소',
           },
         },
         {
