@@ -1,10 +1,11 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { useSignupStore } from '@/stores/signup'
 import BaseInput from '../common/BaseInput.vue'
 import BaseButton from '../common/BaseButton.vue'
 import BaseInputWithButton from '../common/BaseInputWithButton.vue'
 import BaseSelect from '../common/BaseSelect.vue'
+import businessClassData from '@/_dummy/business_class.json'
 
 const emit = defineEmits(['complete'])
 const signupStore = useSignupStore()
@@ -19,6 +20,43 @@ const categoryMid = ref('')
 const categorySub = ref('')
 const address = ref('')
 const addressDetail = ref('')
+
+const middleOptions = ref([])
+const minorOptions = ref([])
+
+// 대분류 선택 → 중분류 옵션 변경
+watch(categoryMain, (newVal, oldVal) => {
+  const major = businessClassData.find((m) => m.major_code === newVal)
+  middleOptions.value = major
+    ? major.middles.map((mid) => ({
+        value: mid.middle_code,
+        label: mid.middle_name,
+      }))
+    : []
+
+  // ✅ 초기 로딩일 때는 유지, 사용자가 직접 바꿀 때만 초기화
+  if (oldVal) {
+    categoryMid.value = ''
+    categorySub.value = ''
+    minorOptions.value = []
+  }
+})
+
+// 중분류 선택 → 소분류 옵션 변경
+watch(categoryMid, (newVal, oldVal) => {
+  const major = businessClassData.find((m) => m.major_code === categoryMain.value)
+  const middle = major?.middles.find((mid) => mid.middle_code === newVal)
+  minorOptions.value = middle
+    ? middle.minors.map((min) => ({
+        value: min.minor_code,
+        label: min.minor_name,
+      }))
+    : []
+
+  if (oldVal) {
+    categorySub.value = ''
+  }
+})
 
 // 사업자 등록번호
 const businessNumMessage = ref('')
@@ -120,7 +158,7 @@ function completeSignup() {
       v-model="categoryMain"
       label="업종 - 대분류"
       :required="true"
-      :options="['소매업', '음식점업', '보건의료업']"
+      :options="businessClassData.map((m) => ({ value: m.major_code, label: m.major_name }))"
     />
 
     <BaseSelect
@@ -128,7 +166,7 @@ function completeSignup() {
       v-model="categoryMid"
       label="업종 - 중분류"
       :required="true"
-      :options="['소매업', '음식점업', '보건의료업']"
+      :options="middleOptions"
     />
 
     <BaseSelect
@@ -136,7 +174,7 @@ function completeSignup() {
       v-model="categorySub"
       label="업종 - 소분류"
       :required="true"
-      :options="['소매업', '음식점업', '보건의료업']"
+      :options="minorOptions"
     />
 
     <BaseInputWithButton
