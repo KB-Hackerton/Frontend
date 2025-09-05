@@ -35,6 +35,14 @@ function handleSelect(item) {
 function closeDetail() {
   selectedItem.value = null
 }
+
+function handleEdit(item) {
+  router.push({
+    name: 'sos-edit',
+    params: { id: item.sos_id }, // /sos/edit/:id
+    state: { item }, // 선택된 item을 그대로 넘김
+  })
+}
 </script>
 
 <template>
@@ -49,7 +57,7 @@ function closeDetail() {
       class="absolute bottom-0 left-0 right-0 max-h-[50%] min-h-[50%] bg-white rounded-t-2xl p-4 z-[999] overflow-y-auto"
     >
       <template v-if="selectedItem">
-        <SosDetail :item="selectedItem" @close="closeDetail" />
+        <SosDetail :item="selectedItem" :isOwner="true" @close="closeDetail" @edit="handleEdit" />
       </template>
       <template v-else>
         <div class="font-bold text-20 px-1">SOS 목록</div>

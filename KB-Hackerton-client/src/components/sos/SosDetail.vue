@@ -1,12 +1,16 @@
 <script setup>
 import { computed } from 'vue'
+import { useRouter } from 'vue-router'
 import BaseButton from '../common/BaseButton.vue'
+
+const router = useRouter()
 
 const props = defineProps({
   item: { type: Object, required: true },
+  isOwner: { type: Boolean, default: true }, // 내가 올린 SOS인지 여부
 })
 
-const emit = defineEmits(['close', 'chat'])
+const emit = defineEmits(['close', 'chat', 'edit', 'delete'])
 
 const typeMap = { stock: '물품', labor: '인력', equipment: '고장', etc: '기타' }
 const typeLabel = computed(() => typeMap[props.item.sos_type] ?? '기타')
@@ -34,6 +38,10 @@ const urgency = computed(() => {
     return { text: '보통', color: 'text-green' }
   }
 })
+
+function goToEdit(item) {
+  router.push({ name: 'sos-edit', params: { id: item.sos_id } })
+}
 </script>
 
 <template>
@@ -83,6 +91,10 @@ const urgency = computed(() => {
       />
     </div>
 
-    <BaseButton color="main" class="mt-6" @click="$emit('chat', item)"> 채팅하기 </BaseButton>
+    <div v-if="isOwner" class="flex gap-3 mt-6">
+      <BaseButton color="gray" class="flex-1" @click="$emit('delete', item)"> 삭제하기 </BaseButton>
+      <BaseButton class="flex-1" @click="goToEdit(item)">수정하기</BaseButton>
+    </div>
+    <BaseButton v-else class="mt-6" @click="$emit('chat', item)"> 채팅하기 </BaseButton>
   </div>
 </template>

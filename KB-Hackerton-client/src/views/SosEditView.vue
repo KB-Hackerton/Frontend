@@ -1,7 +1,13 @@
 <script setup>
 import { ref, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
 import SosFilterBar from '@/components/sos/SosFilterBar.vue'
 import BaseButton from '@/components/common/BaseButton.vue'
+import sosData from '@/_dummy/sos.json'
+
+const route = useRoute()
+const sosId = Number(route.params.id)
+const sos = sosData.find((item) => item.sos_id === sosId)
 
 const selectedCategory = ref('')
 const expiresAt = ref('')
@@ -9,12 +15,15 @@ const title = ref('')
 const content = ref('')
 const imageFiles = ref([])
 
-// 현재 시간으로 기본값 설정
+// 초기값 세팅
 onMounted(() => {
-  const now = new Date()
-  const hh = String(now.getHours()).padStart(2, '0')
-  const mm = String(now.getMinutes()).padStart(2, '0')
-  expiresAt.value = `${hh}:${mm}`
+  if (sos) {
+    selectedCategory.value = sos.sos_type || ''
+    content.value = sos.sos_content || ''
+    title.value = sos.sos_title || ''
+    expiresAt.value = sos.expires_at ? new Date(sos.expires_at).toISOString().slice(11, 16) : ''
+    imageFiles.value = sos.sos_image ? sos.sos_image.map((img) => img.storage_key) : []
+  }
 })
 
 function handleImageUpload(event) {
@@ -26,22 +35,14 @@ function handleImageUpload(event) {
     }
     imageFiles.value.push(URL.createObjectURL(file))
   }
-  event.target.value = '' // 같은 파일 다시 선택 가능하도록 초기화
+  event.target.value = ''
 }
 
 function removeImage(index) {
   imageFiles.value.splice(index, 1)
 }
 
-function createSos() {
-  if (!selectedCategory.value) {
-    alert('요청 카테고릴르 선택해주세요.')
-    return
-  }
-  if (!title.value) {
-    alert('요청 제목을 입력해주세요.')
-    return
-  }
+function editSos() {
   if (!content.value) {
     alert('요청 내용을 입력해주세요.')
     return
@@ -56,17 +57,22 @@ function createSos() {
     return
   }
 
-  const newSos = {
-    sos_id: Date.now(),
+  const updatedSos = {
+    ...sos,
     sos_type: selectedCategory.value,
     expires_at: expireDate.toISOString(),
     sos_title: title.value,
     sos_content: content.value,
-    sos_image: [...imageFiles.value],
+    sos_image: imageFiles.value.map((url, idx) => ({
+      sos_image_id: idx + 1,
+      storage_key: url,
+      is_deleted: 0,
+      created_at: new Date().toISOString(),
+    })),
   }
 
-  console.log('생성된 SOS:', newSos)
-  alert('SOS가 등록되었습니다! (프론트 전용)')
+  console.log('수정된 SOS:', updatedSos)
+  alert('SOS가 수정되었습니다! (프론트 전용)')
 }
 </script>
 
@@ -75,6 +81,7 @@ function createSos() {
     <!-- 요청 카테고리 -->
     <div>
       <p class="font-bold text-14 text-black mb-2">요청 카테고리</p>
+      <!-- SosFilterBar에서 전체 옵션 제거한 버전 사용 -->
       <SosFilterBar v-model:selected="selectedCategory" :showAll="false" :multiple="false" />
     </div>
 
@@ -150,6 +157,6 @@ function createSos() {
     </div>
 
     <!-- 등록 버튼 -->
-    <BaseButton class="mt-6" @click="createSos"> 등록하기 </BaseButton>
+    <BaseButton class="mt-6" @click="editSos"> 수정하기 </BaseButton>
   </div>
 </template>
