@@ -77,7 +77,10 @@ function withdraw() {
           >
             사업 정보 변경
           </router-link>
-          <router-link to="/" class="px-4 py-1 bg-gray-100 rounded-lg text-10 shadow">
+          <router-link
+            to="/mypage/password-edit"
+            class="px-4 py-1 bg-gray-100 rounded-lg text-10 shadow"
+          >
             비밀번호 변경
           </router-link>
         </div>
