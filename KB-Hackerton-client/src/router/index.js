@@ -8,6 +8,7 @@ import festival from '@/router/festival.js'
 import notice from '@/router/notice.js'
 import mypage from '@/router/mypage.js'
 import article from '@/router/article.js'
+import sos from '@/router/sos.js'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -37,7 +38,7 @@ const router = createRouter({
           name: 'sos',
           component: () => import('@/views/SosView.vue'),
           meta: {
-            title: 'SOS',
+            title: '도와주이소',
           },
         },
         {
@@ -78,6 +79,7 @@ const router = createRouter({
         ...notice,
         ...mypage,
         ...article,
+        ...sos,
       ],
     },
   ],
