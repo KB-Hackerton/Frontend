@@ -7,6 +7,7 @@ import announce from '@/router/announce.js'
 import festival from '@/router/festival.js'
 import notice from '@/router/notice.js'
 import mypage from '@/router/mypage.js'
+import article from '@/router/article.js'
 import sos from '@/router/sos.js'
 
 const router = createRouter({
@@ -69,6 +70,7 @@ const router = createRouter({
         ...festival,
         ...notice,
         ...mypage,
+        ...article,
         ...sos,
       ],
     },

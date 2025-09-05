@@ -1,15 +1,15 @@
 <script setup>
 import SearchBar from '@/components/announce/SearchBar.vue'
-import NoticeCard from '@/components/notice/NoticeCard.vue'
 import { computed, ref, watch } from 'vue'
-import notice from '@/_dummy/notice_dummy'
+import article from '@/_dummy/article'
 import Paging from '@/components/common/Paging.vue'
 
 import { useRoute, useRouter } from 'vue-router'
+import ArticleCard from '@/components/article/ArticleCard.vue'
 
 const route = useRoute()
 const router = useRouter()
-const pageSize = 8
+const pageSize = 5
 
 // --- 라우트 쿼리 변화에 반응 (동일 라우트 내에서 쿼리만 바뀔 때도 동기화)
 watch(
@@ -37,9 +37,9 @@ const currentPage = ref(Number(route.query.page) || 1)
 // 필터링 이후의 총건수/총페이지를 계산하기 위해 computed로 전환
 const filteredNoticeList = computed(() => {
   const q = (appliedQuery.value || '').trim().toLowerCase()
-  if (!q) return notice
+  if (!q) return article
   const SEARCH_FIELDS = ['title', 'content']
-  return notice.filter((item) =>
+  return article.filter((item) =>
     SEARCH_FIELDS.some((k) => ((item?.[k] ?? '') + '').toLowerCase().includes(q)),
   )
 })
@@ -72,7 +72,7 @@ watch(totalPages, (tp) => {
   }
 })
 
-const displaynoticeList = computed(() => {
+const displayArticleList = computed(() => {
   const base = filteredNoticeList.value
   const start = (currentPage.value - 1) * pageSize
   const end = start + pageSize
@@ -94,13 +94,17 @@ const goTo = (p) => {
   <div class="flex flex-col w-full h-full justify-between">
     <div>
       <div class="flex justify-between gap-4 items-center pt-3">
-        <h1 class="text-24 bold shrink-0">공지사항</h1>
+        <h1 class="text-24 bold px-4 shrink-0">뉴스</h1>
         <SearchBar @search="searchedAnnounce" v-model:searched="searched" />
         <!-- <SearchBar v-model:searched="searched" /> // 버튼없이 작동 -->
       </div>
-      <div class="bg-gray-100 h-[0.5rem] mx-[-1rem] mt-3"></div>
-      <div class="mt-1 mx-[-1rem]">
-        <NoticeCard v-for="notice in displaynoticeList" :key="notice.notice_id" :notice="notice" />
+      <div class="bg-gray-100 h-[0.5rem] mx-[-1rem] mt-2"></div>
+      <div class="mt-3 mx-[-1rem] overflow-scroll [&::-webkit-scrollbar]:hidden">
+        <ArticleCard
+          v-for="article in displayArticleList"
+          :key="article.article_id"
+          :article="article"
+        />
       </div>
     </div>
 

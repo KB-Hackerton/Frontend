@@ -32,6 +32,7 @@ coverage
 *.njsproj
 *.sln
 *.sw?
+.env
 
 # TypeScript
 *.tsbuildinfo
