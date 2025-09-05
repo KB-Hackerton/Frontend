@@ -64,6 +64,14 @@ const router = createRouter({
             title: '알림',
           },
         },
+        {
+          path: '/setting',
+          name: 'setting',
+          component: () => import('@/views/SettingsView.vue'),
+          meta: {
+            title: '설정',
+          },
+        },
         ...user,
         ...announce,
         ...festival,
