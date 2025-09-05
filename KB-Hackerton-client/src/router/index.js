@@ -81,6 +81,14 @@ const router = createRouter({
             title: '이용약관',
           },
         },
+        {
+          path: '/membership/terminate',
+          name: 'membershipTerminate',
+          component: () => import('@/views/MembershipTerminationView.vue'),
+          meta: {
+            title: '회원탈퇴',
+          },
+        },
         ...user,
         ...announce,
         ...festival,
