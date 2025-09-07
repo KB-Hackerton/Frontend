@@ -12,9 +12,18 @@ const api = axios.create({
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('accessToken')
-    if (token) {
+
+    // if (token) {
+    //   config.headers.Authorization = `Bearer ${token}`
+    // }
+
+    // 로그인/회원가입 요청에는 토큰 안 붙임
+    const isAuthRequest =
+      config.url.includes('/auth/login') || config.url.includes('/auth/member-info')
+    if (token && !isAuthRequest) {
       config.headers.Authorization = `Bearer ${token}`
     }
+
     return config
   },
   (error) => Promise.reject(error),
