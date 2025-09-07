@@ -6,7 +6,7 @@ import BottomNavigationBar from '@/components/layouts/BottomNavigationBar.vue'
 
 <template>
   <div class="font-sans flex justify-center text-black w-full h-dvh overflow-hidden">
-    <div class="relative w-full h-dvh md:max-w-[365px] flex flex-col overflow-hidden">
+    <div class="relative w-full h-dvh md:max-w-[365px] bg-[#FFF8EA] flex flex-col overflow-hidden">
       <TopNavigationBar />
 
       <div class="pt-[56px] pb-[60px] flex-1 min-h-0 flex flex-col items-stretch overflow-hidden">
