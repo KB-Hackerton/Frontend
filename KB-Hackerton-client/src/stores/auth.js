@@ -1,61 +1,68 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
+import { postLogin } from '@/api/auth.js'
 
-export const useAuthStore = defineStore('auth', () => {
-  const token = ref(null)
-  const user = ref(null)
+export const useAuthStore = defineStore('Auth', () => {
+  const accessToken = ref(localStorage.getItem('accessToken') || null)
+  const refreshToken = ref(localStorage.getItem('refreshToken') || null)
+  const user = ref(JSON.parse(localStorage.getItem('user')) || null)
   const loading = ref(false)
-  const error = ref(null)
-
-  // 더미 계정
-  const dummy = {
-    memberId: 1,
-    businessId: 1,
-    profileImageId: 1,
-    email: 'test@test.com',
-    memberName: '김감자',
-    createdAt: '2025-09-02T04:12:45.000+00:00',
-    helpCount: 10,
-    badge: '도움왕',
-    authMap: [{ authority: 'Member' }],
-  }
+  const error = ref('')
 
   // 로그인
-  async function loginUser(email, password) {
-    if (loading.value) return
+  const loginUser = async (payload) => {
     loading.value = true
-    error.value = null
+    error.value = ''
 
     try {
-      await new Promise((r) => setTimeout(r, 500)) // 더미 API 딜레이
+      // res = { code, message, data }
+      const res = await postLogin(payload)
 
-      // 더미 계정 검증
-      if (email === 'test@test.com' && password === '1234') {
-        token.value = 'dummy-token'
-        user.value = dummy
-
-        localStorage.setItem('accessToken', token.value)
-        localStorage.setItem('user', JSON.stringify(user.value))
-        return true
-      } else {
-        error.value = '이메일 또는 비밀번호가 올바르지 않습니다.'
+      if (res.code !== 200 || !res.data) {
+        error.value = res.message || '로그인에 실패했습니다.'
         return false
       }
-    } catch (e) {
-      error.value = e.message || '로그인에 실패했습니다.'
+
+      const { access_token, refresh_token, member } = res.data
+
+      if (!access_token || !refresh_token || !member) {
+        error.value = '로그인 응답이 올바르지 않습니다.'
+        return false
+      }
+
+      accessToken.value = access_token
+      refreshToken.value = refresh_token
+      user.value = member
+
+      localStorage.setItem('accessToken', access_token)
+      localStorage.setItem('refreshToken', refresh_token)
+      localStorage.setItem('user', JSON.stringify(member))
+
+      return true
+    } catch (err) {
+      console.error('❌ 로그인 에러', err)
+
+      const status = err.response?.status
+      if (status && String(status).startsWith('4')) {
+        error.value = '이메일 또는 비밀번호가 올바르지 않습니다.'
+      } else if (status && String(status).startsWith('5')) {
+        error.value = '서버 오류로 로그인할 수 없습니다.'
+      } else {
+        error.value = '네트워크 오류로 로그인할 수 없습니다.'
+      }
+
       return false
     } finally {
       loading.value = false
     }
   }
 
-  // 로그아웃
-  function logoutUser() {
-    token.value = null
-    user.value = null
-    localStorage.removeItem('accessToken')
-    localStorage.removeItem('user')
+  return {
+    accessToken,
+    refreshToken,
+    user,
+    loading,
+    error,
+    loginUser,
   }
-
-  return { user, token, loading, error, loginUser, logoutUser }
 })
