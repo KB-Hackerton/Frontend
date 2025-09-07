@@ -8,15 +8,23 @@ import BaseButton from '@/components/common/BaseButton.vue'
 
 const router = useRouter()
 const auth = useAuthStore()
-
 const email = ref('')
 const password = ref('')
 
 async function onSubmit() {
-  const ok = await auth.loginUser(email.value, password.value)
-  if (ok) {
-    router.replace('/') // 로그인 성공 → 홈으로 이동
+  auth.error = ''
+
+  if (!email.value) {
+    auth.error = '이메일을 입력해주세요.'
+    return
   }
+  if (!password.value) {
+    auth.error = '비밀번호를 입력해주세요.'
+    return
+  }
+
+  const ok = await auth.loginUser({ email: email.value, password: password.value })
+  if (ok) router.replace('/')
 }
 </script>
 
@@ -26,7 +34,7 @@ async function onSubmit() {
     <img
       :src="logoUrl"
       alt="경상났네 로고"
-      class="block h-[280px] w-auto object-contain object-center mx-auto mt-3 mb-10"
+      class="block max-h-[280px] w-auto object-contain object-center mx-auto mt-3 mb-10"
     />
 
     <!-- 로그인 폼 -->
@@ -49,7 +57,9 @@ async function onSubmit() {
         autocomplete="current-password"
       />
 
-      <p v-if="auth.error" class="text-red font-bold text-10 -mt-2 mb-1">{{ auth.error }}</p>
+      <p v-if="auth.error" role="alert" class="text-red font-bold text-10 -mt-2 mb-1">
+        {{ auth.error }}
+      </p>
 
       <BaseButton type="submit" color="main">
         {{ auth.loading ? '로그인 중...' : '로그인' }}
