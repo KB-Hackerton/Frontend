@@ -1,5 +1,6 @@
 <script setup>
 import { ref, reactive, onMounted, onUnmounted, nextTick, watch, computed } from 'vue'
+import { storeToRefs } from 'pinia'
 import FullCalendar from '@fullcalendar/vue3'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
@@ -8,9 +9,12 @@ import { Icon } from '@iconify/vue'
 import DropdownFilter from '@/components/calendar/DropdownFilter.vue'
 import AnnouncementCard from '@/components/calendar/AnnouncementCard.vue'
 import announce from '@/_dummy/announce.json'
-import festival from '@/_dummy/festival.json'
 import FestivalCard from '@/components/calendar/FestivalCard.vue'
+import { useFestivalStore } from '@/stores/festival'
+import ErrorModal from '@/components/error/ErrorModal.vue'
+import favorite from '@/api/favorite'
 
+const festivalStore = useFestivalStore()
 const calendarRef = ref(null)
 const calWrapRef = ref(null)
 const currentTitle = ref('')
@@ -21,15 +25,37 @@ const detailView = ref(false)
 const clickDate = ref(null)
 
 const isFavorite = ref(false)
-// Prevent accidental first click on the list right after switching to week view
+
 const suppressListClick = ref(false)
+
+const errorModal = ref(false)
+const errorMsg = ref('')
+
+const announceList = ref(announce)
+const { festivalList } = storeToRefs(festivalStore)
+
+const clickDateAnnounceList = ref([])
+const clickDateFestivalList = ref([])
+
+onMounted(async () => {
+  await festivalStore.getFestivalList()
+  if (festivalStore.error) {
+    errorMsg.value = '축제 목록을 불러온는데 실패했습니다.'
+    errorModal.value = true
+  }
+  console.log('festivalList', festivalList.value)
+
+  calendarRef.value?.getApi()?.refetchEvents()
+})
+
+const favoriteSet = async (id) => {}
+
 const onListClickCapture = (e) => {
   if (suppressListClick.value) {
     e.preventDefault?.()
     e.stopPropagation?.()
   }
 }
-
 // ===== Robust global guard (timestamp-based) =====
 const SUPPRESS_MS = 300
 const lastViewSwitchAt = ref(0)
@@ -75,13 +101,6 @@ onUnmounted(() => {
   ]
   types.forEach((t) => window.removeEventListener(t, globalRetargetGuard, { capture: true }))
 })
-// ================================================
-
-const announceList = ref(announce)
-const festivalList = ref(festival)
-
-const clickDateAnnounceList = ref([])
-const clickDateFestivalList = ref([])
 
 // 종료일 포함 여부: true면 종료 ‘당일 포함’, false면 종료 ‘당일부터 gray’
 const END_INCLUSIVE = true
@@ -249,7 +268,9 @@ const calendarOptions = reactive({
       })
 
       clickDateFestivalList.value = festivalList.value.filter((item) => {
-        return item.event_startdate <= compact && item.event_enddate >= compact
+        const start = item.event_startdate
+        const end = item.event_enddate || compact // open-ended 안전 처리
+        return start <= compact && compact <= end
       })
 
       // Move the calendar focus to this date (keeps week view, shifts the range if needed)
@@ -281,7 +302,7 @@ const calendarOptions = reactive({
   events: (fetchInfo, success) => {
     const rangeEndISO = fmtISO(fetchInfo.end)
     if (filter.value === '축제') {
-      const festivalList = calendarFestivalList.value.map((a) => {
+      const fest = (calendarFestivalList.value ?? []).map((a) => {
         const startISO = a.event_startdate.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3')
         const hasEnd = !!a.event_enddate
         const rawEndISO = hasEnd
@@ -300,9 +321,10 @@ const calendarOptions = reactive({
           },
         }
       })
-      success(filter.value === '축제' ? festivalList : list)
+      success(fest)
+      return
     }
-    const list = calendarAnnounceList.value.map((a) => {
+    const list = (calendarAnnounceList.value ?? []).map((a) => {
       const startISO = a.reqst_start_date.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3')
       const hasEnd = !!a.reqst_end_date
       const rawEndISO = hasEnd
@@ -322,7 +344,7 @@ const calendarOptions = reactive({
         },
       }
     })
-    success(filter.value === '축제' ? festivalList : list)
+    success(list)
   },
   dateClick: (arg) => {
     clickDate.value = arg.dateStr
@@ -342,8 +364,7 @@ const calendarOptions = reactive({
 
     clickDateFestivalList.value = festivalList.value.filter((item) => {
       const start = item.event_startdate
-      const end = item.event_enddate
-
+      const end = item.event_enddate || formatDate // open-ended 안전 처리
       return start <= formatDate && formatDate <= end
     })
 
@@ -481,6 +502,7 @@ function showMonth() {
                 icon="material-symbols:kid-star"
                 :class="event.extendedProps.is_favorite ? 'text-yellow mr-1' : 'text-gray-300 mr-1'"
                 class="size-4"
+                @click="favoriteSet(event.id)"
               />
               <span class="font-semibold text-12 text-center flex-1 truncate text-black">{{
                 event.title
@@ -524,6 +546,19 @@ function showMonth() {
         />
       </div>
     </div>
+
+    <div
+      v-if="errorModal"
+      class="fixed inset-0 bg-black/55 z-[90]"
+      @click="errorModal = false"
+    ></div>
+
+    <ErrorModal
+      v-if="errorModal"
+      @close="errorModal = false"
+      :title="errorMsg"
+      class="z-[100] fixed top-1/3 left-1/2 -translate-x-1/2"
+    />
   </div>
 </template>
 <style>

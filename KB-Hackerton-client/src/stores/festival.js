@@ -15,7 +15,7 @@ export const useFestivalStore = defineStore('festival', () => {
       const res = await api.getFestivalList()
       festivalList.value = res?.data ?? []
     } catch (e) {
-      error.value = e.message
+      error.value = e
     } finally {
       loading.value = false
     }
