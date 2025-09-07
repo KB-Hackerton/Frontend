@@ -40,7 +40,7 @@ const clickDateFestivalList = ref([])
 onMounted(async () => {
   await festivalStore.getFestivalList()
   if (festivalStore.error) {
-    errorMsg.value = '축제 목록을 불러온는데 실패했습니다.'
+    errorMsg.value = '축제 목록을 불러오는데 실패했습니다.'
     errorModal.value = true
   }
   console.log('festivalList', festivalList.value)
