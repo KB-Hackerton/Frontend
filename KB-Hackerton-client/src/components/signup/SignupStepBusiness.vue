@@ -1,13 +1,15 @@
 <script setup>
 import { ref, computed, watch } from 'vue'
+import { useRouter } from 'vue-router'
 import { useSignupStore } from '@/stores/signup'
 import BaseInput from '../common/BaseInput.vue'
 import BaseButton from '../common/BaseButton.vue'
 import BaseInputWithButton from '../common/BaseInputWithButton.vue'
 import BaseSelect from '../common/BaseSelect.vue'
+import BaseModal from '../common/BaseModal.vue'
 import businessClassData from '@/_dummy/business_class.json'
 
-const emit = defineEmits(['complete'])
+const router = useRouter()
 const signupStore = useSignupStore()
 
 // 입력값 관리
@@ -24,17 +26,19 @@ const addressDetail = ref('')
 const middleOptions = ref([])
 const minorOptions = ref([])
 
+const showSuccessModal = ref(false)
+const showFailModal = ref(false)
+
 // 대분류 선택 → 중분류 옵션 변경
 watch(categoryMain, (newVal, oldVal) => {
-  const major = businessClassData.find((m) => m.major_code === newVal)
+  const major = businessClassData.find((m) => m.major_name === newVal)
   middleOptions.value = major
     ? major.middles.map((mid) => ({
-        value: mid.middle_code,
+        value: mid.middle_name,
         label: mid.middle_name,
       }))
     : []
 
-  // ✅ 초기 로딩일 때는 유지, 사용자가 직접 바꿀 때만 초기화
   if (oldVal) {
     categoryMid.value = ''
     categorySub.value = ''
@@ -44,11 +48,11 @@ watch(categoryMain, (newVal, oldVal) => {
 
 // 중분류 선택 → 소분류 옵션 변경
 watch(categoryMid, (newVal, oldVal) => {
-  const major = businessClassData.find((m) => m.major_code === categoryMain.value)
-  const middle = major?.middles.find((mid) => mid.middle_code === newVal)
+  const major = businessClassData.find((m) => m.major_name === categoryMain.value)
+  const middle = major?.middles.find((mid) => mid.middle_name === newVal)
   minorOptions.value = middle
     ? middle.minors.map((min) => ({
-        value: min.minor_code,
+        value: min.minor_name,
         label: min.minor_name,
       }))
     : []
@@ -90,21 +94,31 @@ const isFormValid = computed(() => {
   )
 })
 
-function completeSignup() {
+async function completeSignup() {
   signupStore.setBusinessInfo({
     businessNum: businessNum.value,
     ceoName: ceoName.value,
     companyName: companyName.value,
     openDate: openDate.value,
-    categoryMain: categoryMain.value,
-    categoryMid: categoryMid.value,
     categorySub: categorySub.value,
     address: address.value,
     addressDetail: addressDetail.value,
   })
 
-  console.log('✅ 최종 회원가입 데이터:', signupStore.getFinalInfo())
-  emit('complete')
+  const ok = await signupStore.signupUser()
+
+  if (ok) {
+    showSuccessModal.value = true
+    signupStore.resetSignup()
+  } else {
+    showFailModal.value = true
+    console.error('❌ 회원가입 실패:', signupStore.error)
+  }
+}
+
+function goToLogin() {
+  console.log('✅ 회원가입 완료!')
+  router.replace('/login')
 }
 </script>
 
@@ -158,7 +172,7 @@ function completeSignup() {
       v-model="categoryMain"
       label="업종 - 대분류"
       :required="true"
-      :options="businessClassData.map((m) => ({ value: m.major_code, label: m.major_name }))"
+      :options="businessClassData.map((m) => ({ value: m.major_name, label: m.major_name }))"
     />
 
     <BaseSelect
@@ -200,6 +214,24 @@ function completeSignup() {
       가입하기
     </BaseButton>
   </div>
+  <BaseModal
+    :show="showSuccessModal"
+    title="회원가입 완료"
+    message="정상적으로 회원가입이 완료되었습니다. &#10; 로그인 화면으로 이동합니다."
+    confirmText="확인"
+    @confirm="goToLogin"
+    @close="goToLogin"
+  />
+
+  <!-- 실패 모달 -->
+  <BaseModal
+    :show="showFailModal"
+    title="회원가입 실패"
+    :message="signupStore.error || '회원가입에 실패했습니다.'"
+    confirmText="닫기"
+    @confirm="showFailModal = false"
+    @close="showFailModal = false"
+  />
 </template>
 
 <style scoped></style>

@@ -7,3 +7,9 @@ export const postLogin = ({ email, password }) => {
     password,
   })
 }
+
+// 회원가입
+export const postSignup = async (payload) => {
+  const res = await api.post('/auth/member-info', payload)
+  return res
+}
