@@ -4,6 +4,7 @@ import announceDocuments from '@/_dummy/announceDocuments'
 import { computed, reactive, ref, watch } from 'vue'
 import DocumentChecklistItem from '@/components/Document/DocumentChecklistItem.vue'
 import BaseButton from '@/components/common/BaseButton.vue'
+import { Icon } from '@iconify/vue'
 
 const router = useRouter()
 
@@ -36,6 +37,9 @@ const checkPercent = computed(() => {
 
 // 애니메이션용 퍼센트 값 (텍스트/바 공용)
 const displayPercent = ref(0)
+
+const total = checkList.documents.length
+const checked = checkList.documents.filter((item) => item.checked).length
 
 // checkPercent가 변할 때 숫자/바가 부드럽게 보간되도록 rAF로 트윈
 watch(
@@ -90,24 +94,47 @@ const updatedCheckList = () => {
 </script>
 
 <template>
-  <div class="flex flex-col items-center justify-between h-full w-full">
-    <div class="w-full">
-      <h1 class="text-16 text-center bold px-8">{{ checkList.announce_title }}</h1>
-      <p class="text-12 text-center semibold mt-5">
-        {{
-          `신청기간: ${checkList.reqst_start_date} ~ ${checkList.reqst_end_date ? checkList.reqst_end_date : '예산소진시 까지'} ${Dday === '' ? '' : `(${Dday})`}`
-        }}
-      </p>
-      <div class="flex flex-col items-center mt-5">
-        <p class="text-10 bold">{{ `서류 준비도: ${displayPercent}%` }}</p>
-        <div class="w-[15rem] h-3 bg-gray-200 rounded-full overflow-hidden">
+  <div
+    class="flex flex-col items-center justify-between h-full border-t border-gray-100 mt-[-1rem] mx-[-1rem] px-[1rem]"
+  >
+    <div class="w-full pt-4">
+      <div class="bg-white rounded-[0.7rem] shadow-custom flex px-5 pt-4 pb-8 gap-2">
+        <div class="flex items-center w-9 h-9 bg-[#FFEDD4] rounded-[0.5rem]">
+          <Icon icon="fluent:document-text-32-regular" class="size-6 ml-2 text-orange-100" />
+        </div>
+        <div>
+          <h1 class="text-16 bold">{{ checkList.announce_title }}</h1>
+          <div class="flex gap-1">
+            <Icon icon="prime:calendar" />
+            <p class="text-12 semibold">
+              {{
+                `신청기간: ${checkList.reqst_start_date} ~ ${checkList.reqst_end_date ? checkList.reqst_end_date : '예산소진시 까지'} ${Dday === '' ? '' : `(${Dday})`}`
+              }}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex flex-col mt-5 bg-white rounded-[0.7rem] shadow-custom p-5">
+        <div class="flex justify-between w-full">
+          <div class="flex items-center gap-1">
+            <Icon icon="lucide:chart-column" class="w-5 h-5 text-orange-100" />
+            <p class="text-12 bold">서류 준비도</p>
+          </div>
+          <p class="text-18 bold text-main">{{ `${displayPercent}%` }}</p>
+        </div>
+
+        <div class="w-full h-[0.7rem] bg-gray-200 rounded-full mt-3">
           <div
-            class="h-3 bg-blue rounded-full transition-all duration-300 ease-out"
+            class="h-[0.7rem] bg-[#165FFC] rounded-full transition-all duration-300 ease-out"
             :style="{ width: displayPercent + '%' }"
           ></div>
         </div>
+
+        <p class="text-12 semibold mt-2 text-start">{{ `${checked}개 / ${total}개 완료` }}</p>
       </div>
-      <div class="flex flex-col gap-3 mt-5 w-full ml-6">
+
+      <div class="flex flex-col gap-5 mt-5 w-full bg-white rounded-[0.7rem] shadow-custom p-5">
         <DocumentChecklistItem
           v-for="document in displayDocuments.documents"
           v-model="document.checked"
@@ -115,11 +142,11 @@ const updatedCheckList = () => {
           :key="document.id"
         />
       </div>
-    </div>
 
-    <BaseButton type="submit" color="main" class="w-full mb-6" @click="updatedCheckList"
-      >저장</BaseButton
-    >
+      <BaseButton type="submit" color="main" class="w-full mb-10 mt-5" @click="updatedCheckList"
+        >저장</BaseButton
+      >
+    </div>
   </div>
 </template>
 
