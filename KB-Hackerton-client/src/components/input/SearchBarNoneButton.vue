@@ -4,6 +4,9 @@ import { defineEmits } from 'vue'
 
 const emit = defineEmits(['search'])
 const searched = defineModel('searched')
+const props = defineProps({
+  placeholder: { type: String, default: '검색어를 입력해주세요', required: false },
+})
 </script>
 
 <template>
@@ -14,7 +17,7 @@ const searched = defineModel('searched')
       <Icon icon="material-symbols:search-rounded" class="size-6 ml-2" />
       <input
         type="text"
-        placeholder="검색어를 입력해주세요"
+        :placeholder="props.placeholder"
         v-model.trim="searched"
         class="w-full rounded-xl h-full pl-[2px] text-14 medium placeholder:text-gray-300"
         style="outline: none; border: none; box-shadow: none"
