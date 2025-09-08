@@ -12,7 +12,9 @@ import FestivalCard from '@/components/calendar/FestivalCard.vue'
 import { useFestivalStore } from '@/stores/festival'
 import ErrorModal from '@/components/error/ErrorModal.vue'
 import { useAnnounceStore } from '@/stores/announce'
+import { useFavoriteStore } from '@/stores/favorite'
 
+const favoriteStore = useFavoriteStore()
 const announceStore = useAnnounceStore()
 const festivalStore = useFestivalStore()
 const calendarRef = ref(null)
@@ -43,19 +45,41 @@ onMounted(async () => {
     errorMsg.value = '축제 목록을 불러오는데 실패했습니다.'
     errorModal.value = true
   }
-  console.log('festivalList', festivalList.value)
 
   await announceStore.getAnnounceList()
   if (announceStore.error) {
     errorMsg.value = '공고 목록을 불러오는데 실패했습니다.'
     errorModal.value = true
   }
-  console.log('announceList', announceList.value)
 
   calendarRef.value?.getApi()?.refetchEvents()
 })
 
-const favoriteSet = async (id) => {}
+const favoriteSet = async (id, isFavorite) => {
+  if (isFavorite) {
+    console.log(`${id} 즐겨찾기 취소`)
+    await favoriteStore.deleteFavorite(id)
+    if (favoriteStore.error !== null) {
+      errorMsg.value = '즐겨찾기 취소에 실패했습니다.'
+      errorModal.value = true
+    } else {
+      announceList.value.find((item) => String(item.announce_id) === id).favorite = false
+    }
+  } else {
+    console.log(`${id} 즐겨찾기 등록`)
+    await favoriteStore.setFavorite(id)
+    if (favoriteStore.error !== null) {
+      errorMsg.value = '즐겨찾기 등록에 실패했습니다.'
+      errorModal.value = true
+    } else {
+      announceList.value.find((item) => String(item.announce_id) === id).favorite = true
+    }
+  }
+  const ev = calendarRef.value?.getApi()?.getEventById(String(id))
+  ev?.setExtendedProp('is_favorite', !isFavorite)
+  ev?.setExtendedProp('favorite', !isFavorite)
+  calWrapRef.value?.scrollIntoView({ behavior: 'smooth' })
+}
 
 const onListClickCapture = (e) => {
   if (suppressListClick.value) {
@@ -172,7 +196,7 @@ const calendarAnnounceList = computed(() => {
       })
     }
     return announceList.value.filter((item) => {
-      return item.is_favorite
+      return item.favorite
     })
   } else if (filter.value !== '전체') {
     return announceList.value.filter((item) => {
@@ -270,7 +294,7 @@ const calendarOptions = reactive({
       clickDateAnnounceList.value = announceList.value.filter((item) => {
         return (
           (item.start_date <= compact && item.end_date >= compact) ||
-          (item.pub_data <= compact && item.end_date >= compact) ||
+          (item.pub_date <= compact && item.end_date >= compact) ||
           (item.start_date <= compact && item.end_date === '')
         )
       })
@@ -333,9 +357,9 @@ const calendarOptions = reactive({
       return
     }
     const list = (calendarAnnounceList.value ?? []).map((a) => {
-      const hasStart = !!a.start_date || !!a.pub_data
+      const hasStart = !!a.start_date || !!a.pub_date
       const startISO = hasStart
-        ? (a.start_date || a.pub_data).replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3')
+        ? (a.start_date || a.pub_date).replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3')
         : rangeEndISO
       const hasEnd = !!a.end_date
       const rawEndISO = hasEnd ? a.end_date.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3') : null
@@ -367,7 +391,7 @@ const calendarOptions = reactive({
     clickDateAnnounceList.value = announceList.value.filter((item) => {
       return (
         (item.start_date <= formatDate && item.end_date >= formatDate) ||
-        (item.pub_data <= formatDate && item.end_date >= formatDate) ||
+        (item.pub_date <= formatDate && item.end_date >= formatDate) ||
         (item.start_date <= formatDate && item.end_date === '')
       )
     })
@@ -511,8 +535,8 @@ function showMonth() {
                 v-if="filter !== '축제'"
                 icon="material-symbols:kid-star"
                 :class="event.extendedProps.is_favorite ? 'text-yellow mr-1' : 'text-gray-300 mr-1'"
-                class="size-4"
-                @click="favoriteSet(event.id)"
+                class="size-4 hover:cursor-pointer"
+                @click="favoriteSet(event.id, event.extendedProps.is_favorite)"
               />
               <span class="font-semibold text-12 text-center flex-1 truncate text-black">{{
                 event.title

@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import api from '@/api/festival'
+import api from '@/api/favorite'
 
 export const useFavoriteStore = defineStore('favorite', () => {
   const loading = ref(false)
@@ -12,7 +12,7 @@ export const useFavoriteStore = defineStore('favorite', () => {
     try {
       const res = await api.setFavorite(announceId)
     } catch (e) {
-      error.value = e.message
+      error.value = e
     } finally {
       loading.value = false
     }
@@ -24,7 +24,7 @@ export const useFavoriteStore = defineStore('favorite', () => {
     try {
       const res = await api.deleteFavorite(announceId)
     } catch (e) {
-      error.value = e.message
+      error.value = e
     } finally {
       loading.value = false
     }
