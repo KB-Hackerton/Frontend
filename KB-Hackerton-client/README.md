@@ -33,3 +33,20 @@ npm run build
 ```sh
 npm run lint
 ```
+
+
+### 채팅 관련 라이브러리 설치
+# jwt-decode
+```sh
+npm i jwt-decode
+```
+
+# webstomp-client
+```sh
+npm i webstomp-client
+```
+
+# sockjs-client
+```sh
+npm i sockjs-client
+```

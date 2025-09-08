@@ -18,10 +18,13 @@
     "@iconify/iconify": "^3.1.1",
     "@tailwindcss/vite": "^4.1.12",
     "axios": "^1.11.0",
+    "jwt-decode": "^4.0.0",
     "pinia": "^3.0.1",
+    "sockjs-client": "^1.6.1",
     "vue": "^3.5.13",
     "vue-router": "^4.5.0",
-    "vue-scroll-picker": "^2.0.1"
+    "vue-scroll-picker": "^2.0.1",
+    "webstomp-client": "^1.2.6"
   },
   "devDependencies": {
     "@eslint/js": "^9.22.0",
