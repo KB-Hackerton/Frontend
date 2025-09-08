@@ -92,13 +92,11 @@ const documents = [
       <div
         class="flex flex-col bg-white gap-1 rounded-[0.7rem] shadow-custom p-5 shadow-custom mt-5"
       >
-        <h2>
-          <div class="flex items-center gap-1 border-b-2 border-orange-200 pb-1">
-            <Icon icon="fluent:document-text-32-regular" class="size-4 text-orange-200" />
-            <h2 class="text-14 bold">설명</h2>
-          </div>
-          <p v-html="announceDetail.description" class="text-10 medium text-center mt-4"></p>
-        </h2>
+        <div class="flex items-center gap-1 border-b-2 border-orange-200 pb-1">
+          <Icon icon="fluent:document-text-32-regular" class="size-4 text-orange-200" />
+          <h2 class="text-14 bold">설명</h2>
+        </div>
+        <p v-html="announceDetail.description" class="text-10 medium text-center mt-4"></p>
       </div>
 
       <div
