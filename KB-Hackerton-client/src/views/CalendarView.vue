@@ -8,12 +8,12 @@ import ToggleSwitch from '@/components/toggle/ToggleSwitch.vue'
 import { Icon } from '@iconify/vue'
 import DropdownFilter from '@/components/calendar/DropdownFilter.vue'
 import AnnouncementCard from '@/components/calendar/AnnouncementCard.vue'
-import announce from '@/_dummy/announce.json'
 import FestivalCard from '@/components/calendar/FestivalCard.vue'
 import { useFestivalStore } from '@/stores/festival'
 import ErrorModal from '@/components/error/ErrorModal.vue'
-import favorite from '@/api/favorite'
+import { useAnnounceStore } from '@/stores/announce'
 
+const announceStore = useAnnounceStore()
 const festivalStore = useFestivalStore()
 const calendarRef = ref(null)
 const calWrapRef = ref(null)
@@ -31,7 +31,7 @@ const suppressListClick = ref(false)
 const errorModal = ref(false)
 const errorMsg = ref('')
 
-const announceList = ref(announce)
+const { announceList } = storeToRefs(announceStore)
 const { festivalList } = storeToRefs(festivalStore)
 
 const clickDateAnnounceList = ref([])
@@ -44,6 +44,13 @@ onMounted(async () => {
     errorModal.value = true
   }
   console.log('festivalList', festivalList.value)
+
+  await announceStore.getAnnounceList()
+  if (announceStore.error) {
+    errorMsg.value = '공고 목록을 불러오는데 실패했습니다.'
+    errorModal.value = true
+  }
+  console.log('announceList', announceList.value)
 
   calendarRef.value?.getApi()?.refetchEvents()
 })
@@ -139,11 +146,11 @@ const displayedAnnounceList = computed(() => {
   if (isFavorite.value) {
     if (filter.value !== '전체') {
       return clickDateAnnounceList.value.filter((item) => {
-        return item.is_favorite && item.lcategory.replace('#', '') === filter.value
+        return item.favorite && item.lcategory.replace('#', '') === filter.value
       })
     }
     return clickDateAnnounceList.value.filter((item) => {
-      return item.is_favorite
+      return item.favorite
     })
   } else if (filter.value !== '전체') {
     return clickDateAnnounceList.value.filter((item) => {
@@ -161,7 +168,7 @@ const calendarAnnounceList = computed(() => {
   if (isFavorite.value) {
     if (filter.value !== '전체') {
       return announceList.value.filter((item) => {
-        return item.is_favorite && item.lcategory.replace('#', '') === filter.value
+        return item.favorite && item.lcategory.replace('#', '') === filter.value
       })
     }
     return announceList.value.filter((item) => {
@@ -262,8 +269,9 @@ const calendarOptions = reactive({
       const compact = iso.replaceAll('-', '')
       clickDateAnnounceList.value = announceList.value.filter((item) => {
         return (
-          (item.reqst_start_date <= compact && item.reqst_end_date >= compact) ||
-          (item.reqst_start_date <= compact && item.reqst_end_date === '')
+          (item.start_date <= compact && item.end_date >= compact) ||
+          (item.pub_data <= compact && item.end_date >= compact) ||
+          (item.start_date <= compact && item.end_date === '')
         )
       })
 
@@ -325,21 +333,22 @@ const calendarOptions = reactive({
       return
     }
     const list = (calendarAnnounceList.value ?? []).map((a) => {
-      const startISO = a.reqst_start_date.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3')
-      const hasEnd = !!a.reqst_end_date
-      const rawEndISO = hasEnd
-        ? a.reqst_end_date.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3')
-        : null
+      const hasStart = !!a.start_date || !!a.pub_data
+      const startISO = hasStart
+        ? (a.start_date || a.pub_data).replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3')
+        : rangeEndISO
+      const hasEnd = !!a.end_date
+      const rawEndISO = hasEnd ? a.end_date.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3') : null
       const endISO = hasEnd ? (END_INCLUSIVE ? addDaysISO(rawEndISO, 1) : rawEndISO) : rangeEndISO // open-ended → stretch to view end
 
       return {
         id: a.announce_id,
-        title: a.announce_title,
+        title: a.title,
         start: startISO,
         end: endISO,
         allDay: true,
         extendedProps: {
-          is_favorite: !!a.is_favorite,
+          is_favorite: !!a.favorite,
           openEnded: !hasEnd,
         },
       }
@@ -357,8 +366,9 @@ const calendarOptions = reactive({
 
     clickDateAnnounceList.value = announceList.value.filter((item) => {
       return (
-        (item.reqst_start_date <= formatDate && item.reqst_end_date >= formatDate) ||
-        (item.reqst_start_date <= formatDate && item.reqst_end_date === '')
+        (item.start_date <= formatDate && item.end_date >= formatDate) ||
+        (item.pub_data <= formatDate && item.end_date >= formatDate) ||
+        (item.start_date <= formatDate && item.end_date === '')
       )
     })
 

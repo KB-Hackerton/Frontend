@@ -13,7 +13,7 @@ export const useAnnounceStore = defineStore('announce', () => {
     error.value = null
     try {
       const res = await api.getAnnounceList()
-      announceList.value = res.data.data
+      announceList.value = res?.data ?? []
     } catch (e) {
       error.value = e
     } finally {
