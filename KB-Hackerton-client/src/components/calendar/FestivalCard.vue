@@ -2,12 +2,14 @@
 import { Icon } from '@iconify/vue'
 import { computed, defineProps } from 'vue'
 import { RouterLink } from 'vue-router'
+import baseImg from '@/assets/images/banner.png'
 const props = defineProps({
   festival: {
     type: Object,
     required: true,
   },
 })
+const baseImgUrl = baseImg
 const getTodayYmdNum = () => {
   const d = new Date()
   const y = d.getFullYear()
@@ -42,7 +44,11 @@ const festivalStatus = computed(() => {
   >
     <div class="my-2 pt-4 rounded-xl bg-white border border-gray-200 shadow-custom w-full">
       <div class="w-full h-[9rem] overflow-hidden flex items-center">
-        <img :src="props.festival.first_image" alt="" class="w-full h-full object-cover" />
+        <img
+          :src="[props.festival.first_image ? props.festival.first_image : baseImgUrl]"
+          alt=""
+          class="w-full h-full object-cover"
+        />
       </div>
 
       <div class="px-3 pb-5 mt-3 w-full">
