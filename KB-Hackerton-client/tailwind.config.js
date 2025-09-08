@@ -34,7 +34,8 @@ export default {
         ivory: '#FFF8EA',
         orange: {
           100: '#FF6900',
-          200: '#B43B1D',
+          200: '#DA4C24',
+          300: '#B43B1D',
         },
       },
       backgroundImage: {
