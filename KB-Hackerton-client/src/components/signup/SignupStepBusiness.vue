@@ -31,7 +31,7 @@ const showSuccessModal = ref(false)
 const showFailModal = ref(false)
 
 // 대분류 선택 → 중분류 옵션 변경
-watch(categoryMain, (newVal, oldVal) => {
+watch(categoryMain, (newVal) => {
   const major = businessClassData.find((m) => m.major_name === newVal)
   middleOptions.value = major
     ? major.middles.map((mid) => ({
@@ -40,15 +40,14 @@ watch(categoryMain, (newVal, oldVal) => {
       }))
     : []
 
-  if (oldVal) {
-    categoryMid.value = ''
-    categorySub.value = ''
-    minorOptions.value = []
-  }
+  // 대분류 바뀌면 무조건 초기화
+  categoryMid.value = ''
+  categorySub.value = ''
+  minorOptions.value = []
 })
 
 // 중분류 선택 → 소분류 옵션 변경
-watch(categoryMid, (newVal, oldVal) => {
+watch(categoryMid, (newVal) => {
   const major = businessClassData.find((m) => m.major_name === categoryMain.value)
   const middle = major?.middles.find((mid) => mid.middle_name === newVal)
   minorOptions.value = middle
@@ -58,9 +57,8 @@ watch(categoryMid, (newVal, oldVal) => {
       }))
     : []
 
-  if (oldVal) {
-    categorySub.value = ''
-  }
+  // 중분류 바뀌면 무조건 소분류 초기화
+  categorySub.value = ''
 })
 
 // 사업자 등록번호
@@ -239,8 +237,8 @@ function goToLogin() {
     title="회원가입 실패"
     :message="signupStore.error || '회원가입에 실패했습니다.'"
     confirmText="닫기"
-    @confirm="showFailModal = false"
-    @close="showFailModal = false"
+    @confirm="showFailModal.value = false"
+    @close="showFailModal.value = false"
   />
 </template>
 
