@@ -38,6 +38,7 @@ export default {
       },
       backgroundImage: {
         gradient: 'linear-gradient(to right, #F58D80, #89B548)',
+        gradient2: 'linear-gradient(to right, #FBC4A1, #FF8D44)',
       },
     },
     fontSize: {

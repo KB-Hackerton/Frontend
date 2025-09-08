@@ -6,7 +6,9 @@ const favoriteAnnounceList = announce.filter((a) => a.is_favorite)
 </script>
 
 <template>
-  <div class="w-full text-center flex flex-col gap-5 mb-10">
+  <div
+    class="mx-[-1rem] px-[1rem] text-center flex flex-col gap-5 mb-10 border-t border-[#FFE1D0] mt-[-1rem] pt-[1.5rem]"
+  >
     <FavoriteCard
       v-for="announce in favoriteAnnounceList"
       :key="announce.announce_id"

@@ -68,7 +68,7 @@ const Dday = computed(() => {
 
 <template>
   <RouterLink :to="{ name: 'announceDetail', params: { announce_id: announcement.announce_id } }">
-    <div class="my-2 p-2 rounded-xl bg-white py-5 px-3 border border-gray-100 shadow-custom">
+    <div class="my-2 p-2 rounded-xl bg-white py-5 px-3 border border-[#FFE1D0] shadow-custom">
       <div class="flex justify-between">
         <div class="flex flex-col gap-4">
           <div class="bold text-14">
