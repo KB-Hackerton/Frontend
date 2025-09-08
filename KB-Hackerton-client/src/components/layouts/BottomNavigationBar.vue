@@ -12,8 +12,13 @@ const hiddenPrefixes = [
   '/find-password',
   '/membership/terminate',
 ]
+const hiddenRouteNames = ['announceDocsCheckList']
 
-const isHidden = computed(() => hiddenPrefixes.some((prefix) => route.path.startsWith(prefix)))
+const isHidden = computed(
+  () =>
+    hiddenPrefixes.some((prefix) => route.path.startsWith(prefix)) ||
+    route.matched.some((record) => hiddenRouteNames.includes(record.name)),
+)
 </script>
 
 <template>
