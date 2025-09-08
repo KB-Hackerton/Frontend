@@ -26,6 +26,7 @@ const terms = [
 ]
 
 const emailMessage = ref('')
+const emailMessageColor = ref('text-blue')
 const codeMessage = ref('')
 const passwordMessage = ref('')
 const passwordCheckMessage = ref('')
@@ -52,12 +53,14 @@ watch(email, () => {
 async function sendCode() {
   if (!isEmailValid.value) {
     emailMessage.value = '올바른 이메일 주소를 입력해주세요.'
+    emailMessageColor.value = 'text-red'
     return
   }
   try {
     await sendEmailCode(email.value)
     console.log(`📧 인증번호 전송 to: ${email.value}`)
     emailMessage.value = '인증번호를 전송했습니다.'
+    emailMessageColor.value = 'text-blue'
 
     // 5분 타이머 시작
     sendDisabled.value = true
@@ -72,7 +75,14 @@ async function sendCode() {
     }, 1000)
   } catch (err) {
     console.error('❌ 이메일 전송 실패', err)
-    emailMessage.value = '이메일 전송에 실패했습니다.'
+
+    if (err.response?.data?.code === 400) {
+      emailMessage.value = err.response.data.message
+      emailMessageColor.value = 'text-red'
+    } else {
+      emailMessage.value = '이메일 전송에 실패했습니다.'
+      emailMessageColor.value = 'text-red'
+    }
   }
 }
 
@@ -166,11 +176,7 @@ function goNext() {
         :disabled="sendDisabled"
         @click="sendCode"
       />
-      <p
-        v-if="emailMessage"
-        class="font-semibold text-10 mt-1"
-        :class="emailMessage.includes('올바른') ? 'text-red' : 'text-blue'"
-      >
+      <p v-if="emailMessage" class="font-semibold text-10 mt-1" :class="emailMessageColor">
         {{ emailMessage }}
         <span v-if="sendDisabled && countdown > 0" class="text-blue">
           ({{ Math.floor(countdown / 60) }}:{{ (countdown % 60).toString().padStart(2, '0') }})

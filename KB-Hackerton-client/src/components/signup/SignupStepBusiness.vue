@@ -2,6 +2,7 @@
 import { ref, computed, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useSignupStore } from '@/stores/signup'
+import { loadKakaoPostcode } from '@/utils/KakaoPostcodeLoader.js'
 import BaseInput from '../common/BaseInput.vue'
 import BaseButton from '../common/BaseButton.vue'
 import BaseInputWithButton from '../common/BaseInputWithButton.vue'
@@ -72,11 +73,20 @@ function checkBusinessNum() {
   }
 }
 
-// 주소 찾기 (더미)
-function findAddr() {
-  // TODO: 다음(카카오) 주소검색 연동
-  console.log('주소 검색 실행')
-  address.value = '경북 안동시 제비원로 195'
+// 주소 찾기
+async function findAddr() {
+  try {
+    await loadKakaoPostcode()
+
+    new window.daum.Postcode({
+      oncomplete: (data) => {
+        address.value = data.roadAddress || data.jibunAddress
+        addressDetail.value = ''
+      },
+    }).open()
+  } catch (err) {
+    console.error('❌ 주소 검색 로드 실패:', err)
+  }
 }
 
 // 유효성 검사
