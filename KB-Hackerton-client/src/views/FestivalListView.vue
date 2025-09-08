@@ -16,7 +16,7 @@ const errorModal = ref(false)
 const errorMsg = ref('')
 
 // 검색 대상 필드 (널-세이프 문자열 비교)
-const SEARCH_FIELDS = ['festival_title', 'overview', 'add1', 'add2']
+const SEARCH_FIELDS = ['festival_title', 'overview', 'addr']
 
 const getTodayYmdNum = () => {
   const d = new Date()
