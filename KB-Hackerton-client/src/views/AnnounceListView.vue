@@ -48,7 +48,7 @@ const displayAnnounceList = computed(() => {
 
 <template>
   <div
-    class="h-full flex flex-col mx-[-1rem] border-t border-gray-100 mt-[-1rem] px-[1rem] pt-[1rem]"
+    class="h-full flex flex-col mx-[-1rem] border-t border-[#FFE1D0] mt-[-1rem] px-[1rem] pt-[1rem]"
   >
     <div class="flex gap-2 w-full flex flex-col">
       <SearchBarNoneButton v-model:searched="searched" />

@@ -2,6 +2,7 @@
 import { useRoute } from 'vue-router'
 import festival from '@/_dummy/festival'
 import { computed, onMounted } from 'vue'
+import { Icon } from '@iconify/vue'
 
 const kakaoKey = import.meta.env.VITE_KAKAO_MAP_KEY
 
@@ -64,32 +65,84 @@ const initMap = () => {
 </script>
 
 <template>
-  <div class="flex flex-col items-center w-full">
-    <h1 class="text-20 bold">{{ festivalDetail.festival_title }}</h1>
-    <div class="-mx-4 mt-3">
-      <img :src="festivalImgUrl" alt="" class="w-full h-auto" />
-    </div>
-
-    <p class="text-14 mt-3 px-3 medium leading-7">{{ overviewText }}</p>
-
-    <div class="flex flex-col items-center mt-4">
-      <h2 class="text-16 bold">행사 개요</h2>
-      <div class="text-14 semibold mt-3">
-        <li>{{ `행사명: ${festivalDetail.festival_title}` }}</li>
-        <li>{{ `기간: ${festivalDetail.event_startdate} ~ ${festivalDetail.event_enddate}` }}</li>
-        <li>{{ `전화번호: ${festivalDetail.tel}` }}</li>
+  <div class="flex flex-col items-center -mx-[1rem] -mt-4 min-h-screen">
+    <div class="bg-orange-300 w-full flex flex-col gap-1 pt-8 pb-16 px-[1rem]">
+      <div class="border-b border-white w-fit px-1 flex items-center gap-2">
+        <Icon icon="hugeicons:fireworks" class="size-10 text-white" />
+        <h1 class="text-26 bold text-white">{{ festivalDetail.festival_title }}</h1>
       </div>
     </div>
-    <div class="mt-4 -mx-4">
-      <div id="map" class="relative left-1/2 -translate-x-1/2 w-[100vw] h-[360px]"></div>
-    </div>
 
-    <div class="flex flex-col items-center mt-7 mb-16">
-      <h3 class="text-16 bold">문의처</h3>
-      <li class="text-14 semibold">{{ `위치 : ${festivalDetail.telname}` }}</li>
-      <li class="text-14 semibold">{{ `전화번호 : ${festivalDetail.tel}` }}</li>
+    <div class="w-full flex flex-col gap-1 py-10 px-[1rem] mt-[-5rem]">
+      <img :src="festivalImgUrl" />
+
+      <div
+        class="w-full flex flex-col gap-1 py-5 px-[1rem] bg-white rounded-[0.7rem] shadow-custom mt-5"
+      >
+        <div class="flex items-center gap-1 border-b-2 border-orange-200 pb-1">
+          <Icon icon="fluent:document-text-32-regular" class="size-4 text-orange-200" />
+          <h2 class="text-18 bold">설명</h2>
+        </div>
+        <p class="text-14 mt-3 px-3 medium leading-7">{{ overviewText }}</p>
+      </div>
+
+      <div
+        class="w-full flex flex-col gap-1 py-5 px-[1rem] bg-white rounded-[0.7rem] shadow-custom mt-5"
+      >
+        <div class="flex items-center gap-1 border-b-2 border-orange-200 pb-1">
+          <Icon icon="hugeicons:fireworks" class="size-6 text-orange-200" />
+          <h2 class="text-18 bold">축제 정보</h2>
+        </div>
+        <ul class="list-disc list-outside pl-4">
+          <li class="marker:text-orange-200 marker:text-18 text-14 medium mx-2">
+            {{ `축제명: ${festivalDetail.festival_title}` }}
+          </li>
+        </ul>
+
+        <div class="flex items-center gap-1 mt-2">
+          <Icon icon="uil:calendar" class="size-5 text-orange-200" />
+          <p class="text-14 medium">
+            {{ `기간: ${festivalDetail.event_startdate} ~ ${festivalDetail.event_enddate}` }}
+          </p>
+        </div>
+        <p class="text-12 medium ml-6 text-gray-300">{{ `장소: ${festivalDetail.addr}` }}</p>
+      </div>
+
+      <div
+        class="w-full flex flex-col gap-1 py-5 px-[1rem] bg-white rounded-[0.7rem] shadow-custom mt-5"
+      >
+        <div class="flex items-center gap-1 border-b-2 border-orange-200 pb-1">
+          <Icon icon="bx:map" class="size-6 text-orange-200" />
+          <h2 class="text-18 bold">위치 정보</h2>
+        </div>
+        <div class="mt-3">
+          <div id="map" class="h-[360px] w-full"></div>
+        </div>
+      </div>
+
+      <div
+        class="w-full flex flex-col gap-1 py-5 px-[1rem] bg-white rounded-[0.7rem] shadow-custom mt-5"
+      >
+        <div class="flex items-center gap-1 border-b-2 border-orange-200 pb-1">
+          <Icon icon="tdesign:call" class="size-6 text-orange-200" />
+          <h2 class="text-18 bold">문의처</h2>
+        </div>
+        <ul class="list-disc list-outside pl-4">
+          <li class="marker:text-orange-200 marker:text-18 text-14 medium mx-2">
+            {{ `${festivalDetail.telname}` }}
+          </li>
+        </ul>
+
+        <div class="flex items-center gap-1 mt-2">
+          <Icon icon="tdesign:call" class="size-4 text-orange-200" />
+          <p class="text-14 medium">{{ `${festivalDetail.tel}` }}</p>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <style scoped></style>
+<!-- <div class="mt-4 -mx-4">
+      <div id="map" class="relative left-1/2 -translate-x-1/2 w-[100vw] h-[360px]"></div>
+    </div> -->
