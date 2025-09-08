@@ -56,28 +56,41 @@ onMounted(async () => {
 })
 
 const favoriteSet = async (id, isFavorite) => {
+  const targetId = String(id) // ✅ 항상 문자열로 통일
+  const desired = !isFavorite // 토글 결과
+
   if (isFavorite) {
-    console.log(`${id} 즐겨찾기 취소`)
-    await favoriteStore.deleteFavorite(id)
-    if (favoriteStore.error !== null) {
+    console.log(`${targetId} 즐겨찾기 취소`)
+    await favoriteStore.deleteFavorite(targetId)
+    if (favoriteStore.error !== null /* ref면 .value로 */) {
       errorMsg.value = '즐겨찾기 취소에 실패했습니다.'
       errorModal.value = true
-    } else {
-      announceList.value.find((item) => String(item.announce_id) === id).favorite = false
+      return
     }
   } else {
-    console.log(`${id} 즐겨찾기 등록`)
-    await favoriteStore.setFavorite(id)
-    if (favoriteStore.error !== null) {
+    console.log(`${targetId} 즐겨찾기 등록`)
+    await favoriteStore.setFavorite(targetId)
+    if (favoriteStore.error !== null /* ref면 .value로 */) {
       errorMsg.value = '즐겨찾기 등록에 실패했습니다.'
       errorModal.value = true
-    } else {
-      announceList.value.find((item) => String(item.announce_id) === id).favorite = true
+      return
     }
   }
-  const ev = calendarRef.value?.getApi()?.getEventById(String(id))
-  ev?.setExtendedProp('is_favorite', !isFavorite)
-  ev?.setExtendedProp('favorite', !isFavorite)
+
+  // ✅ 전체 목록에서 업데이트 (가드)
+  const storeItem = announceList.value?.find((it) => String(it.announce_id) === targetId)
+  if (storeItem) storeItem.favorite = desired
+
+  // ✅ 클릭된 날짜 목록에서도 업데이트 (가드)
+  const clickedItem = clickDateAnnounceList.value?.find((it) => String(it.announce_id) === targetId)
+  if (clickedItem) clickedItem.favorite = desired
+
+  // ✅ 캘린더 이벤트 동기화 (있으면만)
+  const ev = calendarRef.value?.getApi()?.getEventById(targetId)
+  ev?.setExtendedProp('is_favorite', desired)
+  ev?.setExtendedProp('favorite', desired)
+
+  calendarRef.value?.getApi()?.refetchEvents()
   calWrapRef.value?.scrollIntoView({ behavior: 'smooth' })
 }
 
@@ -295,7 +308,7 @@ const calendarOptions = reactive({
         return (
           (item.start_date <= compact && item.end_date >= compact) ||
           (item.pub_date <= compact && item.end_date >= compact) ||
-          (item.start_date <= compact && item.end_date === '')
+          (item.start_date <= compact && item.end_date === null)
         )
       })
 
@@ -392,13 +405,13 @@ const calendarOptions = reactive({
       return (
         (item.start_date <= formatDate && item.end_date >= formatDate) ||
         (item.pub_date <= formatDate && item.end_date >= formatDate) ||
-        (item.start_date <= formatDate && item.end_date === '')
+        (item.start_date <= formatDate && item.end_date === null)
       )
     })
 
     clickDateFestivalList.value = festivalList.value.filter((item) => {
       const start = item.event_startdate
-      const end = item.event_enddate || formatDate // open-ended 안전 처리
+      const end = item.event_enddate || formatDate
       return start <= formatDate && formatDate <= end
     })
 
@@ -536,7 +549,7 @@ function showMonth() {
                 icon="material-symbols:kid-star"
                 :class="event.extendedProps.is_favorite ? 'text-yellow mr-1' : 'text-gray-300 mr-1'"
                 class="size-4 hover:cursor-pointer"
-                @click="favoriteSet(event.id, event.extendedProps.is_favorite)"
+                @click.stop="favoriteSet(event.id, event.extendedProps.is_favorite)"
               />
               <span class="font-semibold text-12 text-center flex-1 truncate text-black">{{
                 event.title
@@ -560,6 +573,7 @@ function showMonth() {
           v-for="a in displayedAnnounceList"
           :announcement="a"
           :key="a.announce_id"
+          @updated="(id, isFavorite) => favoriteSet(id, isFavorite)"
         />
       </div>
 

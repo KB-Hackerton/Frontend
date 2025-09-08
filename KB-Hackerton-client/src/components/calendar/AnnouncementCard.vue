@@ -2,6 +2,8 @@
 import { Icon } from '@iconify/vue'
 import { computed, defineProps } from 'vue'
 import { RouterLink } from 'vue-router'
+
+const emit = defineEmits(['updated'])
 const props = defineProps({
   announcement: {
     type: Object,
@@ -67,8 +69,15 @@ const Dday = computed(() => {
 </script>
 
 <template>
-  <RouterLink :to="{ name: 'announceDetail', params: { announce_id: announcement.announce_id } }">
-    <div class="my-2 p-2 rounded-xl bg-white py-5 px-3 border border-[#FFE1D0] shadow-custom">
+  <RouterLink
+    :to="{ name: 'announceDetail', params: { announce_id: announcement.announce_id } }"
+    custom
+    v-slot="{ navigate }"
+  >
+    <div
+      class="my-2 p-2 rounded-xl bg-white py-5 px-3 border border-[#FFE1D0] shadow-custom"
+      @click="navigate"
+    >
       <div class="flex justify-between">
         <div class="flex flex-col gap-4">
           <div class="bold text-14">
@@ -94,13 +103,18 @@ const Dday = computed(() => {
           </div>
         </div>
         <div class="flex flex-col gap-2 items-end justify-between">
-          <div class="flex items-center gap-1 border border-gray-[0.4rem] rounded-xl p-1">
+          <button
+            class="flex items-center gap-1 border border-gray-[0.4rem] rounded-xl p-1"
+            @click.stop="
+              emit('updated', props.announcement.announce_id, props.announcement.favorite)
+            "
+          >
             <Icon
               icon="material-symbols:kid-star"
               class="size-5"
               :class="props.announcement.favorite ? 'text-[#FFD93D]' : 'text-gray-300'"
             />
-          </div>
+          </button>
           <div
             class="w-[4.5rem] h-[2rem] text-10 semibold rounded-full flex items-center justify-center"
             :class="
