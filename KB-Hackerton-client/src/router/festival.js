@@ -14,6 +14,7 @@ export default [
     component: () => import('@/views/FestivalDetailView.vue'),
     meta: {
       title: '축제',
+      bg: 'ivory',
     },
   },
 ]
