@@ -1,6 +1,7 @@
 <script setup>
 import { defineProps, defineEmits } from 'vue'
-import ToggleSwitch from '../toggle/ToggleSwitch.vue'
+
+import BgColorToggleSwitch from '../toggle/BgColorToggleSwitch.vue'
 
 const props = defineProps({
   title: { type: String, required: true },
@@ -13,7 +14,7 @@ const emits = defineEmits(['toggle'])
   <div class="flex justify-between items-center">
     <p class="text-14 semibold">{{ props.title }}</p>
 
-    <ToggleSwitch :isChecked="isChecked" @click="emits('toggle')" />
+    <BgColorToggleSwitch :isChecked="isChecked" @click="emits('toggle')" />
   </div>
 </template>
 

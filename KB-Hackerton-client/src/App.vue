@@ -2,11 +2,25 @@
 import { RouterView } from 'vue-router'
 import TopNavigationBar from '@/components/layouts/TopNavigationBar.vue'
 import BottomNavigationBar from '@/components/layouts/BottomNavigationBar.vue'
+import { useRoute } from 'vue-router'
+import { computed } from 'vue'
+
+const route = useRoute()
+
+const bgMap = {
+  ivory: 'bg-ivory',
+  gray: 'bg-[#F9FAFB]',
+}
+
+const bgColor = computed(() => bgMap[route.meta.bg] || 'bg-white')
 </script>
 
 <template>
   <div class="font-sans flex justify-center text-black w-full h-dvh overflow-hidden">
-    <div class="relative w-full h-dvh md:max-w-[365px] bg-[#FFF8EA] flex flex-col overflow-hidden">
+    <div
+      class="relative w-full h-dvh md:max-w-[365px] flex flex-col overflow-hidden"
+      :class="bgColor"
+    >
       <TopNavigationBar />
 
       <div class="pt-[56px] pb-[60px] flex-1 min-h-0 flex flex-col items-stretch overflow-hidden">

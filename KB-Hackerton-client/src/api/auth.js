@@ -4,6 +4,6 @@ import api from './index'
 export const postLogin = ({ email, password }) => {
   return api.post('/auth/login', {
     member_email: email,
-    password,
+    password: password,
   })
 }

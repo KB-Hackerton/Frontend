@@ -36,14 +36,14 @@ const goBack = () => {
       <h3 class="bold text-16 absolute left-1/2 -translate-x-1/2 text-black">{{ pageTitle }}</h3>
     </div>
 
-    <div v-else-if="pageTitle === '홈'" class="px-4 flex items-center justify-end w-full">
+    <div v-else-if="pageTitle === '홈'" class="px-4 flex items-center justify-end w-full gap-3">
       <RouterLink to="/notifications">
         <div class="text-gray-400 flex flex-col items-center">
-          <Icon icon="material-symbols:notifications-rounded" class="w-[28px] h-auto" />
+          <Icon icon="material-symbols:notifications-rounded" class="w-[24px] h-auto" />
         </div>
       </RouterLink>
       <button @click="isDrawerOpen = true">
-        <Icon icon="material-symbols:menu-rounded" class="w-[28px] h-auto" />
+        <Icon icon="material-symbols:menu-rounded" class="w-[24px] h-auto" />
       </button>
     </div>
 
@@ -53,14 +53,14 @@ const goBack = () => {
       </button>
       <h3 class="bold text-16 absolute left-1/2 -translate-x-1/2 text-black">{{ pageTitle }}</h3>
 
-      <div class="flex items-center mr-4">
+      <div class="flex items-center mr-4 gap-3">
         <RouterLink to="/notifications">
           <div class="text-gray-400 flex flex-col items-center">
-            <Icon icon="material-symbols:notifications-rounded" class="w-[28px] h-auto" />
+            <Icon icon="material-symbols:notifications-rounded" class="w-[24px] h-auto" />
           </div>
         </RouterLink>
         <button @click="isDrawerOpen = true">
-          <Icon icon="material-symbols:menu-rounded" class="w-[28px] h-auto" />
+          <Icon icon="material-symbols:menu-rounded" class="w-[24px] h-auto" />
         </button>
       </div>
     </div>

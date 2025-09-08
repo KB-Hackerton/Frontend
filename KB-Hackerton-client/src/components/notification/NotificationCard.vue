@@ -14,20 +14,35 @@ const emit = defineEmits(['click'])
 
 <template>
   <div
-    class="rounded-[1rem] p-3 h-[6.5rem] w-full flex flex-col justify-between my-3"
-    :class="
-      notification.is_read
-        ? 'text-gray-300 border border-gray-300 '
-        : 'bg-white border border-black'
-    "
-    @click="emit('click')"
+    class="rounded-[1rem] h-[8rem] pl-[0.3rem] w-full shadow-customm"
+    :class="props.notification.is_read ? 'bg-gray-300 text-gray-300' : 'bg-main'"
   >
-    <div class="flex justify-between items-center">
-      <p class="text-14 bold">{{ props.notification.title }}</p>
-      <Icon icon="material-symbols:add-rounded" class="size-6 rotate-45" />
+    <div
+      class="bg-white rounded-[0.9rem] p-3 h-[8rem] w-full border border-gray-100 flex justify-between shadow-custom"
+      @click="emit('click')"
+    >
+      <Icon
+        :icon="
+          props.notification.noti_type === 'sos'
+            ? 'streamline-flex:sos-help-emergency-sign-solid'
+            : 'ix:alarm-bell'
+        "
+        class="size-5"
+        :class="props.notification.is_read ? 'text-gray-300' : 'text-main'"
+      />
+      <div class="flex flex-col justify-between flex-1 pl-3">
+        <div class="flex justify-between">
+          <p class="text-14 bold">{{ props.notification.title }}</p>
+          <Icon icon="material-symbols:add-rounded" class="size-6 rotate-45" />
+        </div>
+        <div class="flex-1">
+          <p class="text-14 regular pr-6">{{ props.notification.content }}</p>
+        </div>
+        <div>
+          <p class="text-12 regular">{{ props.notification.created_at }}</p>
+        </div>
+      </div>
     </div>
-    <p class="text-14 medium flex-1">{{ props.notification.content }}</p>
-    <p class="text-14 medium text-end">{{ props.notification.created_at }}</p>
   </div>
 </template>
 

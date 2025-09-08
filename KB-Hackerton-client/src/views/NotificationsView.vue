@@ -1,9 +1,9 @@
 <script setup>
-import DropdownFilter from '@/components/calendar/DropdownFilter.vue'
 import NotificationCard from '@/components/notification/NotificationCard.vue'
 import notification from '@/_dummy/notification'
 import { computed, ref } from 'vue'
 import NotificationModal from '@/components/modal/NotificationModal.vue'
+import RoundedDropdownFilter from '@/components/common/RoundedDropdownFilter.vue'
 
 const isModal = ref(false)
 const modalData = ref(null)
@@ -51,8 +51,10 @@ const notificationAllRead = () => {
 
 <template>
   <div class="w-full h-full flex flex-col">
-    <div class="flex justify-between">
-      <DropdownFilter
+    <div
+      class="flex justify-between border-t border-b border-gray-100 py-3 mt-[-1rem] mx-[-1rem] px-[1rem]"
+    >
+      <RoundedDropdownFilter
         :options="[
           { value: 'all', label: '전체' },
           { value: 'sos', label: 'SOS' },
@@ -61,6 +63,7 @@ const notificationAllRead = () => {
         :filter="filter"
         @update:filter="filter = $event"
       />
+
       <button
         class="text-10 semibold text-white bg-main rounded-[10px] px-4 py-1 shadow-custom"
         @click="notificationAllRead"
@@ -69,7 +72,7 @@ const notificationAllRead = () => {
       </button>
     </div>
 
-    <div class="overflow-scroll [&::-webkit-scrollbar]:hidden mt-3">
+    <div class="overflow-scroll [&::-webkit-scrollbar]:hidden mt-4 flex flex-col gap-3">
       <NotificationCard
         v-for="notification in displayNotificationList"
         :notification="notification"
