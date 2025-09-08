@@ -14,6 +14,7 @@ export default [
     component: () => import('@/views/AnnounceDetailView.vue'),
     meta: {
       title: '공고',
+      bg: 'ivory',
     },
   },
   {
