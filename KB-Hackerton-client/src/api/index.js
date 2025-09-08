@@ -2,6 +2,8 @@ import axios from 'axios'
 
 const api = axios.create({
   baseURL: 'https://zibitz.shop/',
+  // baseURL: 'http://localhost:8080',
+
   timeout: 10000,
   // headers: {
   //   'Content-Type': 'application/json',

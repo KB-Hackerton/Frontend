@@ -1,11 +1,11 @@
 <script setup>
-import SearchBar from '@/components/announce/SearchBar.vue'
-import { computed, ref, watch } from 'vue'
+import { computed, ref, watch, nextTick } from 'vue'
 import article from '@/_dummy/article'
 import Paging from '@/components/common/Paging.vue'
 
 import { useRoute, useRouter } from 'vue-router'
 import ArticleCard from '@/components/article/ArticleCard.vue'
+import SearchBarNoneButton from '@/components/input/SearchBarNoneButton.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -33,6 +33,15 @@ watch(
 const searched = ref(route.query.q || '')
 const appliedQuery = ref(route.query.q || '')
 const currentPage = ref(Number(route.query.page) || 1)
+
+let __searchSyncTimer
+watch(searched, (val) => {
+  if (__searchSyncTimer) clearTimeout(__searchSyncTimer)
+  __searchSyncTimer = setTimeout(() => {
+    appliedQuery.value = val
+    currentPage.value = 1
+  }, 250)
+})
 
 // 필터링 이후의 총건수/총페이지를 계산하기 위해 computed로 전환
 const filteredNoticeList = computed(() => {
@@ -79,27 +88,27 @@ const displayArticleList = computed(() => {
   return base.slice(start, end)
 })
 
-const searchedAnnounce = () => {
-  appliedQuery.value = searched.value
-  currentPage.value = 1
-}
-
-const goTo = (p) => {
+const goTo = async (p) => {
   const clamped = Math.min(Math.max(1, Number(p) || 1), totalPages.value)
   currentPage.value = clamped
+  await nextTick()
+  const el = document.querySelector('.flex.flex-col.w-full.h-full.justify-between')
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  } else {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
 }
 </script>
 
 <template>
-  <div class="flex flex-col w-full h-full justify-between">
+  <div class="flex flex-col w-full h-full justify-between mt-[-1.5rem]">
     <div>
       <div class="flex justify-between gap-4 items-center pt-3">
-        <h1 class="text-24 bold px-4 shrink-0">뉴스</h1>
-        <SearchBar @search="searchedAnnounce" v-model:searched="searched" />
-        <!-- <SearchBar v-model:searched="searched" /> // 버튼없이 작동 -->
+        <SearchBarNoneButton v-model:searched="searched" :placeholder="'뉴스 검색....'" />
       </div>
       <div class="bg-gray-100 h-[0.5rem] mx-[-1rem] mt-2"></div>
-      <div class="mt-3 mx-[-1rem] overflow-scroll [&::-webkit-scrollbar]:hidden">
+      <div class="mt-3 flex flex-col gap-3">
         <ArticleCard
           v-for="article in displayArticleList"
           :key="article.article_id"
@@ -108,7 +117,7 @@ const goTo = (p) => {
       </div>
     </div>
 
-    <div class="flex justify-center pb-1">
+    <div class="flex justify-center pt-2 pb-[3rem]">
       <Paging :totalPages="totalPages" :currentPage="currentPage" @goTo="goTo" />
     </div>
   </div>

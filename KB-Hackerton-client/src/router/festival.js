@@ -5,6 +5,7 @@ export default [
     component: () => import('@/views/FestivalListView.vue'),
     meta: {
       title: '축제 리스트',
+      bg: 'ivory',
     },
   },
   {
@@ -13,6 +14,7 @@ export default [
     component: () => import('@/views/FestivalDetailView.vue'),
     meta: {
       title: '축제',
+      bg: 'ivory',
     },
   },
 ]

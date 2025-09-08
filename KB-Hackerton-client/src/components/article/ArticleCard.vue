@@ -15,12 +15,18 @@ const openNewTab = (url) => {
 
 <template>
   <div
-    class="border-b border-gray-200 flex flex-col h-[7rem] px-3 justify-between pt-3 pb-1"
-    @click="openNewTab(article.article_url)"
+    class="border border-gray-200 bg-[#FAF8F5] flex flex-col h-[11rem] px-3 justify-between rounded-[0.5rem] shadow-custom px-3 py-4"
   >
     <div class="text-12 bold mt-2 truncate">{{ props.article.title }}</div>
-    <div class="text-10 medium pr-16 line-clamp-2 leading-6">{{ props.article.content }}</div>
-    <div class="text-end text-10 bold">{{ props.article.published_at }}</div>
+    <div class="flex-1 text-10 medium line-clamp-4 leading-5 mt-1">
+      {{ props.article.content }}
+    </div>
+    <div class="flex justify-between">
+      <div class="text-end text-10 bold">{{ props.article.published_at }}</div>
+      <button class="text-12 text-main bold" @click="openNewTab(props.article.article_url)">
+        더보기
+      </button>
+    </div>
   </div>
 </template>
 

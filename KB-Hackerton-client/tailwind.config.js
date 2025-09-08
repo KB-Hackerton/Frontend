@@ -31,9 +31,16 @@ export default {
         'pastel-rose': '#FFE4E6',
         'pastel-salmon': '#FFE2E2',
         'pastel-peach': '#FFE4F3',
+        ivory: '#FFF8EA',
+        orange: {
+          100: '#FF6900',
+          200: '#DA4C24',
+          300: '#B43B1D',
+        },
       },
       backgroundImage: {
         gradient: 'linear-gradient(to right, #F58D80, #89B548)',
+        gradient2: 'linear-gradient(to right, #FBC4A1, #FF8D44)',
       },
     },
     fontSize: {

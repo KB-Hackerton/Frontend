@@ -5,6 +5,7 @@ export default [
     component: () => import('@/views/AnnounceListView.vue'),
     meta: {
       title: '공고 리스트',
+      bg: 'ivory',
     },
   },
   {
@@ -13,6 +14,7 @@ export default [
     component: () => import('@/views/AnnounceDetailView.vue'),
     meta: {
       title: '공고',
+      bg: 'ivory',
     },
   },
   {
@@ -21,6 +23,7 @@ export default [
     component: () => import('@/views/AnnounceDocsChecklistView.vue'),
     meta: {
       title: '제출 서류 체크',
+      bg: 'ivory',
     },
   },
 ]

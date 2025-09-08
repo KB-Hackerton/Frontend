@@ -4,7 +4,7 @@ import api from './index'
 export const postLogin = async ({ email, password }) => {
   const res = await api.post('/auth/login', {
     member_email: email,
-    password,
+    password: password,
   })
   return res
 }
