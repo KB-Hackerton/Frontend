@@ -60,7 +60,6 @@ const favoriteSet = async (id, isFavorite) => {
   const desired = !isFavorite // 토글 결과
 
   if (isFavorite) {
-    console.log(`${targetId} 즐겨찾기 취소`)
     await favoriteStore.deleteFavorite(targetId)
     if (favoriteStore.error !== null /* ref면 .value로 */) {
       errorMsg.value = '즐겨찾기 취소에 실패했습니다.'
@@ -68,7 +67,6 @@ const favoriteSet = async (id, isFavorite) => {
       return
     }
   } else {
-    console.log(`${targetId} 즐겨찾기 등록`)
     await favoriteStore.setFavorite(targetId)
     if (favoriteStore.error !== null /* ref면 .value로 */) {
       errorMsg.value = '즐겨찾기 등록에 실패했습니다.'
