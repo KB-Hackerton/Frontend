@@ -16,7 +16,7 @@ const searched = defineModel('searched')
         type="text"
         placeholder="검색어를 입력해주세요"
         v-model.trim="searched"
-        class="w-full rounded-xl h-full pl-[2px] text-14 medium"
+        class="w-full rounded-xl h-full pl-[2px] text-14 medium placeholder:text-gray-300"
         style="outline: none; border: none; box-shadow: none"
         @keyup.enter="emit('search')"
       />
