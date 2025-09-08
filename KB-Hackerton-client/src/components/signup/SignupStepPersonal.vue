@@ -1,6 +1,7 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { useSignupStore } from '@/stores/signup'
+import { sendEmailCode, verifyEmailCode } from '@/api/auth.js'
 import BaseInput from '../common/BaseInput.vue'
 import BaseButton from '../common/BaseButton.vue'
 import BaseInputWithButton from '../common/BaseInputWithButton.vue'
@@ -24,30 +25,92 @@ const terms = [
   { label: '[선택] 마케팅/광고 수신 동의', required: false },
 ]
 
-// 이메일 + 인증번호 전송
 const emailMessage = ref('')
+const emailMessageColor = ref('text-blue')
+const codeMessage = ref('')
+const passwordMessage = ref('')
+const passwordCheckMessage = ref('')
+
+const sendDisabled = ref(false) // 버튼 비활성화 여부
+const countdown = ref(0) // 남은 시간(초)
+let timer = null // setInterval 핸들러
+const isVerified = ref(false) // 인증 성공 여부
+
+const termChecks = ref(terms.map(() => false))
 const isEmailValid = computed(() => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value))
-function sendCode() {
+
+// 이메일 변경 시 인증 상태 초기화
+watch(email, () => {
+  code.value = ''
+  codeMessage.value = ''
+  isVerified.value = false
+  clearInterval(timer) // 이메일이 바뀌면 타이머 리셋 & 버튼 다시 활성화
+  sendDisabled.value = false
+  countdown.value = 0
+})
+
+// 인증번호 전송
+async function sendCode() {
   if (!isEmailValid.value) {
     emailMessage.value = '올바른 이메일 주소를 입력해주세요.'
+    emailMessageColor.value = 'text-red'
     return
   }
-  emailMessage.value = '인증번호를 전송했습니다.'
-  console.log(`📧 인증번호 전송 to: ${email.value}`)
+  try {
+    await sendEmailCode(email.value)
+    console.log(`📧 인증번호 전송 to: ${email.value}`)
+    emailMessage.value = '인증번호를 전송했습니다.'
+    emailMessageColor.value = 'text-blue'
+
+    // 5분 타이머 시작
+    sendDisabled.value = true
+    countdown.value = 300
+    clearInterval(timer)
+    timer = setInterval(() => {
+      countdown.value--
+      if (countdown.value <= 0) {
+        clearInterval(timer)
+        sendDisabled.value = false
+      }
+    }, 1000)
+  } catch (err) {
+    console.error('❌ 이메일 전송 실패', err)
+
+    if (err.response?.data?.code === 400) {
+      emailMessage.value = err.response.data.message
+      emailMessageColor.value = 'text-red'
+    } else {
+      emailMessage.value = '이메일 전송에 실패했습니다.'
+      emailMessageColor.value = 'text-red'
+    }
+  }
 }
 
-// 인증번호 + 확인
-const codeMessage = ref('')
-function verifyCode() {
-  if (code.value === '1234') {
-    codeMessage.value = '인증에 성공했습니다.'
-  } else {
-    codeMessage.value = '인증번호가 올바르지 않습니다.'
+// 인증번호 확인
+async function verifyCode() {
+  try {
+    if (isVerified.value) {
+      codeMessage.value = '이미 인증된 이메일입니다.'
+      return
+    }
+
+    const res = await verifyEmailCode({ email: email.value, code: code.value })
+    if (res.code === 200) {
+      console.log(`📧 인증에 성공했습니다.`)
+      codeMessage.value = '인증에 성공했습니다.'
+      isVerified.value = true
+    } else {
+      codeMessage.value = '인증번호가 올바르지 않습니다.'
+      isVerified.value = false
+    }
+  } catch (err) {
+    console.error('❌ 인증 실패', err)
+    codeMessage.value = '인증번호 확인 중 오류가 발생했습니다.'
+    isVerified.value = false
   }
 }
 
 // 비밀번호
-const passwordMessage = ref('')
 const isPasswordValid = computed(() => {
   const regex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,20}$/
   return regex.test(password.value)
@@ -61,7 +124,6 @@ function checkPassword() {
 }
 
 // 비밀번호 확인
-const passwordCheckMessage = ref('')
 function checkPasswordMatch() {
   if (passwordCheck.value) {
     if (password.value === passwordCheck.value) {
@@ -75,7 +137,6 @@ function checkPasswordMatch() {
 }
 
 // 이용약관 동의
-const termChecks = ref(terms.map(() => false))
 const agreeAll = computed({
   get: () => termChecks.value.every(Boolean),
   set: (val) => {
@@ -88,7 +149,7 @@ const isFormValid = computed(() => {
   const requiredTermsChecked = terms.every((t, i) => (t.required ? termChecks.value[i] : true))
   return (
     isEmailValid.value &&
-    codeMessage.value === '인증에 성공했습니다.' &&
+    isVerified.value &&
     isPasswordValid.value &&
     password.value === passwordCheck.value &&
     requiredTermsChecked
@@ -96,10 +157,7 @@ const isFormValid = computed(() => {
 })
 
 function goNext() {
-  signupStore.setPersonalInfo({
-    email: email.value,
-    password: password.value,
-  })
+  signupStore.setPersonalInfo({ email: email.value, password: password.value })
   emit('next')
 }
 </script>
@@ -115,14 +173,14 @@ function goNext() {
         placeholder="이메일을 입력해주세요."
         button-text="인증번호 전송"
         :required="true"
+        :disabled="sendDisabled"
         @click="sendCode"
       />
-      <p
-        v-if="emailMessage"
-        class="font-semibold text-10 mt-1"
-        :class="emailMessage.includes('올바른') ? 'text-red' : 'text-blue'"
-      >
+      <p v-if="emailMessage" class="font-semibold text-10 mt-1" :class="emailMessageColor">
         {{ emailMessage }}
+        <span v-if="sendDisabled && countdown > 0" class="text-blue">
+          ({{ Math.floor(countdown / 60) }}:{{ (countdown % 60).toString().padStart(2, '0') }})
+        </span>
       </p>
     </div>
 
@@ -133,14 +191,15 @@ function goNext() {
         type="text"
         label="인증번호"
         placeholder="인증번호를 입력해주세요."
-        button-text="확인"
+        :button-text="isVerified ? '인증 완료' : '확인'"
         :required="true"
+        :disabled="isVerified"
         @click="verifyCode"
       />
       <p
         v-if="codeMessage"
         class="font-semibold text-10 mt-1"
-        :class="codeMessage.includes('성공') ? 'text-blue' : 'text-red'"
+        :class="isVerified ? 'text-blue' : 'text-red'"
       >
         {{ codeMessage }}
       </p>
