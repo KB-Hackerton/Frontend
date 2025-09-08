@@ -5,6 +5,7 @@ export default [
     component: () => import('@/views/AnnounceListView.vue'),
     meta: {
       title: '공고 리스트',
+      bg: 'ivory',
     },
   },
   {
