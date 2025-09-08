@@ -71,6 +71,7 @@ const router = createRouter({
           component: () => import('@/views/SettingsView.vue'),
           meta: {
             title: '설정',
+            bg: 'gray',
           },
         },
         {

@@ -32,6 +32,9 @@ export default {
         'pastel-salmon': '#FFE2E2',
         'pastel-peach': '#FFE4F3',
         ivory: '#FFF8EA',
+        orange: {
+          100: '#FF6900',
+        },
       },
       backgroundImage: {
         gradient: 'linear-gradient(to right, #F58D80, #89B548)',

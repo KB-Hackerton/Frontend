@@ -9,6 +9,7 @@ const route = useRoute()
 
 const bgMap = {
   ivory: 'bg-ivory',
+  gray: 'bg-[#F9FAFB]',
 }
 
 const bgColor = computed(() => bgMap[route.meta.bg] || 'bg-white')

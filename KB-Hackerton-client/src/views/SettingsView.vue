@@ -30,60 +30,62 @@ const setAlarmTime = (startTime, endTime) => {
 </script>
 
 <template>
-  <div class="flex flex-col w-full h-full px-3">
-    <h1 class="text-16 bold">PUSH 알림 설정</h1>
-    <div class="w-full border-b border-gray-300 py-4">
-      <PushNotificationToggle
-        :title="'공고 알림'"
-        :isChecked="setting.announce_preference"
-        @toggle="onToggleChange('announce_preference')"
-      />
-    </div>
-    <div class="w-full border-b border-gray-300 py-4">
-      <PushNotificationToggle
-        :title="'SOS 알림'"
-        :isChecked="setting.sos_preference"
-        @toggle="onToggleChange('sos_preference')"
-      />
-    </div>
-    <div class="w-full border-b border-gray-300 py-4 flex flex-col gap-3">
-      <PushNotificationToggle
-        :title="'push 알림 잠자기'"
-        :isChecked="setting.is_alarm"
-        @toggle="onToggleChange('is_alarm')"
-      />
-      <AlarmTimePicker
-        :startTime="setting.alarm_start_time"
-        :endTime="setting.alarm_end_time"
-        :isDisabled="!setting.is_alarm"
-        @click="openAlarmModal = true"
-      />
-    </div>
+  <div
+    class="flex flex-col h-full px-3 mx-[-1rem] border-t border-b border-gray-100 mt-[-1rem] pt-7"
+  >
+    <div class="w-full bg-white rounded-2xl px-3 py-4 shadow-custom">
+      <h1 class="text-16 bold">PUSH 알림 설정</h1>
 
-    <div class="w-full">
-      <transition name="slide-up">
-        <PushAlarmTimeModal
-          v-if="openAlarmModal && setting.is_alarm"
-          @close="openAlarmModal = false"
+      <div class="w-full py-4">
+        <PushNotificationToggle
+          :title="'공고 알림'"
+          :isChecked="setting.announce_preference"
+          @toggle="onToggleChange('announce_preference')"
+        />
+      </div>
+      <div class="w-full py-4">
+        <PushNotificationToggle
+          :title="'SOS 알림'"
+          :isChecked="setting.sos_preference"
+          @toggle="onToggleChange('sos_preference')"
+        />
+      </div>
+      <div class="w-full pt-4 pb-1 flex flex-col gap-3">
+        <PushNotificationToggle
+          :title="'push 알림 잠자기'"
+          :isChecked="setting.is_alarm"
+          @toggle="onToggleChange('is_alarm')"
+        />
+        <AlarmTimePicker
           :startTime="setting.alarm_start_time"
           :endTime="setting.alarm_end_time"
-          @click="setAlarmTime"
+          :isDisabled="!setting.is_alarm"
+          @click="openAlarmModal = true"
         />
-      </transition>
+      </div>
+      <div class="w-full">
+        <transition name="slide-up">
+          <PushAlarmTimeModal
+            v-if="openAlarmModal && setting.is_alarm"
+            @close="openAlarmModal = false"
+            :startTime="setting.alarm_start_time"
+            :endTime="setting.alarm_end_time"
+            @click="setAlarmTime"
+          />
+        </transition>
+      </div>
     </div>
 
-    <div class="h-2 w-screen bg-gray-100 mt-10 -mx-7"></div>
-
-    <h1 class="text-16 bold mt-6">앱 정보</h1>
-
-    <div class="flex justify-between py-4 border-b border-gray-300 text-12 semibold texy-gray-400">
-      <p>최초 가입일</p>
-      <p>2025.0910</p>
-    </div>
-
-    <div class="flex justify-between py-4 border-b border-gray-300 text-12 semibold texy-gray-400">
-      <p>앱 버전</p>
-      <p>1.5.3</p>
+    <div class="w-full bg-white rounded-2xl px-3 py-4 shadow-custom mt-6">
+      <h1 class="text-16 bold">앱 정보</h1>
+      <div class="flex justify-between py-4 text-12 semibold texy-gray-400">
+        <p>최초 가입일</p>
+        <p class="text-gray-400">2025.0910</p>
+      </div>
+      <div class="flex justify-between pt-4 pb-1 text-12 semibold texy-gray-400">
+        <p>앱 버전</p>
+        <p class="text-gray-400">1.5.3</p>
+      </div>
     </div>
   </div>
 </template>
