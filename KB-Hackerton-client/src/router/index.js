@@ -9,6 +9,7 @@ import notice from '@/router/notice.js'
 import mypage from '@/router/mypage.js'
 import article from '@/router/article.js'
 import sos from '@/router/sos.js'
+import chat from '@/router/chat.js'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -97,6 +98,7 @@ const router = createRouter({
         ...mypage,
         ...article,
         ...sos,
+        ...chat
       ],
     },
   ],
