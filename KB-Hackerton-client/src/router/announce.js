@@ -21,6 +21,7 @@ export default [
     component: () => import('@/views/AnnounceDocsChecklistView.vue'),
     meta: {
       title: '제출 서류 체크',
+      bg: 'ivory',
     },
   },
 ]
