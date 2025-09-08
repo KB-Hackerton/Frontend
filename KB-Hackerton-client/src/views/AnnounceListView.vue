@@ -20,7 +20,7 @@ const errorMsg = ref('')
 const { announceList } = storeToRefs(announceStore)
 
 // 검색 대상 필드 (널-세이프 문자열 비교)
-const SEARCH_FIELDS = ['announce_title', 'hashtags', 'author', 'exc_InsttNm', 'lcategory']
+const SEARCH_FIELDS = ['title', 'exc_Instt_nm', 'lcategory']
 
 const getTodayYmdNum = () => {
   const d = new Date()
