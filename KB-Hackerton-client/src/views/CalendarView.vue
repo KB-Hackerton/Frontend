@@ -498,6 +498,7 @@ function showMonth() {
           {{ currentTitle }}
         </div>
         <ToggleSwitch
+          v-if="filter !== '축제'"
           :label="'즐겨찾기'"
           :isChecked="isFavorite"
           @click="isFavorite = !isFavorite"
