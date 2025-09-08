@@ -57,7 +57,7 @@ onMounted(async () => {
 
 const favoriteSet = async (id, isFavorite) => {
   const targetId = String(id) // ✅ 항상 문자열로 통일
-  const desired = !isFavorite // 토글 결과
+  const desired = !isFavorite
 
   if (isFavorite) {
     await favoriteStore.deleteFavorite(targetId)
