@@ -95,7 +95,7 @@ const updatedCheckList = () => {
 
 <template>
   <div
-    class="flex flex-col items-center justify-between h-full border-t border-gray-100 mt-[-1rem] mx-[-1rem] px-[1rem]"
+    class="flex flex-col items-center justify-between border-t border-gray-100 mt-[-1rem] mx-[-1rem] px-[1rem] h-full"
   >
     <div class="w-full pt-4">
       <div class="bg-white rounded-[0.7rem] shadow-custom flex px-5 pt-4 pb-8 gap-2">
@@ -143,7 +143,7 @@ const updatedCheckList = () => {
         />
       </div>
 
-      <BaseButton type="submit" color="main" class="w-full mb-10 mt-5" @click="updatedCheckList"
+      <BaseButton type="submit" color="main" class="w-full mt-[3rem]" @click="updatedCheckList"
         >저장</BaseButton
       >
     </div>
