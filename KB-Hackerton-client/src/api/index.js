@@ -17,9 +17,11 @@ api.interceptors.request.use(
     //   config.headers.Authorization = `Bearer ${token}`
     // }
 
-    // 로그인/회원가입 요청에는 토큰 안 붙임
+    // 로그인/회원가입/이메일 요청에는 토큰 안 붙임
     const isAuthRequest =
-      config.url.includes('/auth/login') || config.url.includes('/auth/member-info')
+      config.url.includes('/auth/login') ||
+      config.url.includes('/auth/member-info') ||
+      config.url.includes('/email')
     if (token && !isAuthRequest) {
       config.headers.Authorization = `Bearer ${token}`
     }

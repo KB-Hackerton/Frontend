@@ -13,3 +13,16 @@ export const postSignup = async (payload) => {
   const res = await api.post('/auth/member-info', payload)
   return res
 }
+
+// 이메일 인증번호 전송
+export const sendEmailCode = (email) => {
+  return api.post('/email', { email })
+}
+
+// 이메일 인증번호 검증
+export const verifyEmailCode = ({ email, code }) => {
+  return api.post('/email/verification', {
+    email,
+    verification_code: code,
+  })
+}
