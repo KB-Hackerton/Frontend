@@ -5,6 +5,14 @@ import Stomp from 'webstomp-client'
 import SockJS from 'sockjs-client/dist/sockjs'
 import axios from 'axios'
 
+
+const props = defineProps({
+  roomId: {
+    type: Number,
+    required: true,
+  },
+});
+
 const state = reactive({
   stompClient: null,
   messages: [],
@@ -13,7 +21,7 @@ const state = reactive({
     memberEmail: '',
     accessToken: '',
   },
-  roomId: 1,
+  roomId: props.roomId,
 })
 
 const connectWebSocket = () => {
@@ -30,10 +38,7 @@ const connectWebSocket = () => {
         console.log('✅ WebSocket connected successfully!');
         state.stompClient.subscribe(`/topic/${state.roomId}`, (message) => {
           const receivedMessage = JSON.parse(message.body);
-          // 실시간으로 오는 메시지는 senderEmail이 없을 수 있으므로 추가해줍니다.
           if (!receivedMessage.senderEmail && receivedMessage.senderId) {
-            // 이 부분은 백엔드에서 내려주는 실시간 메시지 DTO 구조에 따라 조정이 필요할 수 있습니다.
-            // 지금은 임시로 현재 사용자 이메일을 넣어줍니다.
             receivedMessage.senderEmail = state.user.memberEmail;
           }
           state.messages.push(receivedMessage);
@@ -98,10 +103,9 @@ onMounted(async () => {
       return;
     }
 
-    // ★★★★★ 문제 해결 1: snake_case -> camelCase로 명시적 변환 ★★★★★
     const parsedUser = JSON.parse(userString);
     state.user = {
-      memberEmail: parsedUser.member_email, // 이 부분이 핵심 수정사항입니다.
+      memberEmail: parsedUser.member_email,
       accessToken: accessToken
     };
     console.log('👤 사용자 정보:', state.user.memberEmail);
