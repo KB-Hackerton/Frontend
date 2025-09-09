@@ -6,6 +6,7 @@ import RoundedDropdownFilter from '@/components/common/RoundedDropdownFilter.vue
 import { useNotificationStore } from '@/stores/notification'
 import { storeToRefs } from 'pinia'
 import ErrorModal from '@/components/error/ErrorModal.vue'
+import { Icon } from '@iconify/vue'
 
 const notificationStore = useNotificationStore()
 const { notificationList } = storeToRefs(notificationStore)
@@ -58,9 +59,15 @@ const notificationDelete = async (notificationId) => {
   }
 }
 
-const notificationAllDelete = () => {
-  //api 연동 하면서 로직 만들기
+const notificationAllDelete = async () => {
   //알림 전체 삭제
+  await notificationStore.deleteAllNotification()
+  if (notificationStore.error) {
+    errorMsg.value = notificationStore.error.message
+    errorModal.value = true
+  } else {
+    notificationList.value = []
+  }
 }
 
 const notificationAllRead = async () => {
@@ -136,6 +143,14 @@ onMounted(async () => {
       class="z-[100] fixed top-1/3 left-1/2 -translate-x-1/2"
       :notification="modalData"
     />
+
+    <div
+      class="flex flex-col justify-center items-center text-14 semibold text-gray-300 mt-[5rem]"
+      v-if="notificationList.length === 0"
+    >
+      <Icon icon="ix:alarm-bell-filled" class="size-10" />
+      <p class="mt-1 text-16">알림이 없습니다....</p>
+    </div>
 
     <div
       v-if="errorModal"
