@@ -12,4 +12,9 @@ export default {
     const res = await api.patch(`${BASE_URL}/${notificationId}/read`)
     return res
   },
+
+  async allReadNotification() {
+    const res = await api.post(`${BASE_URL}/read-all`)
+    return res
+  },
 }

@@ -33,5 +33,24 @@ export const useNotificationStore = defineStore('notification', () => {
     }
   }
 
-  return { loading, error, notificationList, getNotificationList, readNotification }
+  const allReadNotification = async () => {
+    loading.value = true
+    error.value = null
+    try {
+      const res = await api.allReadNotification()
+    } catch (e) {
+      error.value = e
+    } finally {
+      loading.value = false
+    }
+  }
+
+  return {
+    loading,
+    error,
+    notificationList,
+    getNotificationList,
+    readNotification,
+    allReadNotification,
+  }
 })
