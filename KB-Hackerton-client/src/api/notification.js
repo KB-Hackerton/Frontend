@@ -7,4 +7,9 @@ export default {
     const res = await api.get(`${BASE_URL}`)
     return res
   },
+
+  async readNotification(notificationId) {
+    const res = await api.patch(`${BASE_URL}/${notificationId}/read`)
+    return res
+  },
 }
