@@ -14,6 +14,19 @@ const errorMsg = ref('')
 // 카드 간 간격(ms) — 원하면 60~120ms 사이에서 조절
 const STAGGER = 90
 
+const deleteFavorite = async (favoriteId) => {
+  await favoriteStore.deleteFavorite(favoriteId)
+  if (favoriteStore.error) {
+    errorMsg.value = '즐겨찾기 목록을 불러오는데 실패했습니다.'
+    errorModal.value = true
+  } else {
+    favoriteList.value.splice(
+      favoriteList.value.findIndex((it) => it.announce_id === favoriteId),
+      1,
+    )
+  }
+}
+
 onMounted(async () => {
   await favoriteStore.getFavoriteList()
   if (favoriteStore.error) {
@@ -46,7 +59,7 @@ onMounted(async () => {
         class="will-change-transform"
         :style="{ transitionDelay: `${i * STAGGER}ms` }"
       >
-        <FavoriteCard :favorite="announce" />
+        <FavoriteCard :favorite="announce" @updated="(id) => deleteFavorite(id)" />
       </div>
     </TransitionGroup>
 
