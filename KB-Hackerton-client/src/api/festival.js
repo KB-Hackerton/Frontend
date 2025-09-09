@@ -7,4 +7,9 @@ export default {
     const res = await api.get(BASE_URL)
     return res
   },
+
+  async getFestivalDetail(festivalId) {
+    const res = await api.get(`${BASE_URL}/${festivalId}`)
+    return res
+  },
 }
