@@ -45,9 +45,17 @@ const goDetail = (notification) => {
   //알림 관련 페이지로 이동
 }
 
-const notificationDelete = (notification) => {
-  //api 연동 하면서 로직 만들기
-  //알림 삭제
+const notificationDelete = async (notificationId) => {
+  //알림 단일 삭제
+  await notificationStore.deleteNotification(notificationId)
+  if (notificationStore.error) {
+    errorMsg.value = '알림을 삭제하는데 실패했습니다'
+    errorModal.value = true
+  } else {
+    notificationList.value = notificationList.value.filter(
+      (n) => n.notificationId !== notificationId,
+    )
+  }
 }
 
 const notificationAllDelete = () => {
@@ -109,7 +117,7 @@ onMounted(async () => {
         :notification="notification"
         :key="notification.notificationId"
         @click="openModal(notification)"
-        @delete="notificationDelete(notification)"
+        @delete="notificationDelete(notification.notificationId)"
       />
     </div>
 

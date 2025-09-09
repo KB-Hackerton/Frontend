@@ -9,7 +9,7 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(['click'])
+const emit = defineEmits(['click', 'delete'])
 </script>
 
 <template>
@@ -33,7 +33,9 @@ const emit = defineEmits(['click'])
       <div class="flex flex-col justify-between flex-1 pl-3">
         <div class="flex justify-between">
           <p class="text-14 bold">{{ props.notification.title }}</p>
-          <Icon icon="material-symbols:add-rounded" class="size-6 rotate-45" />
+          <button @click.stop="emit('delete')">
+            <Icon icon="material-symbols:add-rounded" class="size-6 rotate-45" />
+          </button>
         </div>
         <div class="flex-1">
           <p class="text-14 regular pr-6">{{ props.notification.content }}</p>
