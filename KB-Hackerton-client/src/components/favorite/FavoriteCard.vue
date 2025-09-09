@@ -81,7 +81,7 @@ const Dday = computed(() => {
         <div class="flex gap-2 justify-between h-full w-full">
           <h1 class="text-[0.8rem] bold text-start">{{ props.favorite.announce_title }}</h1>
 
-          <div class="flex items-start justify-center gap-2">
+          <div class="flex flex-col items-end gap-1">
             <div
               class="flex items-center justify-center border border-gray-200 rounded-[0.5rem] h-[1.5rem] w-[1.5rem]"
             >
