@@ -1,8 +1,9 @@
 export default [
   {
-    path: '/chatRoom',
+    path: '/chat-room/:roomId',
     name: 'chatRoom',
     component: () => import('@/views/ChatRoomView.vue'),
+    props: true
   },
   // {
   //   path: 'find-password',
