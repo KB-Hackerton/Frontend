@@ -1,14 +1,25 @@
 <script setup>
 import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+import { useSosStore } from '@/stores/sos'
 import SosFilterBar from '@/components/sos/SosFilterBar.vue'
 import BaseButton from '@/components/common/BaseButton.vue'
+import BaseModal from '@/components/common/BaseModal.vue'
 
-// State
-const selectedCategory = ref('')
+const router = useRouter()
+const sosStore = useSosStore()
+
+const selectedCategory = ref([])
 const expiresAt = ref('')
 const title = ref('')
 const content = ref('')
 const imageFiles = ref([])
+const previewUrls = ref([])
+
+const showSuccessModal = ref(false)
+const showFailModal = ref(false)
+
+const labelMap = { 물품: 'stock', 인력: 'labor', 고장: 'equipment', 기타: 'etc' }
 
 // 현재 시간으로 기본값 설정
 onMounted(() => {
@@ -18,7 +29,6 @@ onMounted(() => {
   expiresAt.value = `${hh}:${mm}`
 })
 
-// Methods
 function handleImageUpload(event) {
   const files = Array.from(event.target.files)
   for (const file of files) {
@@ -26,16 +36,19 @@ function handleImageUpload(event) {
       alert('사진은 최대 3장까지 업로드할 수 있습니다.')
       break
     }
-    imageFiles.value.push(URL.createObjectURL(file))
+    imageFiles.value.push(file)
+    previewUrls.value.push(URL.createObjectURL(file))
   }
-  event.target.value = '' // 같은 파일 다시 선택 가능하도록 초기화
+  event.target.value = ''
 }
 
 function removeImage(index) {
   imageFiles.value.splice(index, 1)
+  URL.revokeObjectURL(previewUrls.value[index])
+  previewUrls.value.splice(index, 1)
 }
 
-function createSos() {
+async function createSos() {
   if (!selectedCategory.value) {
     alert('요청 카테고리를 선택해주세요.')
     return
@@ -48,27 +61,29 @@ function createSos() {
     alert('요청 내용을 입력해주세요.')
     return
   }
-
-  const today = new Date()
-  const [hh, mm] = expiresAt.value.split(':')
-  const expireDate = new Date(today.getFullYear(), today.getMonth(), today.getDate(), hh, mm)
-
-  if (expireDate < today) {
-    alert('현재 시간 이후로만 설정할 수 있습니다.')
+  if (!expiresAt.value) {
+    alert('종료 시각을 입력해주세요.')
     return
   }
 
-  const newSos = {
-    sos_id: Date.now(),
-    sos_type: selectedCategory.value,
-    expires_at: expireDate.toISOString(),
-    sos_title: title.value,
-    sos_content: content.value,
-    sos_image: [...imageFiles.value],
+  try {
+    const res = await sosStore.createSos({
+      sos_type: labelMap[selectedCategory.value[0]],
+      expires_at: expiresAt.value,
+      sos_title: title.value,
+      sos_content: content.value,
+      images: imageFiles.value,
+    })
+    console.log('🟢 SOS 생성 성공:', res)
+    showSuccessModal.value = true
+  } catch (e) {
+    console.error('❌ SOS 생성 실패', e)
+    showFailModal.value = true
   }
+}
 
-  console.log('생성된 SOS:', newSos)
-  alert('SOS가 등록되었습니다! (프론트 전용)')
+function goToList() {
+  router.push('/sos')
 }
 </script>
 
@@ -136,8 +151,8 @@ function createSos() {
           @change="handleImageUpload"
         />
 
-        <div v-for="(img, index) in imageFiles" :key="index" class="relative">
-          <img :src="img" alt="업로드된 이미지" class="w-24 h-24 rounded-lg border object-cover" />
+        <div v-for="(url, index) in previewUrls" :key="index" class="relative">
+          <img :src="url" alt="업로드된 이미지" class="w-24 h-24 rounded-lg border object-cover" />
           <button
             type="button"
             class="absolute top-1 right-1 w-5 h-5 flex items-center justify-center rounded-full bg-black bg-opacity-50 text-white text-12"
@@ -151,4 +166,22 @@ function createSos() {
 
     <BaseButton class="mt-6" @click="createSos">생성하기</BaseButton>
   </div>
+
+  <BaseModal
+    :show="showSuccessModal"
+    title="SOS 생성 완료"
+    message="정상적으로 SOS가 등록되었습니다.&#10; 목록 화면으로 이동합니다."
+    confirmText="확인"
+    @confirm="goToList"
+    @close="goToList"
+  />
+
+  <BaseModal
+    :show="showFailModal"
+    title="SOS 생성 실패"
+    message="SOS 등록에 실패했습니다.&#10; 다시 시도해주세요."
+    confirmText="닫기"
+    @confirm="showFailModal = false"
+    @close="showFailModal = false"
+  />
 </template>
