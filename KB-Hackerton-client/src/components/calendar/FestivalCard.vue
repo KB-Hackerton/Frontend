@@ -9,6 +9,13 @@ const props = defineProps({
     required: true,
   },
 })
+
+const formatDate = (raw) => {
+  if (!raw) return ''
+  const str = String(raw)
+  if (str.length !== 8) return str
+  return `${str.slice(0, 4)}.${str.slice(4, 6)}.${str.slice(6, 8)}`
+}
 const baseImgUrl = baseImg
 const getTodayYmdNum = () => {
   const d = new Date()
@@ -64,7 +71,7 @@ const festivalStatus = computed(() => {
               <Icon icon="mingcute:time-line" class="size-5 text-main" />
               <p class="text-12 semibold truncate">
                 {{
-                  `${props.festival.event_startdate} ${props.festival.event_enddate != props.festival.event_startdate ? '~' + props.festival.event_enddate : ''}`
+                  `${formatDate(props.festival.event_startdate)} ~ ${formatDate(props.festival.event_enddate)}`
                 }}
               </p>
             </div>

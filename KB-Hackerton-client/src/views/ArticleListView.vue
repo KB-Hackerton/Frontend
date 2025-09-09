@@ -1,15 +1,22 @@
 <script setup>
-import { computed, ref, watch, nextTick } from 'vue'
-import article from '@/_dummy/article'
+import { computed, ref, watch, nextTick, onMounted } from 'vue'
 import Paging from '@/components/common/Paging.vue'
-
 import { useRoute, useRouter } from 'vue-router'
 import ArticleCard from '@/components/article/ArticleCard.vue'
 import SearchBarNoneButton from '@/components/input/SearchBarNoneButton.vue'
+import { useArticleStore } from '@/stores/article'
+import { storeToRefs } from 'pinia'
+import ErrorModal from '@/components/error/ErrorModal.vue'
 
 const route = useRoute()
 const router = useRouter()
 const pageSize = 5
+
+const errorModal = ref(false)
+const errorMsg = ref('')
+
+const articleStore = useArticleStore()
+const { articleList } = storeToRefs(articleStore)
 
 // --- 라우트 쿼리 변화에 반응 (동일 라우트 내에서 쿼리만 바뀔 때도 동기화)
 watch(
@@ -46,9 +53,9 @@ watch(searched, (val) => {
 // 필터링 이후의 총건수/총페이지를 계산하기 위해 computed로 전환
 const filteredNoticeList = computed(() => {
   const q = (appliedQuery.value || '').trim().toLowerCase()
-  if (!q) return article
+  if (!q) return articleList.value
   const SEARCH_FIELDS = ['title', 'content']
-  return article.filter((item) =>
+  return articleList.value.filter((item) =>
     SEARCH_FIELDS.some((k) => ((item?.[k] ?? '') + '').toLowerCase().includes(q)),
   )
 })
@@ -99,6 +106,14 @@ const goTo = async (p) => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 }
+
+onMounted(async () => {
+  await articleStore.getArticleList()
+  if (articleStore.error) {
+    errorMsg.value = '뉴스 목록을 불러오는데 실패했습니다.'
+    errorModal.value = true
+  }
+})
 </script>
 
 <template>
@@ -120,6 +135,19 @@ const goTo = async (p) => {
     <div class="flex justify-center pt-2 pb-[3rem]">
       <Paging :totalPages="totalPages" :currentPage="currentPage" @goTo="goTo" />
     </div>
+
+    <div
+      v-if="errorModal"
+      class="fixed inset-0 bg-black/55 z-[90]"
+      @click="errorModal = false"
+    ></div>
+
+    <ErrorModal
+      v-if="errorModal"
+      @close="errorModal = false"
+      :title="errorMsg"
+      class="z-[100] fixed top-1/3 left-1/2 -translate-x-1/2"
+    />
   </div>
 </template>
 
