@@ -38,8 +38,8 @@ async function initMap() {
   const kakao = await loadKakaoMapSdk()
   const container = document.getElementById('map')
   const options = {
-    center: new kakao.maps.LatLng(36.568354, 128.729357), // 안동시청
-    level: 5,
+    center: new kakao.maps.LatLng(37.517469, 127.041151), // 강남구청역
+    level: 7,
   }
   map = new kakao.maps.Map(container, options)
   renderMarkers(props.items)
@@ -53,7 +53,7 @@ function renderMarkers(items) {
   const geocoder = new kakao.maps.services.Geocoder()
 
   items.forEach((sos) => {
-    const addr = sos.business?.business_addr
+    const addr = sos.business_addr
     if (!addr) return
 
     geocoder.addressSearch(addr, (result, status) => {
@@ -93,7 +93,7 @@ function renderMarkers(items) {
         label.style.fontWeight = 'bold'
         label.style.padding = '2px 6px'
         label.style.whiteSpace = 'nowrap'
-        label.textContent = sos.business?.business_nm
+        label.textContent = sos.business_name
 
         markerContent.appendChild(circle)
         markerContent.appendChild(label)

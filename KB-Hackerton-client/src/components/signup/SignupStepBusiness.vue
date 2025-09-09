@@ -222,6 +222,7 @@ function goToLogin() {
       가입하기
     </BaseButton>
   </div>
+
   <BaseModal
     :show="showSuccessModal"
     title="회원가입 완료"
