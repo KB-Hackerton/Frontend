@@ -8,11 +8,11 @@ export const useAlarmStore = defineStore('alarm', () => {
 
   const alarmData = ref({})
 
-  const getAlarmList = async () => {
+  const getAlarmData = async () => {
     loading.value = true
     error.value = null
     try {
-      const res = await api.getAlarmList()
+      const res = await api.getAlarm()
       alarmData.value = res?.data ?? {}
     } catch (e) {
       error.value = e
@@ -21,5 +21,5 @@ export const useAlarmStore = defineStore('alarm', () => {
     }
   }
 
-  return { loading, error, alarmData, getAlarmList }
+  return { loading, error, alarmData, getAlarmData }
 })
