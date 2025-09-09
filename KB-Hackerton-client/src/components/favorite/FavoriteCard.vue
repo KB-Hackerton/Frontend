@@ -13,6 +13,8 @@ const props = defineProps({
   },
 })
 
+const emit = defineEmits(['updated'])
+
 const displayPercent = ref(0)
 const checkPercent = computed(() => {
   if (!props.favorite.total_docs) return 0
@@ -84,6 +86,7 @@ const Dday = computed(() => {
           <div class="flex flex-col items-end gap-1">
             <button
               class="flex items-center justify-center border border-gray-200 rounded-[0.5rem] h-[1.5rem] w-[1.5rem]"
+              @click.stop="emit('updated', props.favorite.announce_id)"
             >
               <Icon icon="material-symbols:kid-star" class="w-[1.2rem] h-auto text-[#FFE599]" />
             </button>
