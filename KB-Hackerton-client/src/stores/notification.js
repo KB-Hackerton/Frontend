@@ -57,6 +57,18 @@ export const useNotificationStore = defineStore('notification', () => {
     }
   }
 
+  const deleteAllNotification = async () => {
+    loading.value = true
+    error.value = null
+    try {
+      const res = await api.deleteAllNotification()
+    } catch (e) {
+      error.value = e
+    } finally {
+      loading.value = false
+    }
+  }
+
   return {
     loading,
     error,
@@ -65,5 +77,6 @@ export const useNotificationStore = defineStore('notification', () => {
     readNotification,
     allReadNotification,
     deleteNotification,
+    deleteAllNotification,
   }
 })

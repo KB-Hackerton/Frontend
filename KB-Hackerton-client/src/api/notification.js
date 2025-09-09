@@ -22,4 +22,9 @@ export default {
     const res = await api.delete(`${BASE_URL}/${notificationId}`)
     return res
   },
+
+  async deleteAllNotification() {
+    const res = await api.delete(`${BASE_URL}`)
+    return res
+  },
 }
