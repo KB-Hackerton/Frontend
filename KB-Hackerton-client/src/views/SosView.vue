@@ -2,12 +2,14 @@
 import { ref, computed, onMounted } from 'vue'
 import router from '@/router'
 import { useSosStore } from '@/stores/sos'
+import { useAuthStore } from '@/stores/auth'
 import SosFilterBar from '@/components/sos/SosFilterBar.vue'
 import KakaoMap from '@/components/sos/KakaoMap.vue'
 import SosList from '@/components/sos/SosList.vue'
 import SosDetail from '@/components/sos/SosDetail.vue'
 
 const sosStore = useSosStore()
+const authStore = useAuthStore()
 
 const sosItems = ref([])
 const selectedCategories = ref(['전체'])
@@ -17,8 +19,17 @@ const typeMap = { stock: '물품', labor: '인력', equipment: '고장', etc: '�
 
 const filteredList = computed(() => {
   const cats = selectedCategories.value
-  if (cats.includes('전체')) return sosItems.value
-  return sosItems.value.filter((item) => cats.includes(typeMap[item.sos_type]))
+  let list = sosItems.value
+
+  if (!cats.includes('전체')) {
+    list = list.filter((item) => cats.includes(typeMap[item.sos_type]))
+  }
+
+  return [...list].sort((a, b) => {
+    const aOwner = a.isOwner ? 1 : 0
+    const bOwner = b.isOwner ? 1 : 0
+    return bOwner - aOwner // true(1) 먼저
+  })
 })
 
 function goToCreate() {
@@ -28,7 +39,10 @@ function goToCreate() {
 async function handleSelect(item) {
   try {
     const detail = await sosStore.fetchDetail(item.sos_id)
-    selectedItem.value = detail.data
+    selectedItem.value = {
+      ...detail.data,
+      isOwner: item.business_name === authStore.user?.business_dto?.businessNm,
+    }
     console.log('🟢 SOS 상세 불러오기 성공')
   } catch (e) {
     console.error('❌ SOS 상세 불러오기 실패', e)
@@ -61,7 +75,10 @@ async function handleDelete(id) {
 async function fetchList() {
   try {
     const res = await sosStore.fetchList()
-    sosItems.value = res
+    sosItems.value = res.map((item) => ({
+      ...item,
+      isOwner: item.business_name === authStore.user?.business_dto?.businessNm,
+    }))
     console.log('🟢 SOS 목록 불러오기 성공')
   } catch (e) {
     console.error('❌ SOS 목록 불러오기 실패', e)
@@ -85,7 +102,7 @@ onMounted(fetchList)
       <template v-if="selectedItem">
         <SosDetail
           :item="selectedItem"
-          :isOwner="true"
+          :isOwner="selectedItem?.isOwner"
           @close="closeDetail"
           @edit="handleEdit"
           @delete="handleDelete"

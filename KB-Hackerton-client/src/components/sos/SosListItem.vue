@@ -18,7 +18,12 @@ const urgency = computed(() => {
 </script>
 
 <template>
-  <button type="button" class="w-full p-4 text-left" @click="$emit('select', item)">
+  <button
+    type="button"
+    class="w-full p-4 text-left"
+    :class="item.isOwner ? 'bg-pastel-babyblue' : ''"
+    @click="$emit('select', item)"
+  >
     <div class="flex items-center gap-3">
       <img
         v-if="item.image_url"

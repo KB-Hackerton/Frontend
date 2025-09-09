@@ -6,7 +6,7 @@ import BaseModal from '../common/BaseModal.vue'
 
 const props = defineProps({
   item: { type: Object, required: true },
-  isOwner: { type: Boolean, default: true },
+  isOwner: { type: Boolean, default: false },
 })
 const emit = defineEmits(['close', 'chat', 'edit', 'delete'])
 
