@@ -14,29 +14,40 @@ const errorModal = ref(false)
 const errorMsg = ref('')
 
 const openAlarmModal = ref(false)
-const onToggleChange = (update) => {
-  //알림 설정 API 연동
+const onToggleChange = async (update) => {
   alarmData.value[update] = !alarmData.value[update]
 
-  if (update === 'is_alarm' && !alarmData.value.is_alarm) {
+  await alarmStore.updateAlarm(alarmData.value)
+  if (alarmStore.error) {
+    errorMsg.value = '알람 설정에 실패해습니다.'
+    errorModal.value = true
+    alarmData.value[update] = !alarmData.value[update]
+  }
+
+  if (update === 'dndEnabled' && !alarmData.value.dndEnabled) {
     openAlarmModal.value = false
   }
 }
 
-const setAlarmTime = (startTime, endTime) => {
+const setAlarmTime = async (startTime, endTime) => {
   alarmData.value.dndStart = startTime
   alarmData.value.dndEnd = endTime
+
+  await alarmStore.updateAlarm(alarmData.value)
+  if (alarmStore.error) {
+    errorMsg.value = '알람 설정에 실패했습니다.'
+    errorModal.value = true
+  }
+
   openAlarmModal.value = false
 }
 
 onMounted(async () => {
   await alarmStore.getAlarmData()
   if (alarmStore.error) {
-    errorMsg.value = '알림 목록을 불러오는데 실패했습니다.'
+    errorMsg.value = '알람 설정 목록을 불러오는데 실패했습니다.'
     errorModal.value = true
-    console.log(`알림 목록을 불러오는데 실패했습니다. ${alarmStore.error}`)
   }
-  console.log(`알림 목록을 불러오는데 성공했습니다. ${alarmData.value}`)
 })
 </script>
 
