@@ -27,10 +27,16 @@ const openModal = (notification) => {
   modalData.value = notification
 }
 
-const isReadNotification = (notification) => {
-  notification.is_read = true
+const isReadNotification = async (notificationId) => {
+  await notificationStore.readNotification(notificationId)
+  if (notificationStore.error) {
+    errorMsg.value = '알림을 읽는데 실패하셨습니다'
+    errorModal.value = true
+  } else {
+    notificationList.value.find((n) => n.notificationId === notificationId).isRead = true
+  }
+
   isModal.value = false
-  //api 연동 하면서 나머지 로직 만들기
 }
 
 const goDetail = (notification) => {
@@ -57,7 +63,7 @@ const notificationAllRead = () => {
 onMounted(async () => {
   await notificationStore.getNotificationList()
   if (notificationStore.error) {
-    errorMsg.value = '알람 목록을 불러오는데 실패했습니다.'
+    errorMsg.value = '알림 목록을 불러오는데 실패했습니다.'
     errorModal.value = true
   }
 })
@@ -109,8 +115,8 @@ onMounted(async () => {
 
     <NotificationModal
       v-if="isModal"
-      @close="isReadNotification(notification)"
-      @click="goDetail(notification)"
+      @close="isReadNotification(modalData.notificationId)"
+      @click="goDetail(modalData)"
       class="z-[100] fixed top-1/3 left-1/2 -translate-x-1/2"
       :notification="modalData"
     />
