@@ -1,19 +1,25 @@
 <script setup>
 import NotificationCard from '@/components/notification/NotificationCard.vue'
-import notification from '@/_dummy/notification'
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import NotificationModal from '@/components/modal/NotificationModal.vue'
 import RoundedDropdownFilter from '@/components/common/RoundedDropdownFilter.vue'
+import { useNotificationStore } from '@/stores/notification'
+import { storeToRefs } from 'pinia'
+import ErrorModal from '@/components/error/ErrorModal.vue'
 
+const notificationStore = useNotificationStore()
+const { notificationList } = storeToRefs(notificationStore)
 const isModal = ref(false)
 const modalData = ref(null)
 const filter = ref('all')
+const errorModal = ref(false)
+const errorMsg = ref('')
 
 const displayNotificationList = computed(() => {
-  if (filter.value === 'sos') return notification.filter((n) => n.noti_type === 'sos')
+  if (filter.value === 'sos') return notificationList.value.filter((n) => n.notiType === 'sos')
   else if (filter.value === 'announce')
-    return notification.filter((n) => n.noti_type === 'announce')
-  return notification
+    return notificationList.value.filter((n) => n.notiType === 'announce')
+  return notificationList.value
 })
 
 const openModal = (notification) => {
@@ -47,6 +53,14 @@ const notificationAllRead = () => {
   //api 연동 하면서 로직 만들기
   //전체읽음 처리
 }
+
+onMounted(async () => {
+  await notificationStore.getNotificationList()
+  if (notificationStore.error) {
+    errorMsg.value = '알람 목록을 불러오는데 실패했습니다.'
+    errorModal.value = true
+  }
+})
 </script>
 
 <template>
@@ -72,11 +86,14 @@ const notificationAllRead = () => {
       </button>
     </div>
 
-    <div class="overflow-scroll [&::-webkit-scrollbar]:hidden mt-4 flex flex-col gap-3">
+    <div
+      v-if="notificationList"
+      class="overflow-scroll [&::-webkit-scrollbar]:hidden mt-4 flex flex-col gap-3"
+    >
       <NotificationCard
         v-for="notification in displayNotificationList"
         :notification="notification"
-        :key="notification.notification_id"
+        :key="notification.notificationId"
         @click="openModal(notification)"
         @delete="notificationDelete(notification)"
       />
@@ -96,6 +113,19 @@ const notificationAllRead = () => {
       @click="goDetail(notification)"
       class="z-[100] fixed top-1/3 left-1/2 -translate-x-1/2"
       :notification="modalData"
+    />
+
+    <div
+      v-if="errorModal"
+      class="fixed inset-0 bg-black/55 z-[90]"
+      @click="errorModal = false"
+    ></div>
+
+    <ErrorModal
+      v-if="errorModal"
+      @close="errorModal = false"
+      :title="errorMsg"
+      class="z-[100] fixed top-1/3 left-1/2 -translate-x-1/2"
     />
   </div>
 </template>
