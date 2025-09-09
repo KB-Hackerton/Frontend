@@ -12,4 +12,9 @@ export default {
     const res = await api.delete(`${BASE_URL}/${announceId}`)
     return res
   },
+
+  async getFavoriteList() {
+    const res = await api.get(BASE_URL)
+    return res
+  },
 }
