@@ -21,5 +21,17 @@ export const useAlarmStore = defineStore('alarm', () => {
     }
   }
 
-  return { loading, error, alarmData, getAlarmData }
+  const updateAlarm = async (payload) => {
+    loading.value = true
+    error.value = null
+    try {
+      const res = await api.updateAlarm(payload)
+    } catch (e) {
+      error.value = e
+    } finally {
+      loading.value = false
+    }
+  }
+
+  return { loading, error, alarmData, getAlarmData, updateAlarm }
 })

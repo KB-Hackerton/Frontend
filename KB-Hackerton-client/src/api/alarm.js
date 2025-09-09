@@ -7,4 +7,9 @@ export default {
     const res = await api.get(`${BASE_URL}/preference`)
     return res
   },
+
+  async updateAlarm(payload) {
+    const res = await api.patch(`${BASE_URL}/preference`, payload)
+    return res
+  },
 }
