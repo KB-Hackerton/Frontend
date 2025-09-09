@@ -117,7 +117,7 @@ onMounted(async () => {
 
     <div
       v-if="notificationList"
-      class="overflow-scroll [&::-webkit-scrollbar]:hidden mt-4 flex flex-col gap-3"
+      class="overflow-scroll h-full [&::-webkit-scrollbar]:hidden mt-4 flex flex-col gap-3"
     >
       <NotificationCard
         v-for="notification in displayNotificationList"

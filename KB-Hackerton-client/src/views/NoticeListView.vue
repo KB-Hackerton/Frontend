@@ -1,15 +1,21 @@
 <script setup>
 import SearchBar from '@/components/announce/SearchBar.vue'
 import NoticeCard from '@/components/notice/NoticeCard.vue'
-import { computed, ref, watch } from 'vue'
-import notice from '@/_dummy/notice_dummy'
+import { computed, onMounted, ref, watch } from 'vue'
 import Paging from '@/components/common/Paging.vue'
-
 import { useRoute, useRouter } from 'vue-router'
+import { useNoticeStore } from '@/stores/notice'
+import { storeToRefs } from 'pinia'
+import notice from '@/api/notice'
+import ErrorModal from '@/components/error/ErrorModal.vue'
 
+const noticeStore = useNoticeStore()
+const { noticeList } = storeToRefs(noticeStore)
 const route = useRoute()
 const router = useRouter()
 const pageSize = 8
+const errorModal = ref(false)
+const errorMsg = ref('')
 
 // --- 라우트 쿼리 변화에 반응 (동일 라우트 내에서 쿼리만 바뀔 때도 동기화)
 watch(
@@ -37,9 +43,9 @@ const currentPage = ref(Number(route.query.page) || 1)
 // 필터링 이후의 총건수/총페이지를 계산하기 위해 computed로 전환
 const filteredNoticeList = computed(() => {
   const q = (appliedQuery.value || '').trim().toLowerCase()
-  if (!q) return notice
+  if (!q) return noticeList.value
   const SEARCH_FIELDS = ['title', 'content']
-  return notice.filter((item) =>
+  return noticeList.value.filter((item) =>
     SEARCH_FIELDS.some((k) => ((item?.[k] ?? '') + '').toLowerCase().includes(q)),
   )
 })
@@ -88,6 +94,13 @@ const goTo = (p) => {
   const clamped = Math.min(Math.max(1, Number(p) || 1), totalPages.value)
   currentPage.value = clamped
 }
+onMounted(async () => {
+  await noticeStore.getNoticeList()
+  if (noticeStore.error) {
+    errorMsg.value = '공지사항 목록을 불러오는데 실패했습니다.'
+    errorModal.value = true
+  }
+})
 </script>
 
 <template>
@@ -107,6 +120,19 @@ const goTo = (p) => {
     <div class="flex justify-center pb-1">
       <Paging :totalPages="totalPages" :currentPage="currentPage" @goTo="goTo" />
     </div>
+
+    <div
+      v-if="errorModal"
+      class="fixed inset-0 bg-black/55 z-[90]"
+      @click="errorModal = false"
+    ></div>
+
+    <ErrorModal
+      v-if="errorModal"
+      @close="errorModal = false"
+      :title="errorMsg"
+      class="z-[100] fixed top-1/3 left-1/2 -translate-x-1/2"
+    />
   </div>
 </template>
 
