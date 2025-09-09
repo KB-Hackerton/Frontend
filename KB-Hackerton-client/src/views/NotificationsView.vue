@@ -30,7 +30,7 @@ const openModal = (notification) => {
 const isReadNotification = async (notificationId) => {
   await notificationStore.readNotification(notificationId)
   if (notificationStore.error) {
-    errorMsg.value = '알림을 읽는데 실패하셨습니다'
+    errorMsg.value = '알림을 읽는데 실패했습니다'
     errorModal.value = true
   } else {
     notificationList.value.find((n) => n.notificationId === notificationId).isRead = true
@@ -55,9 +55,17 @@ const notificationAllDelete = () => {
   //알림 전체 삭제
 }
 
-const notificationAllRead = () => {
-  //api 연동 하면서 로직 만들기
+const notificationAllRead = async () => {
   //전체읽음 처리
+  await notificationStore.allReadNotification()
+  if (notificationStore.error) {
+    errorMsg.value = '알림 전체읽음을 실패했습니다'
+    errorModal.value = true
+  } else {
+    notificationList.value.forEach((n) => {
+      n.isRead = true
+    })
+  }
 }
 
 onMounted(async () => {
