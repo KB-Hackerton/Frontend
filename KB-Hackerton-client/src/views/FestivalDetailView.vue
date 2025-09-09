@@ -7,6 +7,13 @@ import { useFestivalStore } from '@/stores/festival'
 import { storeToRefs } from 'pinia'
 import BaseImg from '@/assets/images/banner.png'
 
+const formatDate = (raw) => {
+  if (!raw) return ''
+  const str = String(raw)
+  if (str.length !== 8) return str
+  return `${str.slice(0, 4)}.${str.slice(4, 6)}.${str.slice(6, 8)}`
+}
+
 const kakaoKey = import.meta.env.VITE_KAKAO_MAP_KEY
 
 const route = useRoute()
@@ -116,7 +123,9 @@ const initMap = () => {
         <div class="flex items-center gap-1 mt-2">
           <Icon icon="uil:calendar" class="size-5 text-orange-200" />
           <p class="text-14 medium">
-            {{ `기간: ${festivalDetail.event_startdate} ~ ${festivalDetail.event_enddate}` }}
+            {{
+              `기간: ${formatDate(festivalDetail.event_startdate)} ~ ${formatDate(festivalDetail.event_enddate)}`
+            }}
           </p>
         </div>
         <p class="text-12 medium ml-6 text-gray-300">{{ `장소: ${festivalDetail.addr}` }}</p>
