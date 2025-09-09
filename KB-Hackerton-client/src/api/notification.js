@@ -17,4 +17,9 @@ export default {
     const res = await api.post(`${BASE_URL}/read-all`)
     return res
   },
+
+  async deleteNotification(notificationId) {
+    const res = await api.delete(`${BASE_URL}/${notificationId}`)
+    return res
+  },
 }
