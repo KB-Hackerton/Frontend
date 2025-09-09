@@ -82,11 +82,11 @@ const Dday = computed(() => {
           <h1 class="text-[0.8rem] bold text-start">{{ props.favorite.announce_title }}</h1>
 
           <div class="flex flex-col items-end gap-1">
-            <div
+            <button
               class="flex items-center justify-center border border-gray-200 rounded-[0.5rem] h-[1.5rem] w-[1.5rem]"
             >
               <Icon icon="material-symbols:kid-star" class="w-[1.2rem] h-auto text-[#FFE599]" />
-            </div>
+            </button>
             <div
               class="rounded-full text-12 whitespace-nowrap items-center flex px-[0.4rem] h-[1.2rem]"
               :class="
