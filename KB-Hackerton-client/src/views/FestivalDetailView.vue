@@ -1,20 +1,31 @@
 <script setup>
 import { useRoute } from 'vue-router'
-import festival from '@/_dummy/festival'
+
 import { computed, onMounted } from 'vue'
 import { Icon } from '@iconify/vue'
+import { useFestivalStore } from '@/stores/festival'
+import { storeToRefs } from 'pinia'
+import BaseImg from '@/assets/images/banner.png'
 
 const kakaoKey = import.meta.env.VITE_KAKAO_MAP_KEY
 
 const route = useRoute()
-const festivalDetail = festival.find((f) => f.festival_id === Number(route.params.festival_id))
-const festivalImgUrl = festivalDetail.first_image
+const festivalStore = useFestivalStore()
+
+const { festivalDetail } = storeToRefs(festivalStore)
+const festivalImgUrl = computed(() => festivalDetail.value.first_image || BaseImg)
 
 const decodeEntities = (s) => {
   const doc = new DOMParser().parseFromString(s ?? '', 'text/html')
   return doc.documentElement.textContent ?? ''
 }
-const overviewText = computed(() => decodeEntities(festivalDetail.overview))
+const overviewText = computed(() => decodeEntities(festivalDetail.value.overview))
+
+onMounted(async () => {
+  const id = route.params.festival_id
+  await festivalStore.getFestivalDetail(id)
+  console.log(`festivalDetail:`, festivalDetail)
+})
 
 let map = null
 
@@ -53,7 +64,10 @@ const initMap = () => {
   const container = document.getElementById('map')
   if (!container) return
 
-  const center = new kakao.maps.LatLng(Number(festivalDetail.map_y), Number(festivalDetail.map_x))
+  const center = new kakao.maps.LatLng(
+    Number(festivalDetail.value.map_y),
+    Number(festivalDetail.value.map_x),
+  )
 
   map = new kakao.maps.Map(container, {
     center,
@@ -129,7 +143,7 @@ const initMap = () => {
         </div>
         <ul class="list-disc list-outside pl-4">
           <li class="marker:text-orange-200 marker:text-18 text-14 medium mx-2">
-            {{ `${festivalDetail.telname}` }}
+            {{ `${festivalDetail.tel_name}` }}
           </li>
         </ul>
 
