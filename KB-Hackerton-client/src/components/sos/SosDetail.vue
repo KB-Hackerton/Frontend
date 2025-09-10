@@ -3,6 +3,8 @@ import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import BaseButton from '../common/BaseButton.vue'
 import BaseModal from '../common/BaseModal.vue'
+import axios from 'axios'
+
 
 const props = defineProps({
   item: { type: Object, required: true },
@@ -45,6 +47,27 @@ function confirmDelete() {
   emit('delete', props.item.sos_id) // 부모에 삭제 요청 위임
   showDeleteModal.value = false
 }
+
+
+function goToChat(item) {
+  emit('chat', item)
+  const accessToken = localStorage.getItem('accessToken');
+  const response = axios.post(`${import.meta.env.VITE_APP_API_BASE_URL}/chat/room/private/create`,
+    {
+      "sos_id": item.sos_id,
+      "other_member_id": item.member_id
+    },
+    {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    })
+    .then((response) => {
+      console.log(response.data);
+      const roomId = response.data
+      router.push({ name: 'chat-room', params: { roomId: roomId } });
+    })
+  // emit('close')
+}
+
 </script>
 
 <template>
@@ -97,7 +120,7 @@ function confirmDelete() {
       <BaseButton color="gray" class="flex-1" @click="showDeleteModal = true">삭제하기</BaseButton>
       <BaseButton class="flex-1" @click="goToEdit(item)">수정하기</BaseButton>
     </div>
-    <BaseButton v-else class="mt-6" @click="$emit('chat', item)"> 채팅하기 </BaseButton>
+    <BaseButton v-else class="mt-6" @click="goToChat(item)"> 채팅하기 </BaseButton>
   </div>
 
   <BaseModal
