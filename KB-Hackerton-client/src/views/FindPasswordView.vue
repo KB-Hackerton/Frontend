@@ -4,15 +4,17 @@ import FindPasswordStepEmail from '@/components/find-password/FindPasswordStepEm
 import FindPasswordStepReset from '@/components/find-password/FindPasswordStepReset.vue'
 
 const step = ref(1)
+const verifiedEmail = ref('')
 
 function goNext() {
-  if (step.value < 2) step.value++
+  verifiedEmail.value = email
+  step.value = 2
 }
 </script>
 
 <template>
   <div>
     <FindPasswordStepEmail v-if="step === 1" @success="goNext" />
-    <FindPasswordStepReset v-else />
+    <FindPasswordStepReset v-else :email="verifiedEmail" />
   </div>
 </template>
