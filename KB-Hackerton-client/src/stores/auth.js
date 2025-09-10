@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import { postLogin } from '@/api/auth.js'
+import { postLogin, deleteUser } from '@/api/auth.js'
 
 export const useAuthStore = defineStore('Auth', () => {
   const accessToken = ref(localStorage.getItem('accessToken') || null)
@@ -57,6 +57,40 @@ export const useAuthStore = defineStore('Auth', () => {
     }
   }
 
+  // 로그아웃
+  const logoutUser = () => {
+    accessToken.value = null
+    refreshToken.value = null
+    user.value = null
+    localStorage.clear()
+  }
+
+  // 회원 탈퇴
+  const withdrawUser = async () => {
+    loading.value = true
+    error.value = ''
+    try {
+      const res = await deleteUser()
+      if (res.code === 200) {
+        // 토큰/유저 정보 초기화
+        accessToken.value = null
+        refreshToken.value = null
+        user.value = null
+        localStorage.clear()
+        return true
+      } else {
+        error.value = res.message || '회원 탈퇴에 실패했습니다.'
+        return false
+      }
+    } catch (err) {
+      console.error('❌ 회원탈퇴 에러', err)
+      error.value = '회원 탈퇴 중 오류가 발생했습니다.'
+      return false
+    } finally {
+      loading.value = false
+    }
+  }
+
   return {
     accessToken,
     refreshToken,
@@ -64,5 +98,7 @@ export const useAuthStore = defineStore('Auth', () => {
     loading,
     error,
     loginUser,
+    logoutUser,
+    withdrawUser,
   }
 })

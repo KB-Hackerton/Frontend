@@ -7,6 +7,7 @@ const props = defineProps({
   message: { type: String, required: true }, // 메시지
   confirmText: { type: String, default: '확인' }, // 확인 버튼 텍스트
   cancelText: { type: String, default: '' }, // 취소 버튼 텍스트 (없으면 버튼 미표시)
+  cancelColor: { type: String, default: 'gray' },
   type: { type: String, default: 'alert' }, // alert, confirm 등
 })
 const emit = defineEmits(['confirm', 'cancel', 'close'])
@@ -37,7 +38,12 @@ const emit = defineEmits(['confirm', 'cancel', 'close'])
 
       <!-- 버튼 영역 -->
       <div class="flex justify-center gap-3 mt-4">
-        <BaseButton v-if="cancelText" color="gray" class="w-[120px]" @click="$emit('cancel')">
+        <BaseButton
+          v-if="cancelText"
+          :color="cancelColor"
+          class="w-[120px]"
+          @click="$emit('cancel')"
+        >
           {{ cancelText }}
         </BaseButton>
         <BaseButton color="main" class="w-[120px]" @click="$emit('confirm')">

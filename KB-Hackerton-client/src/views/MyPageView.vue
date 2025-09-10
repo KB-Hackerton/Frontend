@@ -1,15 +1,16 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import { useAuthStore } from '@/stores/auth'
 import { useRouter } from 'vue-router'
-
 import { Icon } from '@iconify/vue'
-import userData from '@/_dummy/user.json'
-import defaultProfile from '@/assets/images/banner.png'
 import QuickMenu from '@/components/mypage/QuickMenu.vue'
 import OptionList from '@/components/mypage/OptionList.vue'
+import BaseModal from '@/components/common/BaseModal.vue'
 
+const authStore = useAuthStore()
 const router = useRouter()
-const user = ref(userData)
+
+const showConfirmModal = ref(false)
 
 const quickMenuItems = [
   { to: '/', icon: 'solar:star-line-duotone', label: '즐겨찾기' },
@@ -21,30 +22,31 @@ const optionListItems = [
   { to: '/setting', icon: 'material-symbols:settings-outline-rounded', label: '설정' },
   { to: '/terms-of-service', icon: 'material-symbols:contract-outline-rounded', label: '이용약관' },
   { to: '/', icon: 'material-symbols:help-outline', label: 'FAQ' },
-  { icon: 'material-symbols:logout', label: '로그아웃', onClick: logout, showArrow: false },
+  { icon: 'material-symbols:logout', label: '로그아웃', onClick: askLogout, showArrow: false },
   {
     to: '/membership/terminate',
     icon: 'lets-icons:sad',
     label: '회원탈퇴',
-    onClick: withdraw,
     danger: true,
     showArrow: false,
   },
 ]
 
-// 로그아웃
-function logout() {
-  console.log('로그아웃 실행')
+// 로그아웃 버튼
+function askLogout() {
+  showConfirmModal.value = true
+}
+
+// 확인 모달에서 "확인"
+async function confirmAction() {
+  showConfirmModal.value = false
+  authStore.logoutUser()
   router.replace('/login')
 }
 
-// 회원탈퇴
-function withdraw() {
-  if (confirm('정말 회원탈퇴를 진행하시겠습니까?')) {
-    console.log('회원탈퇴 실행')
-    router.replace('/login')
-  }
-}
+onMounted(() => {
+  console.log('🔎 authStore.user:', authStore.user)
+})
 </script>
 
 <template>
@@ -52,13 +54,13 @@ function withdraw() {
     <section class="p-5 flex items-center">
       <div class="relative">
         <img
-          :src="user.profile_image?.storage_key || defaultProfile"
+          :src="authStore.user?.profile_image_id"
           alt="프로필 이미지"
           class="w-20 h-20 rounded-full object-cover border"
         />
         <button
           class="absolute bottom-0 right-0 bg-main text-white w-6 h-6 rounded-full flex items-center justify-center shadow"
-          aria-label="프로필 수정"
+          aria-label="프로필 이미지"
         >
           <Icon icon="solar:pen-bold" class="w-3 h-3 text-white" />
         </button>
@@ -66,8 +68,8 @@ function withdraw() {
 
       <div class="ml-5 flex-1">
         <div class="flex items-center gap-2">
-          <h2 class="font-bold text-26">{{ user.member_name }}</h2>
-          <span class="font-medium text-16 text-gradient">{{ user.badge }}</span>
+          <h2 class="font-bold text-26">{{ authStore.user?.member_name }}</h2>
+          <span class="font-medium text-14 text-gradient">{{ authStore.user?.badge }}</span>
         </div>
 
         <div class="flex gap-2 mt-3">
@@ -90,16 +92,17 @@ function withdraw() {
     <section class="ml-5 p-5 border-b text-16 text-black">
       <div class="flex">
         <span class="w-16">상호명</span>
-        <span class="flex-1">{{ user.business.business_nm }}</span>
+        <span class="flex-1">{{ authStore.user?.business_dto.businessNm }}</span>
       </div>
       <div class="flex">
         <span class="w-16">업종</span>
-        <span class="flex-1">{{ user.business.business_class.minor_name }} </span>
+        <span class="flex-1">{{ authStore.user?.minor_nm }} </span>
       </div>
       <div class="flex">
         <span class="w-16">주소</span>
         <span class="flex-1">
-          {{ user.business.business_addr }} {{ user.business.business_addr_detail }}
+          {{ authStore.user?.business_dto.businessAddr }}
+          {{ authStore.user?.business_dto.businessAddrDetail }}
         </span>
       </div>
     </section>
@@ -107,6 +110,15 @@ function withdraw() {
     <QuickMenu :items="quickMenuItems" />
     <OptionList :items="optionListItems" />
   </div>
+
+  <BaseModal
+    :show="showConfirmModal"
+    title="로그아웃 확인"
+    message="정말 로그아웃 하시겠습니까?"
+    confirmText="로그아웃"
+    @confirm="confirmAction"
+    @close="showConfirmModal = false"
+  />
 </template>
 
 <style scoped></style>
