@@ -27,18 +27,17 @@ const list = computed(() =>
 
 <template>
   <!-- 제목은 카드 밖 -->
-  <h3 class="p-6 text-[18px] font-bold">{{ title }}</h3>
+  <h3 class="py-6 text-[18px] font-bold pl-2">{{ title }}</h3>
 
   <!-- 카드: 리스트만 감싸기 -->
-  <section
-    class="max-w-lg mx-auto bg-white rounded-xl shadow-md p-5 border border-[#FFE1D0] mb-2 mx-4"
-  >
+  <section class="mx-auto bg-white rounded-xl shadow-md p-5 border border-[#FFE1D0] mb-2 mx-4">
     <ul class="space-y-2">
       <li
         v-for="item in list"
         :key="item.announceId"
         class="rounded-lg px-3 py-2 relative shadow-md"
         :class="item.tone.card"
+        @click="$router.push({ name: 'announceDetail', params: { announce_id: item.announceId } })"
       >
         <div class="flex items-center justify-between">
           <!-- 왼쪽: 랭킹 배지 + 제목 -->

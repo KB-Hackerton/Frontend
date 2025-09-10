@@ -17,7 +17,7 @@ function goDetail() {
 
 <template>
   <div
-    class="w-[110px] h-[120px] bg-white rounded-xl shadow-md mb-2 p-3 flex flex-col justify-between border border-[#FFE1D0]"
+    class="w-full h-[120px] bg-white rounded-xl shadow-md mb-2 p-3 flex flex-col justify-between border border-[#FFE1D0]"
   >
     <div v-if="dday !== null" class="text-12 text-main">D-{{ dday }}</div>
     <div v-else>🥰</div>

@@ -20,7 +20,7 @@ const props = defineProps({
       </router-link>
     </div>
 
-    <div class="bg-white rounded-xl shadow mx-3 border border-[#FFE1D0] divide-y divide-[#FFE1D0]">
+    <div class="bg-white rounded-xl shadow border border-[#FFE1D0] divide-y divide-[#FFE1D0]">
       <router-link
         v-for="(item, i) in items"
         :key="i"
