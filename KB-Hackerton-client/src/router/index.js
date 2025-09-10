@@ -47,7 +47,7 @@ const router = createRouter({
           name: 'chat-list',
           component: () => import('@/views/ChatListView.vue'),
           meta: {
-            title: '채팅 목록',
+            title: '거 좀 물어봅시더',
           },
         },
         {
@@ -98,7 +98,7 @@ const router = createRouter({
         ...mypage,
         ...article,
         ...sos,
-        ...chat
+        ...chat,
       ],
     },
   ],
