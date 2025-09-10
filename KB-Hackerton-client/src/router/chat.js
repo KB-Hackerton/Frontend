@@ -1,7 +1,7 @@
 export default [
   {
     path: '/chat-room/:roomId',
-    name: 'chatRoom',
+    name: 'chat-room',
     component: () => import('@/views/ChatRoomView.vue'),
     props: true
   },
