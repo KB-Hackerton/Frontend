@@ -1,18 +1,25 @@
 <script setup>
-import BaseButton from '@/components/common/BaseButton.vue'
-import ConfirmLeaveModal from '@/components/membership-termination/ConfirmLeaveModal.vue'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
+import BaseButton from '@/components/common/BaseButton.vue'
+import BaseModal from '@/components/common/BaseModal.vue'
 
 const router = useRouter()
+const authStore = useAuthStore()
 
 const isChecked = ref(false)
+const showConfirmModal = ref(false)
 
-const buttonClick = ref(false)
-
-const handleMembershipTermination = () => {
-  // 회원 탈퇴 api 연동
-  router.push('/login')
+// 회원 탈퇴 처리
+const handleMembershipTermination = async () => {
+  const ok = await authStore.withdrawUser()
+  if (ok) {
+    console.log('🟢 회원 탈퇴 성공')
+    router.replace('/login')
+  } else {
+    console.error('❌ 회원 탈퇴 실패')
+  }
 }
 </script>
 
@@ -50,32 +57,30 @@ const handleMembershipTermination = () => {
     </div>
 
     <div class="flex w-full gap-6 fixed bottom-9 md:max-w-[375px] px-4">
-      <BaseButton :color="'blue'" class="shadow-custom" @click="router.back(-1)">
+      <BaseButton :color="'blue'" class="shadow-custom" @click="router.back()">
         더 사용하기
       </BaseButton>
       <BaseButton
         :color="isChecked ? 'main' : 'gray-300'"
         :disabled="!isChecked"
-        @click="buttonClick = true"
+        @click="showConfirmModal = true"
         class="shadow-custom"
       >
         탈퇴하기
       </BaseButton>
     </div>
-
-    <div
-      v-if="buttonClick"
-      class="fixed inset-0 bg-black/55 z-[90]"
-      @click="buttonClick = false"
-    ></div>
-
-    <ConfirmLeaveModal
-      v-if="buttonClick"
-      @close="buttonClick = false"
-      @click="handleMembershipTermination"
-      class="z-[100] fixed top-1/3 left-1/2 -translate-x-1/2"
-    />
   </div>
+  <BaseModal
+    :show="showConfirmModal"
+    title="회원탈퇴 확인"
+    message="정말 회원탈퇴를 진행하시겠습니까?"
+    cancelText="더 사용하기"
+    cancelColor="blue"
+    confirmText="탈퇴하기"
+    @confirm="handleMembershipTermination"
+    @cancel="showConfirmModal = false"
+    @close="showConfirmModal = false"
+  />
 </template>
 
 <style scoped></style>
