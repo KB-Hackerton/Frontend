@@ -21,5 +21,17 @@ export const useChecklistStore = defineStore('checklist', () => {
     }
   }
 
-  return { loading, error, checklistData, getChecklistList }
+  const updateChecklist = async (announceId, items) => {
+    loading.value = true
+    error.value = null
+    try {
+      const res = await api.isSaveDocument(announceId, items)
+    } catch (e) {
+      error.value = e
+    } finally {
+      loading.value = false
+    }
+  }
+
+  return { loading, error, checklistData, getChecklistList, updateChecklist }
 })

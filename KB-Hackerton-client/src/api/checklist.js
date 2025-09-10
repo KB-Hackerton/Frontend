@@ -7,4 +7,9 @@ export default {
     const res = await api.get(`${BASE_URL}/${announceId}`)
     return res
   },
+
+  async isSaveDocument(announceId, items) {
+    const res = api.put(`${BASE_URL}/announces/${announceId}/check`, items)
+    return res
+  },
 }
