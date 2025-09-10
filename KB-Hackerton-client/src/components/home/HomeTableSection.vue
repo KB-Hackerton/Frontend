@@ -15,12 +15,12 @@ const filteredItems = computed(() => {
   if (activeTab.value === '공고') {
     return (homeData.value.recent_announce || []).slice(0, 3).map((a) => ({
       title: a.announce_title, // DTO에 맞게 필드명 수정
-      link: `/announce-list/${a.announceId}`, // 링크 수정
+      link: `/announce-detail/${a.announce_id}`, // 링크 수정
     }))
   } else {
     return (homeData.value.recent_festival || []).slice(0, 3).map((f) => ({
       title: f.festival_title, // DTO에 맞게 필드명 수정
-      link: `/festival/${f.festival_id}`, // 링크 수정
+      link: `/festival-detail/${f.festival_id}`, // 링크 수정
     }))
   }
 })
@@ -32,9 +32,9 @@ onMounted(() => {
 </script>
 
 <template>
-  <section class="p-6 rounded-lg">
-    <h2 class="text-18 font-bold mb-3">신규</h2>
-    <div class="flex gap-5 mb-4">
+  <section class="py-7 rounded-lg">
+    <h2 class="text-18 font-bold mb-3 ml-2">신규</h2>
+    <div class="flex gap-5 mb-4 ml-2">
       <button
         v-for="tab in tabs"
         :key="tab"
