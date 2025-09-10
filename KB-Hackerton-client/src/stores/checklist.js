@@ -13,7 +13,7 @@ export const useChecklistStore = defineStore('checklist', () => {
     error.value = null
     try {
       const response = await api.getChecklistList(id)
-      checklistData.value = response.data ?? {}
+      checklistData.value = response ?? {}
     } catch (err) {
       error.value = err
     } finally {
