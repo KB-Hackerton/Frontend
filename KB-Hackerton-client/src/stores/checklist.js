@@ -8,10 +8,11 @@ export const useChecklistStore = defineStore('checklist', () => {
 
   const checklistData = ref({})
 
-  const getChecklistList = async () => {
+  const getChecklistList = async (id) => {
+    loading.value = true
+    error.value = null
     try {
-      loading.value = true
-      const response = await api.getChecklistList()
+      const response = await api.getChecklistList(id)
       checklistData.value = response.data ?? {}
     } catch (err) {
       error.value = err
