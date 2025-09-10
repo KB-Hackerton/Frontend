@@ -1,16 +1,23 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useAuthStore } from '@/stores/auth'
+import { useMypageStore } from '@/stores/mypage'
 import { useRouter } from 'vue-router'
 import { Icon } from '@iconify/vue'
 import QuickMenu from '@/components/mypage/QuickMenu.vue'
 import OptionList from '@/components/mypage/OptionList.vue'
 import BaseModal from '@/components/common/BaseModal.vue'
+import defaultProfile from '@/assets/images/banner.png'
 
 const authStore = useAuthStore()
+const mypageStore = useMypageStore()
 const router = useRouter()
 
-const showConfirmModal = ref(false)
+const fileInput = ref(null)
+const cacheBuster = ref(Date.now())
+const showConfirmModal = ref(false) // 로그아웃 모달
+const showFailModal = ref(false) // 업로드 실패 모달
+const failMessage = ref('')
 
 const quickMenuItems = [
   { to: '/', icon: 'solar:star-line-duotone', label: '즐겨찾기' },
@@ -31,6 +38,29 @@ const optionListItems = [
     showArrow: false,
   },
 ]
+
+// 파일 선택 창 열기 (아이콘 클릭 시)
+function triggerFileInput() {
+  fileInput.value.click()
+}
+
+// 파일 업로드 처리
+async function handleFileChange(e) {
+  const file = e.target.files[0]
+  if (!file) return
+
+  const res = await mypageStore.updateProfileImage(file)
+  if (res && res.code === 200) {
+    authStore.user = { ...authStore.user, profile_image_id: res.url }
+    localStorage.setItem('user', JSON.stringify(authStore.user))
+    cacheBuster.value = Date.now()
+    console.log('🟢 프로필 이미지 변경 성공:', res.data)
+  } else {
+    console.error('❌ 프로필 이미지 변경 실패', mypageStore.error)
+    failMessage.value = mypageStore.error || '이미지 업로드에 실패했습니다.'
+    showFailModal.value = true
+  }
+}
 
 // 로그아웃 버튼
 function askLogout() {
@@ -54,16 +84,28 @@ onMounted(() => {
     <section class="p-5 flex items-center">
       <div class="relative">
         <img
-          :src="authStore.user?.profile_image_id"
+          :src="
+            authStore.user?.profile_image_id
+              ? authStore.user.profile_image_id + '?t=' + Date.now()
+              : defaultProfile
+          "
           alt="프로필 이미지"
           class="w-20 h-20 rounded-full object-cover border"
         />
         <button
           class="absolute bottom-0 right-0 bg-main text-white w-6 h-6 rounded-full flex items-center justify-center shadow"
-          aria-label="프로필 이미지"
+          aria-label="프로필 이미지 수정"
+          @click="triggerFileInput"
         >
           <Icon icon="solar:pen-bold" class="w-3 h-3 text-white" />
         </button>
+        <input
+          type="file"
+          ref="fileInput"
+          accept="image/*"
+          class="hidden"
+          @change="handleFileChange"
+        />
       </div>
 
       <div class="ml-5 flex-1">
@@ -118,6 +160,15 @@ onMounted(() => {
     confirmText="로그아웃"
     @confirm="confirmAction"
     @close="showConfirmModal = false"
+  />
+
+  <BaseModal
+    :show="showFailModal"
+    title="이미지 업로드 실패"
+    :message="failMessage"
+    confirmText="닫기"
+    @confirm="showFailModal = false"
+    @close="showFailModal = false"
   />
 </template>
 
