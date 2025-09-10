@@ -21,6 +21,10 @@ function parseDate(yyyymmdd) {
 const total = computed(() => checklistData.value.totalDocs || 0)
 const checked = computed(() => checklistData.value.checkedDocs || 0)
 
+const displayDocs = computed(() => {
+  return [...(checklistData.value.checklist || [])]
+})
+
 const checkPercent = computed(() => {
   const total = Number(checklistData.value?.totalDocs ?? 0)
   const checked = Number(checklistData.value?.checkedDocs ?? 0)
@@ -72,13 +76,33 @@ const Dday = computed(() => {
   return '마감'
 })
 
-const updatedCheckList = () => {
+const formatYmd = (raw) => {
+  if (!raw) return ''
+  const digits = String(raw).replace(/[^0-9]/g, '') // 숫자만 남김
+  if (digits.length < 8) return raw
+  return `${digits.slice(0, 4)}.${digits.slice(4, 6)}.${digits.slice(6, 8)}`
+}
+
+const updatedCheckList = async () => {
   //저장 버튼 클릭시 저장 API 연동
+  const payload = {
+    items: displayDocs.value.map((doc) => ({
+      documentId: doc.documentId,
+      checked: doc.checked,
+    })),
+  }
+
+  await checkListStore.updateChecklist(checklistData.value.announceId, payload)
+  if (checkListStore.error) {
+    console.log(`error`, checkListStore.error)
+  } else {
+    checklistData.value.checkedDocs = displayDocs.value.filter((doc) => doc.checked).length
+    checklistData.value.checklist = [...displayDocs.value]
+  }
 }
 onMounted(async () => {
   const id = route.params.announce_id
   await checkListStore.getChecklistList(id)
-  console.log(`checklistData`, checklistData)
 })
 </script>
 
@@ -97,7 +121,7 @@ onMounted(async () => {
             <Icon icon="prime:calendar" />
             <p class="text-12 semibold">
               {{
-                `신청기간: ${checklistData.reqstStartDate || checklistData.pubDate} ~ ${checklistData.reqstEndDate ? checklistData.reqstEndDate : '예산소진시 까지'} ${Dday === '' ? '' : `(${Dday})`}`
+                `신청기간: ${formatYmd(checklistData.reqstStartDate || checklistData.pubDate)} ~ ${checklistData.reqstEndDate ? formatYmd(checklistData.reqstEndDate) : '예산소진시 까지'} ${Dday === '' ? '' : `(${Dday})`}`
               }}
             </p>
           </div>
@@ -125,7 +149,7 @@ onMounted(async () => {
 
       <div class="flex flex-col gap-5 mt-5 w-full bg-white rounded-[0.7rem] shadow-custom p-5">
         <DocumentChecklistItem
-          v-for="document in checklistData.checklist || []"
+          v-for="document in displayDocs"
           v-model="document.checked"
           :label="document.title"
           :key="document.documentId"
