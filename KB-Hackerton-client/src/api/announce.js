@@ -7,4 +7,8 @@ export default {
     const res = await api.get(BASE_URL)
     return res
   },
+  async getAnnounceDetail(announceId) {
+    const res = await api.get(`${BASE_URL}/${announceId}`)
+    return res
+  },
 }
