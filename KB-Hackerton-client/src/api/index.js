@@ -15,15 +15,11 @@ api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('accessToken')
 
-    // if (token) {
-    //   config.headers.Authorization = `Bearer ${token}`
-    // }
-
     // 로그인/비밀번호찾기/회원가입/이메일 요청에는 토큰 안 붙임
     const isAuthRequest =
       config.url.includes('/auth/login') ||
       config.url.includes('/auth/password') ||
-      config.url.includes('/auth/member-info') ||
+      (config.url.includes('/auth/member-info') && config.method === 'post') ||
       config.url.includes('/email')
     if (token && !isAuthRequest) {
       config.headers.Authorization = `Bearer ${token}`

@@ -44,3 +44,8 @@ export const verifyEmailCode = async ({ email, code }) => {
   })
   return res
 }
+
+// 회원 탈퇴
+export const deleteUser = () => {
+  return api.delete('/auth/member-info')
+}
