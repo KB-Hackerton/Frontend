@@ -1,8 +1,9 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted } from 'vue'
 import ChatFilterBar from '@/components/chat/ChatFilterBar.vue'
 import ChatList from '@/components/chat/ChatList.vue'
 
+// 더미 데이터
 import chatData from '@/_dummy/chat.json'
 
 const chats = ref([])
@@ -12,13 +13,13 @@ onMounted(() => {
   chats.value = chatData
 })
 
-// 필터링 로직
+// 필터링 로직 (예시)
 const filteredChats = computed(() => {
   if (selectedFilter.value === '전체') return chats.value
   if (selectedFilter.value === '안 읽은 채팅방') {
     return chats.value.filter((c) => c.unreadCount > 0)
   }
-  // 자기가 올린 거면 요청, 남이 올린 거면 출동
+  // TODO: '요청', '출동' 카테고리 필터링 로직 추가
   return chats.value
 })
 </script>
