@@ -9,6 +9,7 @@ import announce from '@/_dummy/announce.json'
 
 import article from '@/_dummy/articles.json'
 import notice from '@/_dummy/notice.json'
+import AiRecommandation from '@/components/home/AiRecommandation.vue'
 
 function calcDday(dateStr) {
   if (!dateStr) return null
@@ -26,6 +27,8 @@ function calcDday(dateStr) {
     <div class="w-full bg-white mb-3">
       <img :src="bannerImg" alt="경상났네 배너" class="w-full" />
     </div>
+
+  <AiRecommandation/>
 
     <PopularPrograms :items="[
   { title: '소상공인 경영 안정 자금', views: 1243 },
