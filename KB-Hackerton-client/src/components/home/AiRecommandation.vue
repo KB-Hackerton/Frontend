@@ -6,8 +6,8 @@ defineProps({
   deadline: { type: String, default: '2025-09-30' },
   tags: {
     type: Array,
-    default: () => ['#서울시', '#소매업', '#창업후기']
-  }
+    default: () => ['#서울시', '#소매업', '#창업후기'],
+  },
 })
 </script>
 
@@ -15,7 +15,7 @@ defineProps({
   <div class="w-full max-w-md mx-auto">
     <!-- 상단 타이틀 -->
     <div class="flex items-center gap-2 mb-2">
-      <span class="text-blue-500 text-xl">📢 AI가 골라준 맞춤 지원금</span>
+      <span class="text-blue-500 text-xl ml-5">📢 AI가 골라준 맞춤 지원금</span>
     </div>
 
     <!-- 카드 -->
