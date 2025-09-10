@@ -1,9 +1,9 @@
 <script setup>
 import { reactive, computed, nextTick, onMounted, onBeforeUnmount } from 'vue'
 import { onBeforeRouteLeave } from 'vue-router'
+import { useChatStore } from '@/stores/chat'
 import Stomp from 'webstomp-client'
 import SockJS from 'sockjs-client/dist/sockjs'
-import axios from 'axios'
 
 //  defineProps: roomId가 URL 파라미터로 들어올 때 문자열이므로 Number로 변환해 사용합니다.
 const props = defineProps({
@@ -12,6 +12,8 @@ const props = defineProps({
     required: true,
   },
 })
+
+const chatStore = useChatStore()
 
 const state = reactive({
   stompClient: null,
@@ -23,13 +25,12 @@ const state = reactive({
   },
   chatRoom: {
     chatRoomId: null,
-    roomName: '어차피 운동할거면 여기서', // 예시 제목
+    roomName: '',
   },
-  // props 값을 Number로 변환하여 state에 저장
-  roomId: Number(props.roomId),
+  roomId: Number(props.roomId), // props 값을 Number로 변환하여 state에 저장
 })
 
-// 2. [추가] 메시지를 날짜별로 그룹화하는 computed 속성
+// 날짜별 메시지 그룹화
 const groupedMessages = computed(() => {
   const groups = {}
   state.messages.forEach((msg) => {
@@ -47,6 +48,14 @@ const formatDate = (dateString) => {
   return `${date.getFullYear()}년 ${date.getMonth() + 1}월 ${date.getDate()}일`
 }
 
+const scrollToBottom = () => {
+  nextTick(() => {
+    const chatBox = document.querySelector('.chat-area')
+    if (chatBox) chatBox.scrollTop = chatBox.scrollHeight
+  })
+}
+
+// WebSocket 연결
 const connectWebSocket = () => {
   if (state.stompClient?.connected) return
 
@@ -68,7 +77,6 @@ const connectWebSocket = () => {
               receivedMessage.senderEmail = state.user.memberEmail
             }
             state.messages.push(receivedMessage)
-
             scrollToBottom()
           },
           { Authorization: `Bearer ${state.user.accessToken}` },
@@ -83,6 +91,7 @@ const connectWebSocket = () => {
   }
 }
 
+// 메시지 전송
 const sendMessage = () => {
   if (state.newMessage.trim() === '' || !state.stompClient?.connected) return
 
@@ -97,38 +106,20 @@ const sendMessage = () => {
   state.newMessage = ''
 }
 
-const scrollToBottom = () => {
-  nextTick(() => {
-    const chatBox = document.querySelector('.chat-area')
-    if (chatBox) {
-      chatBox.scrollTop = chatBox.scrollHeight
-    }
-  })
-}
-
+// 정리 (읽음 처리 + disconnect)
 const cleanup = async () => {
-  if (state.stompClient?.connected) {
-    try {
-      await axios.post(
-        `${import.meta.env.VITE_APP_API_BASE_URL}/chat/room/${state.roomId}/read`,
-        {},
-        {
-          headers: { Authorization: `Bearer ${state.user.accessToken}` },
-        },
-      )
-      if (state.stompClient.value && state.stompClient.value.connected) {
-        state.stompClient.value.unsubscribe(`/topic/${state.roomId}`)
-        state.stompClient.value.disconnect()
-      }
-      state.stompClient.disconnect()
-      console.log('🔌 WebSocket disconnected.')
-    } catch (error) {
-      console.error('🔴 Cleanup failed:', error)
-    } finally {
-      state.stompClient = null
-    }
+  if (!state.stompClient?.connected) return
+  try {
+    await chatStore.markAsRead(state.roomId)
+    state.stompClient.disconnect()
+    console.log('🔌 WebSocket disconnected.')
+  } catch (error) {
+    console.error('🔴 Cleanup failed:', error)
+  } finally {
+    state.stompClient = null
   }
 }
+
 onMounted(async () => {
   try {
     const userString = localStorage.getItem('user')
@@ -145,105 +136,43 @@ onMounted(async () => {
       accessToken: accessToken,
     }
 
-    // API 호출 시 state.roomId 사용 (이미 숫자로 변환됨)
-    const roomResponse = await axios.get(
-      `${import.meta.env.VITE_APP_API_BASE_URL}/chat/room/detail/${state.roomId}`,
-      { headers: { Authorization: `Bearer ${state.user.accessToken}` } },
-    )
-    state.chatRoom = roomResponse.data
-    console.log(state.chatRoom)
-    const response = await axios.get(
-      `${import.meta.env.VITE_APP_API_BASE_URL}/chat/history/${state.roomId}`,
-      { headers: { Authorization: `Bearer ${state.user.accessToken}` } },
-    )
-    state.messages = response.data
-    console.log(state.messages)
-    connectWebSocket() // 실제 사용 시 주석 해제
+    state.chatRoom = await chatStore.getChatRoomDetail(state.roomId)
+    state.messages = await chatStore.getChatHistory(state.roomId)
+
+    connectWebSocket()
     scrollToBottom()
   } catch (error) {
     console.error('🔴 초기화 중 오류 발생:', error)
   }
 })
-
-onBeforeUnmount(cleanup)
-onBeforeRouteLeave((to, from, next) => {
-  cleanup()
-  next()
-})
 </script>
 
 <template>
-  <div class="flex h-screen flex-col bg-gray-50">
-    <header class="flex items-center justify-between border-b bg-white p-4 shadow-sm">
-      <button class="p-2">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-6 w-6"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M15 19l-7-7 7-7"
-          />
-        </svg>
-      </button>
-      <h1 class="text-lg font-bold">{{ state.chatRoom.roomName }}</h1>
-      <div class="flex items-center space-x-2">
-        <button class="p-2">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
-            />
-          </svg>
-        </button>
-        <button class="p-2">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M4 6h16M4 12h16M4 18h16"
-            />
-          </svg>
-        </button>
+  <div class="flex flex-col h-full mx-[-1rem] mt-[-1rem]">
+    <div class="fixed w-full">
+      <div class="flex items-end border-t bg-white px-4 pt-2 pb-1 shadow-sm gap-1">
+        <h1 class="text-18 font-bold">{{ state.chatRoom.roomName }}</h1>
+        <p class="text-14 text-gradient semibold">도움 촌장</p>
       </div>
-    </header>
-
-    <div class="border-b bg-white p-4">
-      <div class="flex items-center justify-between">
-        <div class="flex space-x-2">
-          <span class="rounded-md bg-gray-100 px-2 py-1 text-sm text-gray-600">요청</span>
-          <span class="rounded-md bg-gray-100 px-2 py-1 text-sm text-gray-600">보통</span>
-          <span class="rounded-md bg-gray-100 px-2 py-1 text-sm text-gray-600">인력</span>
+      <div class="border-b bg-white px-4 pb-2">
+        <div class="flex items-center justify-between">
+          <div class="flex space-x-2">
+            <span class="rounded-md bg-gray-100 px-2 py-1 text-sm text-gray-600">요청</span>
+            <span class="rounded-md bg-gray-100 px-2 py-1 text-sm text-gray-600">보통</span>
+            <span class="rounded-md bg-gray-100 px-2 py-1 text-sm text-gray-600">인력</span>
+          </div>
+          <button
+            class="rounded-md bg-rose-500 px-4 py-2 text-sm font-bold text-white hover:bg-rose-600"
+          >
+            종료하기
+          </button>
         </div>
-        <button
-          class="rounded-md bg-rose-500 px-4 py-2 text-sm font-bold text-white hover:bg-rose-600"
-        >
-          종료하기
-        </button>
       </div>
     </div>
 
-    <main class="chat-area flex-1 overflow-y-auto bg-gray-100 p-4">
+    <main
+      class="chat-area flex-1 overflow-y-auto [&::-webkit-scrollbar]:hidden p-4 pt-[5rem] mb-[-3.5rem]"
+    >
       <div v-for="(messagesInDate, date) in groupedMessages" :key="date">
         <div class="my-4 text-center text-sm text-gray-500">
           {{ formatDate(messagesInDate[0].createdAt) }}
