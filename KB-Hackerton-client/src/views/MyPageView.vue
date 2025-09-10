@@ -20,7 +20,7 @@ const showFailModal = ref(false) // 업로드 실패 모달
 const failMessage = ref('')
 
 const quickMenuItems = [
-  { to: '/', icon: 'solar:star-line-duotone', label: '즐겨찾기' },
+  { to: '/favorites', icon: 'solar:star-line-duotone', label: '즐겨찾기' },
   { to: '/notice-list', icon: 'material-symbols:contract-outline-rounded', label: '공지사항' },
   { to: '/', icon: 'fluent-mdl2:chat-bot', label: '챗봇' },
 ]
