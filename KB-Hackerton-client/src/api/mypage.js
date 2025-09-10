@@ -15,3 +15,8 @@ export const updateBusinessInfo = async (payload) => {
   const res = await api.patch('/auth/member-info', payload)
   return res
 }
+
+// 비밀번호 수정
+export const updatePassword = (payload) => {
+  return api.patch('/password', payload)
+}

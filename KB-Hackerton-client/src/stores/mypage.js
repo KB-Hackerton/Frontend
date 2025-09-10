@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import { uploadProfileImage, updateBusinessInfo } from '@/api/mypage'
+import { uploadProfileImage, updateBusinessInfo, updatePassword } from '@/api/mypage'
 import { useAuthStore } from '@/stores/auth'
 
 export const useMypageStore = defineStore('mypage', () => {
@@ -77,10 +77,29 @@ export const useMypageStore = defineStore('mypage', () => {
     }
   }
 
+  // 비밀번호 수정
+  const changePassword = async ({ originalPassword, newPassword }) => {
+    loading.value = true
+    error.value = null
+    try {
+      const res = await updatePassword({
+        original_password: originalPassword,
+        new_password: newPassword,
+      })
+      return res
+    } catch (err) {
+      error.value = err.response?.data?.message || '비밀번호 변경 실패'
+      throw err
+    } finally {
+      loading.value = false
+    }
+  }
+
   return {
     loading,
     error,
     updateProfileImage,
     editBusinessInfo,
+    changePassword,
   }
 })
