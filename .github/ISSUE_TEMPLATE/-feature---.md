@@ -1,5 +1,5 @@
 ---
-name: Feature 템플릿
+name: "[FEATURE]: "
 about: Feature 템플릿입니다
 title: "[FEATURE]: "
 labels: ''

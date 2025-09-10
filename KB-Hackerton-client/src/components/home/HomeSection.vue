@@ -16,7 +16,7 @@ const props = defineProps({
 <template>
   <section class="bg-white py-4 mb-3">
     <div class="flex justify-between items-center px-3 mb-2">
-      <h2 class="font-bold text-18">{{ title }}</h2>
+      <h2 class="font-bold text-sm text-gray-800 truncate mb-2">{{ title }}</h2>
       <router-link :to="moreLink" class="text-12 text-gray-400 cursor-pointer">
         {{ moreText }} &gt;
       </router-link>

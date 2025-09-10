@@ -1,6 +1,5 @@
 <script setup>
 import { reactive, computed, nextTick, onMounted, onBeforeUnmount } from 'vue'
-
 import { onBeforeRouteLeave } from 'vue-router'
 import Stomp from 'webstomp-client'
 import SockJS from 'sockjs-client/dist/sockjs'
@@ -166,7 +165,6 @@ onMounted(async () => {
   }
 })
 
-
 onBeforeUnmount(cleanup)
 onBeforeRouteLeave((to, from, next) => {
   cleanup()
@@ -178,12 +176,55 @@ onBeforeRouteLeave((to, from, next) => {
   <div class="flex h-screen flex-col bg-gray-50">
     <header class="flex items-center justify-between border-b bg-white p-4 shadow-sm">
       <button class="p-2">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M15 19l-7-7 7-7"
+          />
+        </svg>
       </button>
       <h1 class="text-lg font-bold">{{ state.chatRoom.roomName }}</h1>
       <div class="flex items-center space-x-2">
-        <button class="p-2"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg></button>
-        <button class="p-2"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg></button>
+        <button class="p-2">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+            />
+          </svg>
+        </button>
+        <button class="p-2">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 6h16M4 12h16M4 18h16"
+            />
+          </svg>
+        </button>
       </div>
     </header>
 
@@ -194,7 +235,11 @@ onBeforeRouteLeave((to, from, next) => {
           <span class="rounded-md bg-gray-100 px-2 py-1 text-sm text-gray-600">보통</span>
           <span class="rounded-md bg-gray-100 px-2 py-1 text-sm text-gray-600">인력</span>
         </div>
-        <button class="rounded-md bg-rose-500 px-4 py-2 text-sm font-bold text-white hover:bg-rose-600">종료하기</button>
+        <button
+          class="rounded-md bg-rose-500 px-4 py-2 text-sm font-bold text-white hover:bg-rose-600"
+        >
+          종료하기
+        </button>
       </div>
     </div>
 
@@ -206,23 +251,46 @@ onBeforeRouteLeave((to, from, next) => {
 
         <div v-for="msg in messagesInDate" :key="msg.id" class="mb-4 flex flex-col">
           <div v-if="msg.senderEmail !== state.user.memberEmail" class="flex items-end self-start">
-            <div class="mr-2 flex h-8 w-8 items-center justify-center rounded-full bg-gray-300 text-sm">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" viewBox="0 0 20 20" fill="currentColor"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" /></svg>
+            <div
+              class="mr-2 flex h-8 w-8 items-center justify-center rounded-full bg-gray-300 text-sm"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5 text-gray-600"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"
+                />
+              </svg>
             </div>
             <div class="max-w-xs rounded-2xl rounded-bl-none bg-white p-3 shadow-md md:max-w-md">
               <p class="text-base text-gray-800">{{ msg.content }}</p>
             </div>
             <p class="ml-2 text-xs text-gray-400">
-              {{ new Date(msg.createdAt).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }) }}
+              {{
+                new Date(msg.createdAt).toLocaleTimeString([], {
+                  hour: 'numeric',
+                  minute: '2-digit',
+                })
+              }}
             </p>
           </div>
 
           <div v-else class="flex items-end self-end">
             <div v-if="msg.isRead === 0" class="mr-2 text-xs font-bold text-yellow-500">1</div>
             <p class="mr-2 text-xs text-gray-400">
-              {{ new Date(msg.createdAt).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }) }}
+              {{
+                new Date(msg.createdAt).toLocaleTimeString([], {
+                  hour: 'numeric',
+                  minute: '2-digit',
+                })
+              }}
             </p>
-            <div class="max-w-xs rounded-2xl rounded-br-none bg-main p-3 text-white shadow-md md:max-w-md">
+            <div
+              class="max-w-xs rounded-2xl rounded-br-none bg-main p-3 text-white shadow-md md:max-w-md"
+            >
               <p class="text-base">{{ msg.content }}</p>
             </div>
           </div>
@@ -244,7 +312,20 @@ onBeforeRouteLeave((to, from, next) => {
           :disabled="!state.newMessage.trim()"
           class="flex h-10 w-10 items-center justify-center rounded-full bg-rose-500 text-white transition hover:bg-rose-600 disabled:cursor-not-allowed disabled:bg-gray-300"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
+            />
+          </svg>
         </button>
       </div>
     </footer>
