@@ -1,10 +1,9 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
+import { useChatStore } from '@/stores/chat'
 import BaseButton from '../common/BaseButton.vue'
 import BaseModal from '../common/BaseModal.vue'
-import axios from 'axios'
-
 
 const props = defineProps({
   item: { type: Object, required: true },
@@ -13,6 +12,7 @@ const props = defineProps({
 const emit = defineEmits(['close', 'chat', 'edit', 'delete'])
 
 const router = useRouter()
+const chatStore = useChatStore()
 
 const showDeleteModal = ref(false)
 
@@ -39,35 +39,37 @@ const urgency = computed(() => {
   return diffMin <= 5 ? { text: '급함', color: 'text-red' } : { text: '보통', color: 'text-green' }
 })
 
+// 수정
 function goToEdit(item) {
   router.push({ name: 'sos-edit', params: { id: item.sos_id } })
 }
 
+// 삭제
 function confirmDelete() {
   emit('delete', props.item.sos_id) // 부모에 삭제 요청 위임
   showDeleteModal.value = false
 }
 
+// 채팅
+async function goToChat(item) {
+  try {
+    emit('chat', item)
+    const newRoom = await chatStore.createChatRoom({
+      sos_id: item.sos_id,
+      other_member_id: item.member_id,
+    })
 
-function goToChat(item) {
-  emit('chat', item)
-  const accessToken = localStorage.getItem('accessToken');
-  const response = axios.post(`${import.meta.env.VITE_APP_API_BASE_URL}/chat/room/private/create`,
-    {
-      "sos_id": item.sos_id,
-      "other_member_id": item.member_id
-    },
-    {
-      headers: { Authorization: `Bearer ${accessToken}` },
-    })
-    .then((response) => {
-      console.log(response.data);
-      const roomId = response.data
-      router.push({ name: 'chat-room', params: { roomId: roomId } });
-    })
-  // emit('close')
+    if (newRoom) {
+      router.push(`/chat-room/${newRoom}`)
+      console.log('🟢 채팅방 생성 성공')
+    } else {
+      console.error('❌ 채팅방 ID를 가져올 수 없음', newRoom)
+    }
+  } catch (e) {
+    console.error('❌ 채팅방 생성 실패', e)
+    alert('채팅방 생성에 실패했습니다. 다시 시도해주세요.')
+  }
 }
-
 </script>
 
 <template>

@@ -1,25 +1,22 @@
 <script setup>
-import { onMounted,watchEffect } from 'vue'
-import { useRouter } from 'vue-router';
-import { useChatRoomListStore } from '@/stores/chatRoomList.js'
+import { onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+import { useChatStore } from '@/stores/chat.js'
 import { storeToRefs } from 'pinia'
 
-const chatRoomListStore = useChatRoomListStore()
+const chatRoomListStore = useChatStore()
 const { chatRoomList, loading, error } = storeToRefs(chatRoomListStore)
 
-const router = useRouter();
-
+const router = useRouter()
 
 // 특정 채팅방으로 이동하는 함수
 const goToChatRoom = (roomId) => {
-  router.push(`/chat-room/${roomId}`);
-};
-
-
+  router.push(`/chat-room/${roomId}`)
+}
 
 onMounted(() => {
-  chatRoomListStore.getChatRoomList();
-});
+  chatRoomListStore.getChatRoomList()
+})
 </script>
 
 <template>
@@ -53,7 +50,6 @@ onMounted(() => {
     </div>
   </div>
 </template>
-
 
 <style scoped>
 .chat-list-container {
