@@ -2,12 +2,21 @@
 import { Icon } from '@iconify/vue'
 import { computed, defineProps } from 'vue'
 import { RouterLink } from 'vue-router'
+import baseImg from '@/assets/images/banner.png'
 const props = defineProps({
   festival: {
     type: Object,
     required: true,
   },
 })
+
+const formatDate = (raw) => {
+  if (!raw) return ''
+  const str = String(raw)
+  if (str.length !== 8) return str
+  return `${str.slice(0, 4)}.${str.slice(4, 6)}.${str.slice(6, 8)}`
+}
+const baseImgUrl = baseImg
 const getTodayYmdNum = () => {
   const d = new Date()
   const y = d.getFullYear()
@@ -42,7 +51,11 @@ const festivalStatus = computed(() => {
   >
     <div class="my-2 pt-4 rounded-xl bg-white border border-gray-200 shadow-custom w-full">
       <div class="w-full h-[9rem] overflow-hidden flex items-center">
-        <img :src="props.festival.first_image" alt="" class="w-full h-full object-cover" />
+        <img
+          :src="[props.festival.first_image ? props.festival.first_image : baseImgUrl]"
+          alt=""
+          class="w-full h-full object-cover"
+        />
       </div>
 
       <div class="px-3 pb-5 mt-3 w-full">
@@ -58,7 +71,7 @@ const festivalStatus = computed(() => {
               <Icon icon="mingcute:time-line" class="size-5 text-main" />
               <p class="text-12 semibold truncate">
                 {{
-                  `${props.festival.event_startdate} ${props.festival.event_enddate != props.festival.event_startdate ? '~' + props.festival.event_enddate : ''}`
+                  `${formatDate(props.festival.event_startdate)} ~ ${formatDate(props.festival.event_enddate)}`
                 }}
               </p>
             </div>

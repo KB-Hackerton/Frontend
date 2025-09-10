@@ -11,6 +11,7 @@ const hiddenPrefixes = [
   '/sos/create',
   '/find-password',
   '/membership/terminate',
+  '/chat-room/'
 ]
 const hiddenRouteNames = ['announceDocsCheckList']
 

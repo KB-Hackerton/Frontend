@@ -1,19 +1,26 @@
 <script setup>
 import NotificationCard from '@/components/notification/NotificationCard.vue'
-import notification from '@/_dummy/notification'
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import NotificationModal from '@/components/modal/NotificationModal.vue'
 import RoundedDropdownFilter from '@/components/common/RoundedDropdownFilter.vue'
+import { useNotificationStore } from '@/stores/notification'
+import { storeToRefs } from 'pinia'
+import ErrorModal from '@/components/error/ErrorModal.vue'
+import { Icon } from '@iconify/vue'
 
+const notificationStore = useNotificationStore()
+const { notificationList } = storeToRefs(notificationStore)
 const isModal = ref(false)
 const modalData = ref(null)
 const filter = ref('all')
+const errorModal = ref(false)
+const errorMsg = ref('')
 
 const displayNotificationList = computed(() => {
-  if (filter.value === 'sos') return notification.filter((n) => n.noti_type === 'sos')
+  if (filter.value === 'sos') return notificationList.value.filter((n) => n.notiType === 'sos')
   else if (filter.value === 'announce')
-    return notification.filter((n) => n.noti_type === 'announce')
-  return notification
+    return notificationList.value.filter((n) => n.notiType === 'announce')
+  return notificationList.value
 })
 
 const openModal = (notification) => {
@@ -21,10 +28,16 @@ const openModal = (notification) => {
   modalData.value = notification
 }
 
-const isReadNotification = (notification) => {
-  notification.is_read = true
+const isReadNotification = async (notificationId) => {
+  await notificationStore.readNotification(notificationId)
+  if (notificationStore.error) {
+    errorMsg.value = '알림을 읽는데 실패했습니다'
+    errorModal.value = true
+  } else {
+    notificationList.value.find((n) => n.notificationId === notificationId).isRead = true
+  }
+
   isModal.value = false
-  //api 연동 하면서 나머지 로직 만들기
 }
 
 const goDetail = (notification) => {
@@ -33,20 +46,50 @@ const goDetail = (notification) => {
   //알림 관련 페이지로 이동
 }
 
-const notificationDelete = (notification) => {
-  //api 연동 하면서 로직 만들기
-  //알림 삭제
+const notificationDelete = async (notificationId) => {
+  //알림 단일 삭제
+  await notificationStore.deleteNotification(notificationId)
+  if (notificationStore.error) {
+    errorMsg.value = '알림을 삭제하는데 실패했습니다'
+    errorModal.value = true
+  } else {
+    notificationList.value = notificationList.value.filter(
+      (n) => n.notificationId !== notificationId,
+    )
+  }
 }
 
-const notificationAllDelete = () => {
-  //api 연동 하면서 로직 만들기
+const notificationAllDelete = async () => {
   //알림 전체 삭제
+  await notificationStore.deleteAllNotification()
+  if (notificationStore.error) {
+    errorMsg.value = notificationStore.error.message
+    errorModal.value = true
+  } else {
+    notificationList.value = []
+  }
 }
 
-const notificationAllRead = () => {
-  //api 연동 하면서 로직 만들기
+const notificationAllRead = async () => {
   //전체읽음 처리
+  await notificationStore.allReadNotification()
+  if (notificationStore.error) {
+    errorMsg.value = '알림 전체읽음을 실패했습니다'
+    errorModal.value = true
+  } else {
+    notificationList.value.forEach((n) => {
+      n.isRead = true
+    })
+  }
 }
+
+onMounted(async () => {
+  await notificationStore.getNotificationList()
+  if (notificationStore.error) {
+    errorMsg.value = '알림 목록을 불러오는데 실패했습니다.'
+    errorModal.value = true
+  }
+})
 </script>
 
 <template>
@@ -72,13 +115,16 @@ const notificationAllRead = () => {
       </button>
     </div>
 
-    <div class="overflow-scroll [&::-webkit-scrollbar]:hidden mt-4 flex flex-col gap-3">
+    <div
+      v-if="notificationList"
+      class="overflow-scroll h-full [&::-webkit-scrollbar]:hidden mt-4 flex flex-col gap-3"
+    >
       <NotificationCard
         v-for="notification in displayNotificationList"
         :notification="notification"
-        :key="notification.notification_id"
+        :key="notification.notificationId"
         @click="openModal(notification)"
-        @delete="notificationDelete(notification)"
+        @delete="notificationDelete(notification.notificationId)"
       />
     </div>
 
@@ -92,10 +138,31 @@ const notificationAllRead = () => {
 
     <NotificationModal
       v-if="isModal"
-      @close="isReadNotification(notification)"
-      @click="goDetail(notification)"
+      @close="isReadNotification(modalData.notificationId)"
+      @click="goDetail(modalData)"
       class="z-[100] fixed top-1/3 left-1/2 -translate-x-1/2"
       :notification="modalData"
+    />
+
+    <div
+      class="flex flex-col justify-center items-center text-14 semibold text-gray-300 mt-[5rem]"
+      v-if="notificationList.length === 0"
+    >
+      <Icon icon="ix:alarm-bell-filled" class="size-10" />
+      <p class="mt-1 text-16">알림이 없습니다....</p>
+    </div>
+
+    <div
+      v-if="errorModal"
+      class="fixed inset-0 bg-black/55 z-[90]"
+      @click="errorModal = false"
+    ></div>
+
+    <ErrorModal
+      v-if="errorModal"
+      @close="errorModal = false"
+      :title="errorMsg"
+      class="z-[100] fixed top-1/3 left-1/2 -translate-x-1/2"
     />
   </div>
 </template>

@@ -2,31 +2,53 @@
 import AlarmTimePicker from '@/components/setting/AlarmTimePicker.vue'
 import PushAlarmTimeModal from '@/components/setting/PushAlarmTimeModal.vue'
 import PushNotificationToggle from '@/components/setting/PushNotificationToggle.vue'
-import { computed, ref } from 'vue'
+import { useAlarmStore } from '@/stores/alarm'
+import { storeToRefs } from 'pinia'
+import { onMounted, ref } from 'vue'
 
-const setting = ref({
-  announce_preference: true,
-  sos_preference: false,
-  is_alarm: false,
-  alarm_start_time: '21:00',
-  alarm_end_time: '09:00',
-})
+const alarmStore = useAlarmStore()
+
+const { alarmData } = storeToRefs(alarmStore)
+
+const errorModal = ref(false)
+const errorMsg = ref('')
 
 const openAlarmModal = ref(false)
-const onToggleChange = (update) => {
-  //알림 설정 API 연동
-  setting.value[update] = !setting.value[update]
+const onToggleChange = async (update) => {
+  alarmData.value[update] = !alarmData.value[update]
 
-  if (update === 'is_alarm' && !setting.value.is_alarm) {
+  await alarmStore.updateAlarm(alarmData.value)
+  if (alarmStore.error) {
+    errorMsg.value = '알람 설정에 실패해습니다.'
+    errorModal.value = true
+    alarmData.value[update] = !alarmData.value[update]
+  }
+
+  if (update === 'dndEnabled' && !alarmData.value.dndEnabled) {
     openAlarmModal.value = false
   }
 }
 
-const setAlarmTime = (startTime, endTime) => {
-  setting.value.alarm_start_time = startTime
-  setting.value.alarm_end_time = endTime
+const setAlarmTime = async (startTime, endTime) => {
+  alarmData.value.dndStart = startTime
+  alarmData.value.dndEnd = endTime
+
+  await alarmStore.updateAlarm(alarmData.value)
+  if (alarmStore.error) {
+    errorMsg.value = '알람 설정에 실패했습니다.'
+    errorModal.value = true
+  }
+
   openAlarmModal.value = false
 }
+
+onMounted(async () => {
+  await alarmStore.getAlarmData()
+  if (alarmStore.error) {
+    errorMsg.value = '알람 설정 목록을 불러오는데 실패했습니다.'
+    errorModal.value = true
+  }
+})
 </script>
 
 <template>
@@ -39,37 +61,37 @@ const setAlarmTime = (startTime, endTime) => {
       <div class="w-full py-4">
         <PushNotificationToggle
           :title="'공고 알림'"
-          :isChecked="setting.announce_preference"
-          @toggle="onToggleChange('announce_preference')"
+          :isChecked="alarmData.announceEnabled"
+          @toggle="onToggleChange('announceEnabled')"
         />
       </div>
       <div class="w-full py-4">
         <PushNotificationToggle
           :title="'SOS 알림'"
-          :isChecked="setting.sos_preference"
-          @toggle="onToggleChange('sos_preference')"
+          :isChecked="alarmData.sosEnabled"
+          @toggle="onToggleChange('sosEnabled')"
         />
       </div>
       <div class="w-full pt-4 pb-1 flex flex-col gap-3">
         <PushNotificationToggle
           :title="'push 알림 잠자기'"
-          :isChecked="setting.is_alarm"
-          @toggle="onToggleChange('is_alarm')"
+          :isChecked="alarmData.dndEnabled"
+          @toggle="onToggleChange('dndEnabled')"
         />
         <AlarmTimePicker
-          :startTime="setting.alarm_start_time"
-          :endTime="setting.alarm_end_time"
-          :isDisabled="!setting.is_alarm"
+          :startTime="alarmData.dndStart"
+          :endTime="alarmData.dndEnd"
+          :isDisabled="!alarmData.dndEnabled"
           @click="openAlarmModal = true"
         />
       </div>
       <div class="w-full">
         <transition name="slide-up">
           <PushAlarmTimeModal
-            v-if="openAlarmModal && setting.is_alarm"
+            v-if="openAlarmModal && alarmData.dndEnabled"
             @close="openAlarmModal = false"
-            :startTime="setting.alarm_start_time"
-            :endTime="setting.alarm_end_time"
+            :startTime="alarmData.dndStart"
+            :endTime="alarmData.dndEnd"
             @click="setAlarmTime"
           />
         </transition>
@@ -87,6 +109,19 @@ const setAlarmTime = (startTime, endTime) => {
         <p class="text-gray-400">1.5.3</p>
       </div>
     </div>
+
+    <div
+      v-if="errorModal"
+      class="fixed inset-0 bg-black/55 z-[90]"
+      @click="errorModal = false"
+    ></div>
+
+    <ErrorModal
+      v-if="errorModal"
+      @close="errorModal = false"
+      :title="errorMsg"
+      class="z-[100] fixed top-1/3 left-1/2 -translate-x-1/2"
+    />
   </div>
 </template>
 

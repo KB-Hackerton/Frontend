@@ -2,6 +2,8 @@
 import { Icon } from '@iconify/vue'
 import { computed, defineProps } from 'vue'
 import { RouterLink } from 'vue-router'
+
+const emit = defineEmits(['updated'])
 const props = defineProps({
   announcement: {
     type: Object,
@@ -26,8 +28,8 @@ const toYmdNumFromRaw = (raw) => {
 
 const announcementStatus = computed(() => {
   const t = getTodayYmdNum()
-  const s = toYmdNumFromRaw(props.announcement.reqst_start_date)
-  const e = toYmdNumFromRaw(props.announcement.reqst_end_date)
+  const s = toYmdNumFromRaw(props.announcement.start_date || props.announcement.pub_date)
+  const e = toYmdNumFromRaw(props.announcement.end_date)
 
   if (t < s) return '접수예정'
   else if (t > e) return '마감'
@@ -48,12 +50,12 @@ function parseDate(yyyymmdd) {
 }
 
 const Dday = computed(() => {
-  if (!props.announcement.reqst_end_date) return ''
+  if (!props.announcement.end_date) return ''
 
   const today = new Date()
   today.setHours(0, 0, 0, 0)
 
-  const end = parseDate(props.announcement.reqst_end_date)
+  const end = parseDate(props.announcement.end_date)
   end.setHours(0, 0, 0, 0)
 
   const dday = Math.ceil((end - today) / (1000 * 60 * 60 * 24))
@@ -67,40 +69,52 @@ const Dday = computed(() => {
 </script>
 
 <template>
-  <RouterLink :to="{ name: 'announceDetail', params: { announce_id: announcement.announce_id } }">
-    <div class="my-2 p-2 rounded-xl bg-white py-5 px-3 border border-[#FFE1D0] shadow-custom">
+  <RouterLink
+    :to="{ name: 'announceDetail', params: { announce_id: announcement.announce_id } }"
+    custom
+    v-slot="{ navigate }"
+  >
+    <div
+      class="my-2 p-2 rounded-xl bg-white py-5 px-3 border border-[#FFE1D0] shadow-custom"
+      @click="navigate"
+    >
       <div class="flex justify-between">
         <div class="flex flex-col gap-4">
           <div class="bold text-14">
-            {{ props.announcement.announce_title }}
+            {{ props.announcement.title }}
           </div>
           <div class="flex items-center gap-1">
             <Icon icon="bx:map" class="size-5 text-main" />
-            <p class="semibold text-12">{{ props.announcement.exc_InsttNm }}</p>
+            <p class="semibold text-12">{{ props.announcement.exc_instt_nm }}</p>
           </div>
           <div class="flex items-center gap-1">
             <Icon icon="mingcute:time-line" class="size-5 text-main" />
             <p class="semibold text-12">
               {{
-                `${props.announcement.reqst_start_date} ~ ${props.announcement.reqst_end_date ? props.announcement.reqst_end_date : '예산소진시 까지'}`
+                `${props.announcement.start_date || props.announcement.pub_date} ~ ${props.announcement.end_date ? props.announcement.end_date : '예산소진시 까지'}`
               }}
             </p>
           </div>
           <div class="flex items-center gap-1 pl-1">
             <div class="w-[0.4rem] h-[0.4rem] bg-orange-100 rounded-full"></div>
             <p class="semibold text-12">
-              {{ props.announcement.reqst_end_date ? Dday : '예산소진시 까지' }}
+              {{ props.announcement.end_date ? Dday : '예산소진시 까지' }}
             </p>
           </div>
         </div>
         <div class="flex flex-col gap-2 items-end justify-between">
-          <div class="flex items-center gap-1 border border-gray-[0.4rem] rounded-xl p-1">
+          <button
+            class="flex items-center gap-1 border border-gray-[0.4rem] rounded-xl p-1"
+            @click.stop="
+              emit('updated', props.announcement.announce_id, props.announcement.favorite)
+            "
+          >
             <Icon
               icon="material-symbols:kid-star"
               class="size-5"
-              :class="props.announcement.is_favorite ? 'text-[#FFD93D]' : 'text-gray-300'"
+              :class="props.announcement.favorite ? 'text-[#FFD93D]' : 'text-gray-300'"
             />
-          </div>
+          </button>
           <div
             class="w-[4.5rem] h-[2rem] text-10 semibold rounded-full flex items-center justify-center"
             :class="

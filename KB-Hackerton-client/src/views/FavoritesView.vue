@@ -1,10 +1,39 @@
 <script setup>
+import ErrorModal from '@/components/error/ErrorModal.vue'
 import FavoriteCard from '@/components/favorite/FavoriteCard.vue'
-import announce from '@/_dummy/announce.json'
+import { useFavoriteStore } from '@/stores/favorite'
+import { Icon } from '@iconify/vue'
+import { storeToRefs } from 'pinia'
+import { onMounted, ref } from 'vue'
 
-const favoriteAnnounceList = announce.filter((a) => a.is_favorite)
+const favoriteStore = useFavoriteStore()
+const { favoriteList } = storeToRefs(favoriteStore)
+const errorModal = ref(false)
+const errorMsg = ref('')
+
 // 카드 간 간격(ms) — 원하면 60~120ms 사이에서 조절
 const STAGGER = 90
+
+const deleteFavorite = async (favoriteId) => {
+  await favoriteStore.deleteFavorite(favoriteId)
+  if (favoriteStore.error) {
+    errorMsg.value = '즐겨찾기 목록을 불러오는데 실패했습니다.'
+    errorModal.value = true
+  } else {
+    favoriteList.value.splice(
+      favoriteList.value.findIndex((it) => it.announce_id === favoriteId),
+      1,
+    )
+  }
+}
+
+onMounted(async () => {
+  await favoriteStore.getFavoriteList()
+  if (favoriteStore.error) {
+    errorMsg.value = '즐겨찾기 목록을 불러오는데 실패했습니다.'
+    errorModal.value = true
+  }
+})
 </script>
 
 <template>
@@ -25,13 +54,36 @@ const STAGGER = 90
     >
       <!-- 여기서 래퍼 div에 transition-delay를 동적으로 바인딩 -->
       <div
-        v-for="(announce, i) in favoriteAnnounceList"
+        v-for="(announce, i) in favoriteList"
         :key="announce.announce_id"
         class="will-change-transform"
         :style="{ transitionDelay: `${i * STAGGER}ms` }"
       >
-        <FavoriteCard :favorite="announce" />
+        <FavoriteCard :favorite="announce" @updated="(id) => deleteFavorite(id)" />
       </div>
     </TransitionGroup>
+
+    <div v-if="favoriteList.length === 0" class="mt-[10rem]">
+      <div class="flex justify-center">
+        <Icon
+          icon="material-symbols:kid-star"
+          class="w-[2.5rem] h-auto text-gray-300 mt-[-3.5rem] mr-[-2rem]"
+        />
+        <Icon icon="mi:document" class="w-[4.5em] h-auto text-gray-300" />
+      </div>
+      <p class="text-16 text-gray-300 semibold">즐겨찾기한 공고가 없습니다....</p>
+    </div>
+    <div
+      v-if="errorModal"
+      class="fixed inset-0 bg-black/55 z-[90]"
+      @click="errorModal = false"
+    ></div>
+
+    <ErrorModal
+      v-if="errorModal"
+      @close="errorModal = false"
+      :title="errorMsg"
+      class="z-[100] fixed top-1/3 left-1/2 -translate-x-1/2"
+    />
   </div>
 </template>

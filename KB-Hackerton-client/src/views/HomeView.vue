@@ -2,11 +2,14 @@
 import bannerImg from '@/assets/images/banner.png'
 import HomeSection from '@/components/home/HomeSection.vue'
 import HomeList from '@/components/home/HomeList.vue'
+import HomeTabSection from '@/components/home/HomeTableSection.vue'
+import PopularPrograms from '@/components/home/PopularPrograms.vue'
 
 import announce from '@/_dummy/announce.json'
-import festival from '@/_dummy/festival.json'
+
 import article from '@/_dummy/articles.json'
 import notice from '@/_dummy/notice.json'
+import AiRecommandation from '@/components/home/AiRecommandation.vue'
 
 function calcDday(dateStr) {
   if (!dateStr) return null
@@ -20,13 +23,23 @@ function calcDday(dateStr) {
 </script>
 
 <template>
-  <div class="w-full min-h-screen bg-gray-100">
+  <div class="mx-[-1rem] min-h-screen ">
     <div class="w-full bg-white mb-3">
       <img :src="bannerImg" alt="경상났네 배너" class="w-full" />
     </div>
 
+  <AiRecommandation/>
+
+    <PopularPrograms :items="[
+  { title: '소상공인 경영 안정 자금', views: 1243 },
+  { title: '청년 창업 지원 사업', views: 987 },
+  { title: '소상 공인 디지털화 지원', views: 987 },
+]" />
+
+    <HomeTabSection />
+
     <HomeSection
-      title="최근 공고"
+      title="최근 본 공고"
       moreText="공고 더보기"
       moreLink="/announce-list"
       :items="
@@ -39,18 +52,6 @@ function calcDday(dateStr) {
       "
     />
 
-    <HomeSection
-      title="최근 축제 정보"
-      moreText="축제 더보기"
-      moreLink="/festival-list"
-      :items="
-        festival.slice(0, 3).map((f) => ({
-          title: f.festival_title,
-          link: `/`,
-          // link: `/festival-list/${f.festival_id}`,
-        }))
-      "
-    />
 
     <!-- 관련 기사 -->
     <HomeList
@@ -66,19 +67,7 @@ function calcDday(dateStr) {
       "
     />
 
-    <HomeSection
-      title="최근 본 공고"
-      moreText="공고 더보기"
-      moreLink="/announce-list"
-      :items="
-        announce.slice(0, 3).map((a) => ({
-          title: a.announce_title,
-          dday: calcDday(a.reqst_end_date),
-          link: `/`,
-          // link: `/announce-list/${a.announce_id}`,
-        }))
-      "
-    />
+
 
     <!-- 공지사항 -->
     <HomeList

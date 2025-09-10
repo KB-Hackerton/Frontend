@@ -1,5 +1,6 @@
 <script setup>
 import { ref, reactive, onMounted, onUnmounted, nextTick, watch, computed } from 'vue'
+import { storeToRefs } from 'pinia'
 import FullCalendar from '@fullcalendar/vue3'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
@@ -7,10 +8,15 @@ import ToggleSwitch from '@/components/toggle/ToggleSwitch.vue'
 import { Icon } from '@iconify/vue'
 import DropdownFilter from '@/components/calendar/DropdownFilter.vue'
 import AnnouncementCard from '@/components/calendar/AnnouncementCard.vue'
-import announce from '@/_dummy/announce.json'
-import festival from '@/_dummy/festival.json'
 import FestivalCard from '@/components/calendar/FestivalCard.vue'
+import { useFestivalStore } from '@/stores/festival'
+import ErrorModal from '@/components/error/ErrorModal.vue'
+import { useAnnounceStore } from '@/stores/announce'
+import { useFavoriteStore } from '@/stores/favorite'
 
+const favoriteStore = useFavoriteStore()
+const announceStore = useAnnounceStore()
+const festivalStore = useFestivalStore()
 const calendarRef = ref(null)
 const calWrapRef = ref(null)
 const currentTitle = ref('')
@@ -21,15 +27,77 @@ const detailView = ref(false)
 const clickDate = ref(null)
 
 const isFavorite = ref(false)
-// Prevent accidental first click on the list right after switching to week view
+
 const suppressListClick = ref(false)
+
+const errorModal = ref(false)
+const errorMsg = ref('')
+
+const { announceList } = storeToRefs(announceStore)
+const { festivalList } = storeToRefs(festivalStore)
+
+const clickDateAnnounceList = ref([])
+const clickDateFestivalList = ref([])
+
+onMounted(async () => {
+  await festivalStore.getFestivalList()
+  if (festivalStore.error) {
+    errorMsg.value = '축제 목록을 불러오는데 실패했습니다.'
+    errorModal.value = true
+  }
+
+  await announceStore.getAnnounceList()
+  if (announceStore.error) {
+    errorMsg.value = '공고 목록을 불러오는데 실패했습니다.'
+    errorModal.value = true
+  }
+
+  calendarRef.value?.getApi()?.refetchEvents()
+})
+
+const favoriteSet = async (id, isFavorite) => {
+  const targetId = String(id) // ✅ 항상 문자열로 통일
+  const desired = !isFavorite
+
+  if (isFavorite) {
+    await favoriteStore.deleteFavorite(targetId)
+    if (favoriteStore.error !== null /* ref면 .value로 */) {
+      errorMsg.value = '즐겨찾기 취소에 실패했습니다.'
+      errorModal.value = true
+      return
+    }
+  } else {
+    await favoriteStore.setFavorite(targetId)
+    if (favoriteStore.error !== null /* ref면 .value로 */) {
+      errorMsg.value = '즐겨찾기 등록에 실패했습니다.'
+      errorModal.value = true
+      return
+    }
+  }
+
+  // ✅ 전체 목록에서 업데이트 (가드)
+  const storeItem = announceList.value?.find((it) => String(it.announce_id) === targetId)
+  if (storeItem) storeItem.favorite = desired
+
+  // ✅ 클릭된 날짜 목록에서도 업데이트 (가드)
+  const clickedItem = clickDateAnnounceList.value?.find((it) => String(it.announce_id) === targetId)
+  if (clickedItem) clickedItem.favorite = desired
+
+  // ✅ 캘린더 이벤트 동기화 (있으면만)
+  const ev = calendarRef.value?.getApi()?.getEventById(targetId)
+  ev?.setExtendedProp('is_favorite', desired)
+  ev?.setExtendedProp('favorite', desired)
+
+  calendarRef.value?.getApi()?.refetchEvents()
+  calWrapRef.value?.scrollIntoView({ behavior: 'smooth' })
+}
+
 const onListClickCapture = (e) => {
   if (suppressListClick.value) {
     e.preventDefault?.()
     e.stopPropagation?.()
   }
 }
-
 // ===== Robust global guard (timestamp-based) =====
 const SUPPRESS_MS = 300
 const lastViewSwitchAt = ref(0)
@@ -75,13 +143,6 @@ onUnmounted(() => {
   ]
   types.forEach((t) => window.removeEventListener(t, globalRetargetGuard, { capture: true }))
 })
-// ================================================
-
-const announceList = ref(announce)
-const festivalList = ref(festival)
-
-const clickDateAnnounceList = ref([])
-const clickDateFestivalList = ref([])
 
 // 종료일 포함 여부: true면 종료 ‘당일 포함’, false면 종료 ‘당일부터 gray’
 const END_INCLUSIVE = true
@@ -120,11 +181,11 @@ const displayedAnnounceList = computed(() => {
   if (isFavorite.value) {
     if (filter.value !== '전체') {
       return clickDateAnnounceList.value.filter((item) => {
-        return item.is_favorite && item.lcategory.replace('#', '') === filter.value
+        return item.favorite && item.lcategory.replace('#', '') === filter.value
       })
     }
     return clickDateAnnounceList.value.filter((item) => {
-      return item.is_favorite
+      return item.favorite
     })
   } else if (filter.value !== '전체') {
     return clickDateAnnounceList.value.filter((item) => {
@@ -142,11 +203,11 @@ const calendarAnnounceList = computed(() => {
   if (isFavorite.value) {
     if (filter.value !== '전체') {
       return announceList.value.filter((item) => {
-        return item.is_favorite && item.lcategory.replace('#', '') === filter.value
+        return item.favorite && item.lcategory.replace('#', '') === filter.value
       })
     }
     return announceList.value.filter((item) => {
-      return item.is_favorite
+      return item.favorite
     })
   } else if (filter.value !== '전체') {
     return announceList.value.filter((item) => {
@@ -243,13 +304,16 @@ const calendarOptions = reactive({
       const compact = iso.replaceAll('-', '')
       clickDateAnnounceList.value = announceList.value.filter((item) => {
         return (
-          (item.reqst_start_date <= compact && item.reqst_end_date >= compact) ||
-          (item.reqst_start_date <= compact && item.reqst_end_date === '')
+          (item.start_date <= compact && item.end_date >= compact) ||
+          (item.pub_date <= compact && item.end_date >= compact) ||
+          (item.start_date <= compact && item.end_date === null)
         )
       })
 
       clickDateFestivalList.value = festivalList.value.filter((item) => {
-        return item.event_startdate <= compact && item.event_enddate >= compact
+        const start = item.event_startdate
+        const end = item.event_enddate || compact // open-ended 안전 처리
+        return start <= compact && compact <= end
       })
 
       // Move the calendar focus to this date (keeps week view, shifts the range if needed)
@@ -281,7 +345,7 @@ const calendarOptions = reactive({
   events: (fetchInfo, success) => {
     const rangeEndISO = fmtISO(fetchInfo.end)
     if (filter.value === '축제') {
-      const festivalList = calendarFestivalList.value.map((a) => {
+      const fest = (calendarFestivalList.value ?? []).map((a) => {
         const startISO = a.event_startdate.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3')
         const hasEnd = !!a.event_enddate
         const rawEndISO = hasEnd
@@ -300,29 +364,31 @@ const calendarOptions = reactive({
           },
         }
       })
-      success(filter.value === '축제' ? festivalList : list)
+      success(fest)
+      return
     }
-    const list = calendarAnnounceList.value.map((a) => {
-      const startISO = a.reqst_start_date.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3')
-      const hasEnd = !!a.reqst_end_date
-      const rawEndISO = hasEnd
-        ? a.reqst_end_date.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3')
-        : null
+    const list = (calendarAnnounceList.value ?? []).map((a) => {
+      const hasStart = !!a.start_date || !!a.pub_date
+      const startISO = hasStart
+        ? (a.start_date || a.pub_date).replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3')
+        : rangeEndISO
+      const hasEnd = !!a.end_date
+      const rawEndISO = hasEnd ? a.end_date.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3') : null
       const endISO = hasEnd ? (END_INCLUSIVE ? addDaysISO(rawEndISO, 1) : rawEndISO) : rangeEndISO // open-ended → stretch to view end
 
       return {
         id: a.announce_id,
-        title: a.announce_title,
+        title: a.title,
         start: startISO,
         end: endISO,
         allDay: true,
         extendedProps: {
-          is_favorite: !!a.is_favorite,
+          is_favorite: !!a.favorite,
           openEnded: !hasEnd,
         },
       }
     })
-    success(filter.value === '축제' ? festivalList : list)
+    success(list)
   },
   dateClick: (arg) => {
     clickDate.value = arg.dateStr
@@ -335,15 +401,15 @@ const calendarOptions = reactive({
 
     clickDateAnnounceList.value = announceList.value.filter((item) => {
       return (
-        (item.reqst_start_date <= formatDate && item.reqst_end_date >= formatDate) ||
-        (item.reqst_start_date <= formatDate && item.reqst_end_date === '')
+        (item.start_date <= formatDate && item.end_date >= formatDate) ||
+        (item.pub_date <= formatDate && item.end_date >= formatDate) ||
+        (item.start_date <= formatDate && item.end_date === null)
       )
     })
 
     clickDateFestivalList.value = festivalList.value.filter((item) => {
       const start = item.event_startdate
-      const end = item.event_enddate
-
+      const end = item.event_enddate || formatDate
       return start <= formatDate && formatDate <= end
     })
 
@@ -432,6 +498,7 @@ function showMonth() {
           {{ currentTitle }}
         </div>
         <ToggleSwitch
+          v-if="filter !== '축제'"
           :label="'즐겨찾기'"
           :isChecked="isFavorite"
           @click="isFavorite = !isFavorite"
@@ -480,7 +547,8 @@ function showMonth() {
                 v-if="filter !== '축제'"
                 icon="material-symbols:kid-star"
                 :class="event.extendedProps.is_favorite ? 'text-yellow mr-1' : 'text-gray-300 mr-1'"
-                class="size-4"
+                class="size-4 hover:cursor-pointer"
+                @click.stop="favoriteSet(event.id, event.extendedProps.is_favorite)"
               />
               <span class="font-semibold text-12 text-center flex-1 truncate text-black">{{
                 event.title
@@ -504,6 +572,7 @@ function showMonth() {
           v-for="a in displayedAnnounceList"
           :announcement="a"
           :key="a.announce_id"
+          @updated="(id, isFavorite) => favoriteSet(id, isFavorite)"
         />
       </div>
 
@@ -524,6 +593,19 @@ function showMonth() {
         />
       </div>
     </div>
+
+    <div
+      v-if="errorModal"
+      class="fixed inset-0 bg-black/55 z-[90]"
+      @click="errorModal = false"
+    ></div>
+
+    <ErrorModal
+      v-if="errorModal"
+      @close="errorModal = false"
+      :title="errorMsg"
+      class="z-[100] fixed top-1/3 left-1/2 -translate-x-1/2"
+    />
   </div>
 </template>
 <style>

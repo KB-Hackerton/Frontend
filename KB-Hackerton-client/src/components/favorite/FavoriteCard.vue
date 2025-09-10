@@ -1,7 +1,10 @@
 <script setup>
 import { Icon } from '@iconify/vue'
-import { computed, defineProps } from 'vue'
+import { computed, defineProps, ref, watch } from 'vue'
+import { useRouter } from 'vue-router'
 import { RouterLink } from 'vue-router'
+
+const router = useRouter()
 
 const props = defineProps({
   favorite: {
@@ -9,6 +12,38 @@ const props = defineProps({
     required: true,
   },
 })
+
+const emit = defineEmits(['updated'])
+
+const displayPercent = ref(0)
+const checkPercent = computed(() => {
+  if (!props.favorite.total_docs) return 0
+  const total = props.favorite.total_docs
+  const checked = props.favorite.checked_docs
+  return (checked / total) * 100
+})
+
+watch(
+  checkPercent,
+  (newVal, oldVal) => {
+    const from = Number(oldVal ?? 0)
+    const to = Number(newVal)
+    const duration = 450 // ms
+    let start
+
+    const step = (ts) => {
+      if (!start) start = ts
+      const t = Math.min((ts - start) / duration, 1)
+      const eased = 1 - Math.pow(1 - t, 3) // easeOutCubic
+      const value = from + (to - from) * eased
+      displayPercent.value = Math.round(value)
+      if (t < 1) requestAnimationFrame(step)
+    }
+
+    requestAnimationFrame(step)
+  },
+  { immediate: true },
+)
 
 function parseDate(yyyymmdd) {
   const yyyy = yyyymmdd.slice(0, 4)
@@ -18,14 +53,12 @@ function parseDate(yyyymmdd) {
 }
 
 const Dday = computed(() => {
-  if (!props.favorite.reqst_end_date) return 'D-?'
+  if (!props.favorite.deadline) return 'D-?'
 
   const today = new Date()
   today.setHours(0, 0, 0, 0)
 
-  const end = parseDate(props.favorite.reqst_end_date)
-  end.setHours(0, 0, 0, 0)
-
+  const end = parseDate(props.favorite.deadline.replaceAll(/-/g, ''))
   const dday = Math.ceil((end - today) / (1000 * 60 * 60 * 24))
 
   if (dday === 0) return 'D-day'
@@ -50,12 +83,13 @@ const Dday = computed(() => {
         <div class="flex gap-2 justify-between h-full w-full">
           <h1 class="text-[0.8rem] bold text-start">{{ props.favorite.announce_title }}</h1>
 
-          <div class="flex items-start justify-center gap-2">
-            <div
+          <div class="flex flex-col items-end gap-1">
+            <button
               class="flex items-center justify-center border border-gray-200 rounded-[0.5rem] h-[1.5rem] w-[1.5rem]"
+              @click.stop="emit('updated', props.favorite.announce_id)"
             >
               <Icon icon="material-symbols:kid-star" class="w-[1.2rem] h-auto text-[#FFE599]" />
-            </div>
+            </button>
             <div
               class="rounded-full text-12 whitespace-nowrap items-center flex px-[0.4rem] h-[1.2rem]"
               :class="
@@ -75,15 +109,28 @@ const Dday = computed(() => {
         <div class="flex items-end justify-between">
           <button
             class="text-12 w-[6rem] semibold text-white bg-[#E46212] rounded-full py-[0.35rem]"
+            @click.stop="
+              router.push({
+                name: 'announceDocsCheckList',
+                params: { announce_id: props.favorite.announce_id },
+              })
+            "
           >
             서류 준비하기
           </button>
 
-          <p class="text-12 medium whitespace-nowrap">{{ `서류 준비도: 60%(6/10) ` }}</p>
+          <p class="text-12 medium whitespace-nowrap">
+            {{
+              `서류 준비도: ${displayPercent}%(${props.favorite.checked_docs}/${props.favorite.total_docs}) `
+            }}
+          </p>
         </div>
       </div>
       <div class="h-[0.7rem] bg-[#FFE1D0] rounded-full mt-4 mb-1">
-        <div class="h-[0.7rem] bg-gradient2 rounded-full" style="width: 65%"></div>
+        <div
+          class="h-[0.7rem] bg-gradient2 rounded-full"
+          :style="{ width: displayPercent + '%' }"
+        ></div>
       </div>
     </div>
   </RouterLink>
