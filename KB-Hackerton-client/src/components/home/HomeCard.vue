@@ -20,8 +20,8 @@ function goDetail() {
     class="w-[110px] h-[120px] bg-white rounded-xl shadow-md mb-2 p-3 flex flex-col justify-between border border-[#FFE1D0]"
   >
     <div v-if="dday !== null" class="text-12 text-main">D-{{ dday }}</div>
-    <div v-else>🎊</div>
-    <p class="text-10 text-black mt-2 flex-1">
+    <div v-else>🥰</div>
+    <p class="text-10 text-black mt-1 flex-1 overflow-hidden line-clamp-3 text-ellipsis">
       {{ title }}
     </p>
 
