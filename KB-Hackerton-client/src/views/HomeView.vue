@@ -69,11 +69,11 @@ function calcDday(dateStr) {
     />
 
     <HomeList
-      title="관련 기사"
+      title="최근 기사"
       moreText="기사 더보기"
       moreLink="/article"
       :items="
-        homeData.recentArticle?.slice(0, 3).map((a) => ({
+        homeData.recent_article?.slice(0, 3).map((a) => ({
           title: a.title,
           link: `/article/${a.article_id}`,
         })) || []
