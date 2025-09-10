@@ -5,9 +5,12 @@ import { useSosStore } from '@/stores/sos'
 import SosFilterBar from '@/components/sos/SosFilterBar.vue'
 import BaseButton from '@/components/common/BaseButton.vue'
 import BaseModal from '@/components/common/BaseModal.vue'
+import TimeSetModal from '@/components/sos/TimeSetModal.vue'
 
 const router = useRouter()
 const sosStore = useSosStore()
+
+const timeSetModal = ref(false)
 
 const selectedCategory = ref([])
 const expiresAt = ref('')
@@ -99,8 +102,19 @@ function goToList() {
         SOS 종료시각
         <span class="text-12 text-gray-300">(최대 오늘 자정까지만 가능합니다)</span>
       </p>
-      <input type="time" v-model="expiresAt" class="w-32 p-2 border rounded" />
+      <input
+        type="time"
+        v-model="expiresAt"
+        readonly
+        inputmode="none"
+        class="w-32 p-2 border rounded cursor-pointer select-none caret-transparent focus:outline-none focus:ring-0"
+        @mousedown.prevent="timeSetModal = true"
+        @click.prevent
+        @focus.prevent="$event.target.blur()"
+      />
     </div>
+
+    <TimeSetModal v-if="timeSetModal" v-model="expiresAt" @close="timeSetModal = false" />
 
     <!-- 요청 제목 -->
     <div>
