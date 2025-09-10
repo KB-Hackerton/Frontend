@@ -1,11 +1,22 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import { uploadProfileImage } from '@/api/mypage'
+import { uploadProfileImage, updateBusinessInfo } from '@/api/mypage'
 import { useAuthStore } from '@/stores/auth'
 
 export const useMypageStore = defineStore('mypage', () => {
   const loading = ref(false)
   const error = ref(null)
+
+  // 사업정보 수정 데이터
+  const businessInfo = ref({
+    businessNum: '',
+    ceoName: '',
+    companyName: '',
+    openDate: '',
+    categorySub: '', // minor_code (소분류 코드)
+    address: '',
+    addressDetail: '',
+  })
 
   // 프로필 이미지 업로드
   const updateProfileImage = async (file) => {
@@ -38,9 +49,38 @@ export const useMypageStore = defineStore('mypage', () => {
     }
   }
 
+  // 사업 정보 수정
+  const editBusinessInfo = async (payload) => {
+    loading.value = true
+    error.value = null
+    try {
+      const res = await updateBusinessInfo(payload)
+      console.log('🔎 수정 응답:', res)
+
+      if (res.code === 200) {
+        const authStore = useAuthStore()
+        // authStore.user 갱신
+        authStore.user = { ...authStore.user, ...payload }
+
+        localStorage.setItem('user', JSON.stringify(authStore.user))
+        return true
+      } else {
+        error.value = res.message || '사업 정보 수정 실패'
+        return false
+      }
+    } catch (err) {
+      console.error('❌ 사업 정보 수정 실패', err)
+      error.value = '요청 중 오류 발생'
+      return false
+    } finally {
+      loading.value = false
+    }
+  }
+
   return {
     loading,
     error,
     updateProfileImage,
+    editBusinessInfo,
   }
 })
