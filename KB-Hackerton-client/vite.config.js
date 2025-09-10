@@ -16,10 +16,5 @@ export default defineConfig({
   server: {
     host: '0.0.0.0', // 외부 기기에서 접근 가능하도록 설정
     port: 5173, // 기본 포트 (다른 포트를 사용 중이면 해당 번호로)
-    hmr: {
-      protocol: 'wss',
-      host: '894d19dbe89c.ngrok-free.app',
-      clientPort: 443,
-    },
   },
 })
