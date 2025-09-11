@@ -1,4 +1,5 @@
 <script setup>
+import { Icon } from '@iconify/vue'
 import { useRouter } from 'vue-router'
 
 const props = defineProps({
@@ -20,7 +21,7 @@ function goDetail() {
     class="w-full h-[120px] bg-white rounded-xl shadow-md mb-2 p-3 flex flex-col justify-between border border-[#FFE1D0]"
   >
     <div v-if="dday !== null" class="text-12 text-main">D-{{ dday }}</div>
-    <div v-else>🥰</div>
+    <Icon icon="material-symbols:docs-outline-rounded" class="size-6 text-gray-400" />
     <p class="text-10 text-black mt-1 flex-1 overflow-hidden line-clamp-3 text-ellipsis">
       {{ title }}
     </p>

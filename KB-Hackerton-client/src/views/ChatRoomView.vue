@@ -8,7 +8,6 @@ import defaultProfile from '@/assets/images/banner.png'
 
 import chatCompleteModal from '@/components/chat/ChatCompleteModal.vue'
 
-
 //  defineProps: roomId가 URL 파라미터로 들어올 때 문자열이므로 Number로 변환해 사용합니다.
 const props = defineProps({
   roomId: {
@@ -19,9 +18,7 @@ const props = defineProps({
 
 const chatStore = useChatStore()
 
-
 const router = useRouter() // 페이지 이동이 필요할 경우
-
 
 // 새 모달의 표시 여부
 const isCompleteModalVisible = ref(false)
@@ -32,13 +29,10 @@ const chatMembers = ref([])
 // 모달 상태 관리 및 핸들러 함수 (기존과 동일하게 사용 가능)
 const isDeleteModalVisible = ref(false)
 
-
-
 // 종료 버튼 텍스트
 const completionButtonText = computed(() => {
   return state.chatRoom.isComplete ? '완료됨' : '종료하기'
 })
-
 
 // --- 함수(Methods) 정의 ---
 
@@ -110,7 +104,6 @@ const sosTypeKorean = computed(() => {
       return state.chatRoom.sosType // 매핑되지 않은 경우 원래 값 표시
   }
 })
-
 
 // 날짜별 메시지 그룹화
 const groupedMessages = computed(() => {
@@ -243,7 +236,7 @@ const cleanup = async () => {
   if (!state.stompClient?.connected) return
   try {
     await chatStore.markAsRead(state.roomId)
-    state.stompClient.unsubscribe(`/topic/${state.roomId}`);
+    state.stompClient.unsubscribe(`/topic/${state.roomId}`)
     state.stompClient.disconnect()
     // console.log('🔌 WebSocket disconnected.')
   } catch (error) {
@@ -301,6 +294,7 @@ onBeforeRouteLeave(async (to, from, next) => {
       <div class="border-b bg-white px-4 pb-2">
         <div class="flex items-center justify-between">
           <div class="flex space-x-2">
+            <div class="rounded-md bg-gray-100 px-2 py-1 text-sm text-gray-600">요청중</div>
             <span
               v-if="state.chatRoom.sosType"
               class="rounded-md bg-gray-100 px-2 py-1 text-sm text-gray-600"
@@ -320,10 +314,7 @@ onBeforeRouteLeave(async (to, from, next) => {
           >
             {{ completionButtonText }}
           </button>
-
         </div>
-
-
       </div>
     </div>
 
@@ -342,7 +333,8 @@ onBeforeRouteLeave(async (to, from, next) => {
             >
               <img
                 :src="
-                    state.chatRoom.partnerImage? state.chatRoom.partnerImage + '?t=' + Date.now()
+                  state.chatRoom.partnerImage
+                    ? state.chatRoom.partnerImage + '?t=' + Date.now()
                     : defaultProfile
                 "
                 alt="프로필"
@@ -413,8 +405,6 @@ onBeforeRouteLeave(async (to, from, next) => {
         </button>
       </div>
     </footer>
-
-
   </div>
   <chatCompleteModal
     :show="isCompleteModalVisible"

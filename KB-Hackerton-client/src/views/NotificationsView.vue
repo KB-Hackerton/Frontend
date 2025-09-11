@@ -114,7 +114,13 @@ onMounted(async () => {
         전체읽음 처리
       </button>
     </div>
-
+    <div
+      class="flex flex-col justify-center items-center text-14 semibold text-gray-300 mt-[5rem]"
+      v-if="notificationList.length === 0"
+    >
+      <Icon icon="ix:alarm-bell-filled" class="size-10" />
+      <p class="mt-1 text-16">알림이 없습니다....</p>
+    </div>
     <div
       v-if="notificationList"
       class="overflow-scroll h-full [&::-webkit-scrollbar]:hidden mt-4 flex flex-col gap-3"
@@ -134,6 +140,7 @@ onMounted(async () => {
     >
       알림 전체 삭제
     </button>
+
     <div v-if="isModal" class="fixed inset-0 bg-black/55 z-[90]" @click="isModal = false"></div>
 
     <NotificationModal
@@ -143,14 +150,6 @@ onMounted(async () => {
       class="z-[100] fixed top-1/3 left-1/2 -translate-x-1/2"
       :notification="modalData"
     />
-
-    <div
-      class="flex flex-col justify-center items-center text-14 semibold text-gray-300 mt-[5rem]"
-      v-if="notificationList.length === 0"
-    >
-      <Icon icon="ix:alarm-bell-filled" class="size-10" />
-      <p class="mt-1 text-16">알림이 없습니다....</p>
-    </div>
 
     <div
       v-if="errorModal"

@@ -39,7 +39,7 @@ const displayAnnounceList = computed(() => {
   if (filter.value === '마감') {
     base = src.filter((a) => a.end_date < t && a.end_date !== null) // 마감
   } else if (filter.value === '접수중') {
-    base = src.filter((a) => (a.start_date <= t || a.pub_date <= t) && t <= a.end_date) // 접수중
+    base = src.filter((a) => a.start_date <= t && a.pub_date <= t && t <= a.end_date) // 접수중
   } else if (filter.value === '접수에정') {
     base = src.filter((a) => a.start_date > t || a.pub_date > t) // 접수예정
   } else if (filter.value === '즐겨찾기') {

@@ -23,7 +23,7 @@ const router = createRouter({
           name: 'home',
           component: HomeView,
           meta: {
-            title: '홈',
+            title: '경상났네',
           },
         },
         {
@@ -103,5 +103,24 @@ const router = createRouter({
     },
   ],
 })
+const PUBLIC_ROUTES = new Set(['login', 'kakao-login', 'find-password', 'signup'])
 
+router.beforeEach((to, from, next) => {
+  const accessToken = localStorage.getItem('accessToken')
+  const toName = to.name?.toString()
+
+  const isPublic = toName ? PUBLIC_ROUTES.has(toName) : false
+
+  // 1) Not authenticated -> block private pages
+  if (!accessToken && !isPublic) {
+    return next({ name: 'login', query: { redirect: to.fullPath } })
+  }
+
+  // 2) Authenticated -> block auth pages (go home)
+  if (accessToken && isPublic && toName !== 'find-password') {
+    return next({ name: 'home' })
+  }
+
+  return next()
+})
 export default router
