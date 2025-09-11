@@ -23,7 +23,7 @@ const router = createRouter({
           name: 'home',
           component: HomeView,
           meta: {
-            title: '홈',
+            title: '경상났네',
           },
         },
         {
