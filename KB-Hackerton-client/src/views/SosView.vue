@@ -18,6 +18,7 @@ const selectedItem = ref(null)
 
 const typeMap = { stock: '물품', labor: '인력', equipment: '고장', etc: '기타' }
 
+// 2km 이내 필터 + 카테고리 필터
 const filteredList = computed(() => {
   const cats = selectedCategories.value
   let list = sosItems.value
@@ -26,32 +27,29 @@ const filteredList = computed(() => {
     list = list.filter((item) => cats.includes(typeMap[item.sos_type]))
   }
 
+  // 거리 필터 (2km 이내)
+  list = list.filter((item) => item.distance === undefined || item.distance <= 2000)
+
   return [...list].sort((a, b) => {
     const aOwner = a.isOwner ? 1 : 0
     const bOwner = b.isOwner ? 1 : 0
-    return bOwner - aOwner // true(1) 먼저
+    return bOwner - aOwner // 내 SOS 먼저
   })
 })
 
+// 상세보기
 async function handleSelect(item) {
   try {
     const detail = await sosStore.fetchDetail(item.sos_id)
     selectedItem.value = {
       ...detail.data,
       isOwner: item.member_id === authStore.user?.member_id,
+      distance: sosItems.value.find((s) => s.sos_id === item.sos_id)?.distance ?? null,
     }
     console.log('🟢 SOS 상세 불러오기 성공')
   } catch (e) {
     console.error('❌ SOS 상세 불러오기 실패', e)
   }
-}
-
-function handleEdit(item) {
-  router.push({
-    name: 'sos-edit',
-    params: { id: item.sos_id },
-    state: { item },
-  })
 }
 
 async function fetchList() {
@@ -67,12 +65,25 @@ async function fetchList() {
   }
 }
 
+function handleEdit(item) {
+  router.push({
+    name: 'sos-edit',
+    params: { id: item.sos_id },
+    state: { item },
+  })
+}
+
+function updateDistance({ id, distance }) {
+  const sos = sosItems.value.find((s) => s.sos_id === id)
+  if (sos) sos.distance = distance
+}
+
 async function handleDelete(id) {
   try {
     await sosStore.deleteSos(id)
     console.log('🟢 SOS 삭제 성공')
-    selectedItem.value = null // 상세창 닫기
-    await fetchList() // 목록 다시 불러오기
+    selectedItem.value = null
+    await fetchList()
   } catch (e) {
     console.error('❌ SOS 삭제 실패', e)
   }
@@ -98,6 +109,8 @@ onMounted(fetchList)
         :items="filteredList"
         :selected="selectedItem"
         :userAddress="authStore.user?.business_dto?.businessAddr"
+        @select="handleSelect"
+        @update-distance="updateDistance"
       />
     </div>
 
