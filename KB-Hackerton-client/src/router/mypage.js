@@ -17,4 +17,10 @@ export default [
     component: () => import('@/views/edit/PasswordEditView.vue'),
     meta: { title: '비밀번호 수정' },
   },
+  {
+    path: '/chatbot',
+    name: 'chatbot',
+    component: () => import('@/views/Chatbot.vue'),
+    meta: { title: '챗봇' },
+  },
 ]
