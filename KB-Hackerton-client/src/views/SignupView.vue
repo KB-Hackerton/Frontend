@@ -1,14 +1,20 @@
 <script setup>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import SignupStepPersonal from '@/components/signup/SignupStepPersonal.vue'
 import SignupStepBusiness from '@/components/signup/SignupStepBusiness.vue'
-
+import { useAuthStore } from '@/stores/auth.js'
 // 현재 단계 (1: 개인정보, 2: 사업정보)
 const step = ref(1)
+const authStore = useAuthStore()
+
 
 function goNext() {
   if (step.value < 2) step.value++
 }
+
+onMounted(async () => {
+  if (authStore.kakakoEmail) step.value = 2
+})
 </script>
 
 <template>

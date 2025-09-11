@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import { postLogin, deleteUser } from '@/api/auth.js'
+import { postLogin, deleteUser, kakaoLogin } from '@/api/auth.js'
 
 export const useAuthStore = defineStore('Auth', () => {
   const accessToken = ref(localStorage.getItem('accessToken') || null)
@@ -8,6 +8,56 @@ export const useAuthStore = defineStore('Auth', () => {
   const user = ref(JSON.parse(localStorage.getItem('user')) || null)
   const loading = ref(false)
   const error = ref('')
+  const kakakoEmail = ref('')
+
+  //카카오 로그인
+  const kakaoLoginApi = async (code) => {
+    loading.value=true
+    error.value=''
+    try{
+      const res = await kakaoLogin(code)
+      const { member_email , flag,access_token, refresh_token, member } = res
+
+      console.log('⭐⭐ flag:', flag)
+
+      if (flag === 'NEW_USER') {
+        kakakoEmail.value = member_email
+        console.log()
+        return true
+      }
+
+      if (!access_token || !refresh_token || !member) {
+        error.value = '로그인 응답이 올바르지 않습니다.'
+        return false
+      }
+
+      //기존 로그인
+        accessToken.value = access_token
+        refreshToken.value = refresh_token
+        user.value = member
+        localStorage.setItem('accessToken', access_token)
+        localStorage.setItem('refreshToken', refresh_token)
+        localStorage.setItem('user', JSON.stringify(member))
+
+      return true
+
+    }catch (err) {
+      console.error('❌ 로그인 에러', err)
+
+      const status = err.response?.status
+      if (status && String(status).startsWith('4')) {
+        error.value = '이메일 또는 비밀번호가 올바르지 않습니다.'
+      } else if (status && String(status).startsWith('5')) {
+        error.value = '서버 오류로 로그인할 수 없습니다.'
+      } else {
+        error.value = '네트워크 오류로 로그인할 수 없습니다.'
+      }
+
+      return false
+    } finally {
+      loading.value = false
+    }
+  }
 
   // 로그인
   const loginUser = async (payload) => {
@@ -100,5 +150,7 @@ export const useAuthStore = defineStore('Auth', () => {
     loginUser,
     logoutUser,
     withdrawUser,
+    kakaoLoginApi,
+    kakakoEmail,
   }
 })

@@ -20,7 +20,8 @@ api.interceptors.request.use(
       config.url.includes('/auth/login') ||
       config.url.includes('/auth/password') ||
       (config.url.includes('/auth/member-info') && config.method === 'post') ||
-      config.url.includes('/email')
+      config.url.includes('/email') ||
+      config.url.includes('/kakao-login')
     if (token && !isAuthRequest) {
       config.headers.Authorization = `Bearer ${token}`
     }
