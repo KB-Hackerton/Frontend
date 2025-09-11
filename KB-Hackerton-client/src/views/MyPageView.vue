@@ -49,7 +49,7 @@ async function handleFileChange(e) {
   const file = e.target.files[0]
   if (!file) return
 
-  const res = await mypageStore.updateProfileImage(file)
+  const res = await mypageStore.editProfileImage(file)
   if (res && res.code === 200) {
     authStore.user = { ...authStore.user, profile_image_id: res.url }
     localStorage.setItem('user', JSON.stringify(authStore.user))

@@ -101,7 +101,7 @@ async function goToChat(item) {
     <div>
       <div class="mb-2 flex items-end">
         <p class="font-bold text-20">내용</p>
-        <p class="ml-2 text-12 text-gray-300">채팅 중 (3건)</p>
+        <p class="ml-2 text-12 text-gray-300">채팅 중 ({{ item.chat_room_count }}건)</p>
       </div>
 
       <div>

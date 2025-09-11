@@ -10,6 +10,16 @@ export const uploadProfileImage = (file) => {
   })
 }
 
+// 프로필 이미지 수정
+export const updateProfileImage = (file) => {
+  const formData = new FormData()
+  formData.set('file', file)
+
+  return api.put('/profile-image/update', formData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  })
+}
+
 // 사업 정보 수정
 export const updateBusinessInfo = async (payload) => {
   const res = await api.patch('/auth/member-info', payload)

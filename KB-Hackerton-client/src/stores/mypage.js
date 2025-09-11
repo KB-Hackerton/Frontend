@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import { uploadProfileImage, updateBusinessInfo, updatePassword } from '@/api/mypage'
+import { updateProfileImage, updateBusinessInfo, updatePassword } from '@/api/mypage'
 import { useAuthStore } from '@/stores/auth'
 
 export const useMypageStore = defineStore('mypage', () => {
@@ -18,12 +18,12 @@ export const useMypageStore = defineStore('mypage', () => {
     addressDetail: '',
   })
 
-  // 프로필 이미지 업로드
-  const updateProfileImage = async (file) => {
+  // 프로필 이미지 수정
+  const editProfileImage = async (file) => {
     loading.value = true
     error.value = null
     try {
-      const res = await uploadProfileImage(file)
+      const res = await updateProfileImage(file)
       console.log('🔎 업로드 응답:', res)
 
       if (res.code === 200) {
@@ -98,7 +98,7 @@ export const useMypageStore = defineStore('mypage', () => {
   return {
     loading,
     error,
-    updateProfileImage,
+    editProfileImage,
     editBusinessInfo,
     changePassword,
   }
