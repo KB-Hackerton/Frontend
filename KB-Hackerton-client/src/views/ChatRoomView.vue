@@ -29,7 +29,7 @@ const state = reactive({
     roomName: '',
   },
   roomId: Number(props.roomId), // props 값을 Number로 변환하여 state에 저장
-
+  sosId: null
 })
 
 // 날짜별 메시지 그룹화
@@ -193,6 +193,7 @@ onMounted(async () => {
     }
 
     state.chatRoom = await chatStore.getChatRoomDetail(state.roomId)
+    console.log('🟢 채팅방 정보 불러오기 성공:', state.chatRoom)
     state.messages = await chatStore.getChatHistory(state.roomId)
     connectWebSocket()
     scrollToBottom()
