@@ -22,9 +22,9 @@ onMounted(async () => {
   }
 
   await AuthStore.kakaoLoginApi(code)
-
-  if (AuthStore.refreshToken?.value) {
-
+  console.log('⭐⭐⭐⭐⭐⭐⭐⭐',AuthStore.kakaoflag)
+  if (AuthStore.kakaoflag !== "NEW_USER") {
+    console.log("⭐⭐⭐⭐⭐⭐⭐여기임!!!!!!!")
     router.push('/')
   } else if (
     AuthStore.refreshToken?.value === undefined ||

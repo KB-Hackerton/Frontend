@@ -9,6 +9,7 @@ export const useAuthStore = defineStore('Auth', () => {
   const loading = ref(false)
   const error = ref('')
   const kakakoEmail = ref('')
+  const kakaoflag = ref('')
 
   //카카오 로그인
   const kakaoLoginApi = async (code) => {
@@ -19,11 +20,12 @@ export const useAuthStore = defineStore('Auth', () => {
       const { member_email , flag,access_token, refresh_token, member } = res
 
       console.log('⭐⭐ flag:', flag)
+      kakaoflag.value = flag
+      console.log('🐎🐎🐎🐎🐎🐎🐎', kakaoflag.value)
 
       if (flag === 'NEW_USER') {
         kakakoEmail.value = member_email
-        console.log()
-        return true
+        console.log('⭐⭐⭐⭐ 피니아 kakaoEmail:', kakakoEmail)
       }
 
       if (!access_token || !refresh_token || !member) {
@@ -147,6 +149,7 @@ export const useAuthStore = defineStore('Auth', () => {
     user,
     loading,
     error,
+    kakaoflag,
     loginUser,
     logoutUser,
     withdrawUser,
