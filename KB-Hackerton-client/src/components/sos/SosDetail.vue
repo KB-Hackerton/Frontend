@@ -39,6 +39,13 @@ const urgency = computed(() => {
   return diffMin <= 5 ? { text: '급함', color: 'text-red' } : { text: '보통', color: 'text-green' }
 })
 
+// 거리 포맷팅
+const formattedDistance = computed(() => {
+  if (props.item.distance === undefined) return null
+  if (props.item.distance < 1000) return `${props.item.distance}m`
+  return `${(props.item.distance / 1000).toFixed(1)}km`
+})
+
 // 수정
 function goToEdit(item) {
   router.push({ name: 'sos-edit', params: { id: item.sos_id } })
@@ -85,7 +92,9 @@ async function goToChat(item) {
     </div>
 
     <div class="space-y-1">
-      <p class="text-12 text-gray-300">{{ item.minor_name }} · 나와의 거리 : 900m</p>
+      <p class="text-12 text-gray-300">
+        {{ item.minor_name }} · 나와의 거리 : {{ formattedDistance }}
+      </p>
       <p class="text-14 text-black">{{ item.business_addr }} {{ item.business_addr_detail }}</p>
     </div>
 

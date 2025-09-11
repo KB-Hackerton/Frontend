@@ -14,8 +14,10 @@ const selectedCategory = ref([])
 const expiresAt = ref('')
 const title = ref('')
 const content = ref('')
-const imageFiles = ref([]) // 실제 File 객체
-const previewUrls = ref([]) // 미리보기 URL
+
+// [{ id, url, file, isNew }]
+const previewImages = ref([])
+const deleteImageIds = ref([])
 
 const showSuccessModal = ref(false)
 const showFailModal = ref(false)
@@ -37,12 +39,16 @@ onMounted(async () => {
 
     if (data.expires_at) {
       const date = new Date(data.expires_at)
-      const hh = String(date.getHours()).padStart(2, '0')
-      const mm = String(date.getMinutes()).padStart(2, '0')
-      expiresAt.value = `${hh}:${mm}`
+      expiresAt.value = `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`
     }
 
-    previewUrls.value = data.image_keys || []
+    // 기존 이미지 (id + url)
+    previewImages.value = data.image_keys.map((url, i) => ({
+      id: data.image_ids[i],
+      url,
+      file: null,
+      isNew: false,
+    }))
   } catch (e) {
     console.error('❌ 상세 조회 실패', e)
   }
@@ -52,21 +58,27 @@ onMounted(async () => {
 function handleImageUpload(event) {
   const files = Array.from(event.target.files)
   for (const file of files) {
-    if (imageFiles.value.length + previewUrls.value.length >= 3) {
+    if (previewImages.value.length >= 3) {
       alert('사진은 최대 3장까지 업로드할 수 있습니다.')
       break
     }
-    imageFiles.value.push(file)
-    previewUrls.value.push(URL.createObjectURL(file))
+    previewImages.value.push({
+      id: null,
+      url: URL.createObjectURL(file),
+      file,
+      isNew: true,
+    })
   }
   event.target.value = ''
 }
 
+// 이미지 삭제
 function removeImage(index) {
-  previewUrls.value.splice(index, 1)
-  if (imageFiles.value[index]) {
-    imageFiles.value.splice(index, 1)
+  const img = previewImages.value[index]
+  if (!img.isNew && img.id) {
+    deleteImageIds.value.push(img.id)
   }
+  previewImages.value.splice(index, 1)
 }
 
 // 수정 요청
@@ -79,10 +91,11 @@ async function editSos() {
   try {
     const res = await sosStore.updateSos(route.params.id, {
       sos_type: labelMap[selectedCategory.value[0]],
-      expires_at: expiresAt.value, // HH:mm 그대로
+      expires_at: expiresAt.value,
       sos_title: title.value,
       sos_content: content.value,
-      images: imageFiles.value, // 새로 업로드한 파일들
+      deleteImageIds: deleteImageIds.value,
+      newImages: previewImages.value.filter((img) => img.isNew).map((img) => img.file),
     })
 
     console.log('🟢 SOS 수정 성공:', res)
@@ -146,7 +159,7 @@ function goToList() {
       </p>
       <div class="flex flex-wrap items-center gap-3">
         <label
-          v-if="previewUrls.length < 3"
+          v-if="previewImages.length < 3"
           for="image-upload"
           class="w-24 h-24 flex items-center justify-center border rounded-lg text-2xl text-gray-400 cursor-pointer"
         >
@@ -161,8 +174,12 @@ function goToList() {
           @change="handleImageUpload"
         />
 
-        <div v-for="(url, index) in previewUrls" :key="index" class="relative">
-          <img :src="url" alt="업로드된 이미지" class="w-24 h-24 rounded-lg border object-cover" />
+        <div v-for="(img, index) in previewImages" :key="index" class="relative">
+          <img
+            :src="img.url"
+            alt="업로드된 이미지"
+            class="w-24 h-24 rounded-lg border object-cover"
+          />
           <button
             type="button"
             class="absolute top-1 right-1 w-5 h-5 flex items-center justify-center rounded-full bg-black bg-opacity-50 text-white text-12"
