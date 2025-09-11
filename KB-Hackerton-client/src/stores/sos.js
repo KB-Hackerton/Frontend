@@ -69,7 +69,10 @@ export const useSosStore = defineStore('sos', () => {
     }
   }
 
-  const updateSos = async (id, { sos_type, expires_at, sos_title, sos_content, images = [] }) => {
+  const updateSos = async (
+    id,
+    { sos_type, expires_at, sos_title, sos_content, deleteImageIds = [], newImages = [] },
+  ) => {
     loading.value = true
     error.value = null
     try {
@@ -78,7 +81,15 @@ export const useSosStore = defineStore('sos', () => {
       fd.append('expires_at', expires_at)
       fd.append('sos_title', sos_title)
       fd.append('sos_content', sos_content)
-      images.forEach((f) => fd.append('images', f))
+
+      // ✅ 여기서 deleteImageIds와 newImages 안전하게 처리
+      if (deleteImageIds && deleteImageIds.length > 0) {
+        deleteImageIds.forEach((id) => fd.append('deleteImageIds', id))
+      }
+
+      if (newImages && newImages.length > 0) {
+        newImages.forEach((file) => fd.append('newImages', file))
+      }
 
       const res = await api.updateSos(id, fd)
       return res
