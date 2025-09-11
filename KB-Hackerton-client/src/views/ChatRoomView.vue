@@ -1,9 +1,13 @@
 <script setup>
-import { reactive, computed, nextTick, onMounted, onBeforeUnmount } from 'vue'
-import { onBeforeRouteLeave } from 'vue-router'
+import { reactive, computed, nextTick, onMounted, onBeforeUnmount, ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { useChatStore } from '@/stores/chat'
 import Stomp from 'webstomp-client'
 import SockJS from 'sockjs-client/dist/sockjs'
+import defaultProfile from '@/assets/images/banner.png'
+
+import chatCompleteModal from '@/components/chat/ChatCompleteModal.vue'
+
 
 //  defineProps: roomId가 URL 파라미터로 들어올 때 문자열이므로 Number로 변환해 사용합니다.
 const props = defineProps({
@@ -15,22 +19,98 @@ const props = defineProps({
 
 const chatStore = useChatStore()
 
+
+const router = useRouter() // 페이지 이동이 필요할 경우
+
+
+// 새 모달의 표시 여부
+const isCompleteModalVisible = ref(false)
+
+// 참여자 목록을 저장할 상태 변수
+const chatMembers = ref([])
+
+// 모달 상태 관리 및 핸들러 함수 (기존과 동일하게 사용 가능)
+const isDeleteModalVisible = ref(false)
+
+
+
+// 종료 버튼 텍스트
+const completionButtonText = computed(() => {
+  return state.chatRoom.isComplete ? '완료됨' : '종료하기'
+})
+
+
+// --- 함수(Methods) 정의 ---
+
+// SOS 종료 플로우 관련 함수
+const openCompleteModal = async () => {
+  if (state.chatRoom.isComplete) return
+  try {
+    const members = await chatStore.fetchChatMembersForCompletion(state.roomId)
+    chatMembers.value = members
+    isCompleteModalVisible.value = true
+  } catch (error) {
+    console.error('참여자 목록을 불러오는데 실패했습니다:', error)
+    alert('오류가 발생했습니다. 다시 시도해주세요.')
+  }
+}
+
+const closeCompleteModal = () => {
+  isCompleteModalVisible.value = false
+}
+
+const handleSosComplete = async (selectedIds) => {
+  try {
+    // onMounted에서 불러온 state.chatRoom.sosId를 사용합니다.
+    await chatStore.completeSos(state.chatRoom.sosId, selectedIds)
+    alert('SOS 요청이 성공적으로 종료되었습니다.')
+    closeCompleteModal()
+    router.push('/main')
+  } catch (error) {
+    console.error('SOS 최종 완료에 실패했습니다:', error)
+    alert('오류가 발생했습니다. 다시 시도해주세요.')
+  }
+}
+
 const state = reactive({
   stompClient: null,
   messages: [],
   newMessage: '',
   user: {
-    memberId : '',
+    memberId: '',
     memberEmail: '',
     accessToken: '',
   },
   chatRoom: {
     chatRoomId: null,
-    roomName: '',
+    bussinessName: '로딩 중...', // 초기 로딩 텍스트
+    sosType: '',
+    memberBadge: '',
+    isComplete: false,
+    isOwner: false,
+    partnerImage: '',
   },
   roomId: Number(props.roomId), // props 값을 Number로 변환하여 state에 저장
-  sosId: null
+  sosId: null,
 })
+
+// sosType 값을 한글로 변환하기 위한 computed 속성
+const sosTypeKorean = computed(() => {
+  switch (state.chatRoom.sosType) {
+    case 'stock':
+      return '물품'
+    // 다른 sosType이 있다면 여기에 추가
+    case 'labor':
+      return '인력'
+    case 'equipment':
+      return '고장'
+    case 'etc':
+      return '기타'
+    default:
+      return state.chatRoom.sosType // 매핑되지 않은 경우 원래 값 표시
+  }
+})
+
 
 // 날짜별 메시지 그룹화
 const groupedMessages = computed(() => {
@@ -60,28 +140,28 @@ const scrollToBottom = () => {
 const markAsRead = () => {
   if (state.stompClient && state.stompClient.connected) {
     // prefix가 'publish'이므로 경로를 맞춰줍니다.
-    const destination = `/publish/read/${state.roomId}`;
+    const destination = `/publish/read/${state.roomId}`
 
     state.stompClient.send(
       destination,
       { Authorization: `Bearer ${state.user.accessToken}` },
-      JSON.stringify({})
-    );
+      JSON.stringify({}),
+    )
     // console.log(`✅ Sent read receipt to ${destination}`);
   } else {
-    console.warn("⚠️ Stomp client not connected, cannot send read receipt.");
+    console.warn('⚠️ Stomp client not connected, cannot send read receipt.')
   }
-};
+}
 
 // WebSocket 연결
 const connectWebSocket = () => {
-  if (state.stompClient?.connected) return;
+  if (state.stompClient?.connected) return
 
   try {
     const sockJs = new SockJS(
       `${import.meta.env.VITE_APP_API_BASE_URL}/connect?token=${state.user.accessToken}`,
-    );
-    state.stompClient = Stomp.over(sockJs);
+    )
+    state.stompClient = Stomp.over(sockJs)
 
     // connect 함수의 인수는 3개: headers, connectCallback, errorCallback
     state.stompClient.connect(
@@ -97,53 +177,51 @@ const connectWebSocket = () => {
           `/topic/${state.roomId}`,
           (message) => {
             // console.log('📩 Message received:', message.body);
-            const webSocketMessage = JSON.parse(message.body);
+            const webSocketMessage = JSON.parse(message.body)
 
             // 1. 메시지 타입이 'CHAT'일 경우
             if (webSocketMessage.type === 'CHAT') {
-              const receivedMessage = webSocketMessage.payload;
+              const receivedMessage = webSocketMessage.payload
 
               // 기존 메시지 추가 로직
-              state.messages.push(receivedMessage);
-              scrollToBottom();
+              state.messages.push(receivedMessage)
+              scrollToBottom()
 
               if (receivedMessage.senderId !== state.user.memberId) {
                 if (!document.hidden) {
-                  markAsRead();
+                  markAsRead()
                 }
               }
-
             }
             // 2. 메시지 타입이 'READ_UPDATE'일 경우
             else if (webSocketMessage.type === 'READ_UPDATE') {
-              const readInfo = webSocketMessage.payload;
+              const readInfo = webSocketMessage.payload
               // console.log(`${readInfo.readerEmail} 님이 메시지를 읽었습니다.`);
 
-              state.messages = state.messages.map(msg => {
+              state.messages = state.messages.map((msg) => {
                 if (msg.unreadCount > 0) {
                   // unreadCount 와 함께 isRead 값도 1로 변경해줍니다.
-                  return { ...msg, unreadCount: 0, isRead: 1 };
+                  return { ...msg, unreadCount: 0, isRead: 1 }
                 }
-                return msg;
-              });
+                return msg
+              })
             }
           },
-          { Authorization: `Bearer ${state.user.accessToken}` }
-        );
-        markAsRead();
-
+          { Authorization: `Bearer ${state.user.accessToken}` },
+        )
+        markAsRead()
       }, // connect()의 성공 콜백은 여기서 끝납니다.
 
       // 3. Error Callback (연결 실패 시)
       // connect() 함수의 세 번째 인수인 에러 콜백은 여기에 위치해야 합니다.
       (error) => {
-        console.error('🔴 WebSocket connection failed:', error);
-      }
-    );
+        console.error('🔴 WebSocket connection failed:', error)
+      },
+    )
   } catch (error) {
-    console.error('🔴 SockJS or Stomp client creation failed:', error);
+    console.error('🔴 SockJS or Stomp client creation failed:', error)
   }
-};
+}
 
 // 메시지 전송
 const sendMessage = () => {
@@ -165,6 +243,7 @@ const cleanup = async () => {
   if (!state.stompClient?.connected) return
   try {
     await chatStore.markAsRead(state.roomId)
+    state.stompClient.unsubscribe(`/topic/${state.roomId}`);
     state.stompClient.disconnect()
     // console.log('🔌 WebSocket disconnected.')
   } catch (error) {
@@ -189,7 +268,6 @@ onMounted(async () => {
       memberEmail: parsedUser.member_email,
       accessToken: accessToken,
       memberId: parsedUser.member_id,
-
     }
 
     state.chatRoom = await chatStore.getChatRoomDetail(state.roomId)
@@ -201,28 +279,45 @@ onMounted(async () => {
     console.error('🔴 초기화 중 오류 발생:', error)
   }
 })
+
+onBeforeUnmount(async () => {
+  await cleanup()
+})
 </script>
 
 <template>
   <div class="flex flex-col h-full mx-[-1rem] mt-[-1rem]">
     <div class="fixed w-full md:max-w-[365px]">
       <div class="flex items-end border-t bg-white px-4 pt-2 pb-1 shadow-sm gap-1">
-        <h1 class="text-18 font-bold">{{ state.chatRoom.roomName }}</h1>
-        <p class="text-14 text-gradient semibold">도움 촌장</p>
+        <h1 class="text-18 font-bold">{{ state.chatRoom.bussinessName }}</h1>
+        <p class="text-14 text-gradient semibold">{{ state.chatRoom.memberBadge }}</p>
       </div>
       <div class="border-b bg-white px-4 pb-2">
         <div class="flex items-center justify-between">
           <div class="flex space-x-2">
-            <span class="rounded-md bg-gray-100 px-2 py-1 text-sm text-gray-600">요청</span>
-            <span class="rounded-md bg-gray-100 px-2 py-1 text-sm text-gray-600">보통</span>
-            <span class="rounded-md bg-gray-100 px-2 py-1 text-sm text-gray-600">인력</span>
+            <span
+              v-if="state.chatRoom.sosType"
+              class="rounded-md bg-gray-100 px-2 py-1 text-sm text-gray-600"
+            >
+              {{ sosTypeKorean }}
+            </span>
           </div>
           <button
-            class="rounded-md bg-rose-500 px-4 py-2 text-sm font-bold text-white hover:bg-rose-600"
+            v-if="state.chatRoom.isOwner"
+            @click="openCompleteModal"
+            :disabled="state.chatRoom.isComplete"
+            class="rounded-md px-4 py-2 text-sm font-bold text-white transition-colors"
+            :class="{
+              'bg-rose-500 hover:bg-rose-600': !state.chatRoom.isComplete,
+              'bg-gray-400 cursor-not-allowed': state.chatRoom.isComplete,
+            }"
           >
-            종료하기
+            {{ completionButtonText }}
           </button>
+
         </div>
+
+
       </div>
     </div>
 
@@ -239,16 +334,14 @@ onMounted(async () => {
             <div
               class="mr-2 flex h-8 w-8 items-center justify-center rounded-full bg-gray-300 text-sm"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-5 w-5 text-gray-600"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"
-                />
-              </svg>
+              <img
+                :src="
+                    state.chatRoom.partnerImage? state.chatRoom.partnerImage + '?t=' + Date.now()
+                    : defaultProfile
+                "
+                alt="프로필"
+                class="w-12 h-12 rounded-md object-cover bg-gray-100 flex-shrink-0"
+              />
             </div>
             <div class="max-w-xs rounded-2xl rounded-bl-none bg-white p-3 shadow-md md:max-w-md">
               <p class="text-base text-gray-800">{{ msg.content }}</p>
@@ -314,7 +407,16 @@ onMounted(async () => {
         </button>
       </div>
     </footer>
+
+
+    <chatCompleteModal
+      :show="isCompleteModalVisible"
+      :members="chatMembers"
+      @close="closeCompleteModal"
+      @confirm="handleSosComplete"
+    />
   </div>
+
 </template>
 
 <style scoped>

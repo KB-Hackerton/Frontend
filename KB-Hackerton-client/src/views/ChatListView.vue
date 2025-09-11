@@ -13,8 +13,9 @@ const { chatRoomList, loading } = storeToRefs(chatStore)
 // 필터 값을 위한 로컬 상태 (이것은 이 컴포넌트에서만 사용되므로 로컬 상태로 유지하는 것이 좋음)
 const selectedFilter = ref('전체')
 
-
-
+const user = localStorage.getItem('user')
+const member_id = user ? JSON.parse(user).member_id : null
+console.log(member_id)
 onMounted(async () => {
   await chatStore.getChatRoomList()
 })
@@ -28,9 +29,12 @@ const filteredChats = computed(() => {
   if (selectedFilter.value === '안 읽은 채팅방') {
     return chatRoomList.value.filter((c) => c.unreadCount > 0)
   }
-  // TODO: 추가 필터링 로직 구현
-  // 자기가 올린 거면 요청, 남이 올린 거면 출동
-  return chatRoomList.value
+  if (selectedFilter.value === '요청') {
+    return chatRoomList.value.filter((c) => c.ownerId === member_id)
+  }
+  if (selectedFilter.value === '출동') {
+    return chatRoomList.value.filter((c) => c.ownerId !== member_id)
+  }
 })
 </script>
 

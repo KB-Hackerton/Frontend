@@ -65,10 +65,10 @@ function goToChatRoom(roomId) {
           </p>
           <!-- 안 읽은 메시지 개수 -->
           <span
-            v-if="chat.unreadCount > 0"
+            v-if="chat.unReadCount > 0"
             class="ml-2 px-2 py-0.5 bg-main text-white text-12 rounded-full flex-shrink-0"
           >
-            {{ chat.unreadCount }}
+            {{ chat.unReadCount }}
           </span>
         </div>
       </div>
