@@ -136,9 +136,9 @@ async function goToChat(item) {
 
   <BaseModal
     :show="showDeleteModal"
-    title="SOS 삭제 확인"
-    message="이 SOS 요청을 삭제하시겠습니까?&#10; 삭제 후에는 복구할 수 없습니다."
-    confirmText="삭제"
+    title="SOS 종료 확인"
+    message="이 SOS 요청을 종료하시겠습니까?"
+    confirmText="종료"
     @confirm="confirmDelete"
     @close="showDeleteModal = false"
   />
