@@ -85,26 +85,6 @@ export const useChatStore = defineStore('chat', () => {
     }
   }
 
-  // 채팅방 삭제
-  const deleteChatRoom = async (roomId) => {
-    loading.value = true
-    error.value = null
-    try {
-      // 1단계에서 만든 api 함수를 호출합니다.
-      await api.deleteChatRoom(roomId)
-
-      // 성공적으로 삭제되면, 현재 목록(chatRoomList)에서도 해당 채팅방을 제거합니다.
-      // 이렇게 하면 페이지를 새로고침하지 않아도 목록이 바로 갱신됩니다.
-      chatRoomList.value = chatRoomList.value.filter(
-        (room) => room.chatRoomId !== roomId, // room 객체의 id 키 이름(예: id, roomId)을 확인해주세요.
-      )
-    } catch (e) {
-      error.value = e
-      throw e // 에러를 상위로 전달하여 컴포넌트에서 처리할 수 있게 합니다.
-    } finally {
-      loading.value = false
-    }
-  }
 
 
   // 참여자 목록 불러오기
@@ -147,7 +127,6 @@ export const useChatStore = defineStore('chat', () => {
     getChatHistory,
     markAsRead,
     createChatRoom,
-    deleteChatRoom, // 추가한 함수
     fetchChatMembersForCompletion,
     completeSos,
   }
