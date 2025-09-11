@@ -16,4 +16,9 @@ export default [
     component: () => import('@/views/FindPasswordView.vue'),
     meta: { title: '비밀번호 찾기' },
   },
+  {
+    path: '/kakao-login',
+    name: 'kakao-login',
+    component: () => import('@/views/KakaoCallbackPage.vue'),
+  },
 ]

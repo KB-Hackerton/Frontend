@@ -9,6 +9,12 @@ export const postLogin = async ({ email, password }) => {
   return res
 }
 
+//카카오 로그인
+export const kakaoLogin = async (code) => {
+  const res = await api.post('/kakao-login', { code })
+  return res
+}
+
 // 비밀번호 찾기 - 이메일 인증번호 전송
 export const rpSendEmailCode = async (email) => {
   const res = await api.post('/auth/email', { email })

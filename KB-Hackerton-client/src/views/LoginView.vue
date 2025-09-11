@@ -26,6 +26,12 @@ async function onSubmit() {
   const ok = await auth.loginUser({ email: email.value, password: password.value })
   if (ok) router.replace('/')
 }
+
+function loginWithKakao() {
+  const KAKAO_AUTH_URL =
+    "https://kauth.kakao.com/oauth/authorize?client_id=be60204350fee47932696f434f86dae1&redirect_uri=http://localhost:5173/kakao-login&response_type=code";
+  window.location.href = KAKAO_AUTH_URL;
+}
 </script>
 
 <template>
@@ -67,7 +73,7 @@ async function onSubmit() {
     </form>
 
     <!-- 카카오 로그인 -->
-    <BaseButton color="yellow" class="mt-4 bg-yellow text-black">카카오로 이용하기</BaseButton>
+    <BaseButton color="yellow" class="mt-4 bg-yellow text-black" @click="loginWithKakao">카카오로 이용하기</BaseButton>
 
     <!-- 하단 링크 -->
     <nav class="mt-10 flex justify-center gap-3 text-16 text-black">
