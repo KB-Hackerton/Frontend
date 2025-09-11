@@ -50,6 +50,10 @@ onMounted(async () => {
   if (announceStore.error) {
     errorMsg.value = '공고 목록을 불러오는데 실패했습니다.'
     errorModal.value = true
+  } else {
+    announceList.value = announceList.value.filter(
+      (it) => it.start_date !== null && it.end_date !== null,
+    )
   }
 
   calendarRef.value?.getApi()?.refetchEvents()
