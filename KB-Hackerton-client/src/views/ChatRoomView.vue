@@ -65,7 +65,7 @@ const handleSosComplete = async (selectedIds) => {
     await chatStore.completeSos(state.chatRoom.sosId, selectedIds)
     alert('SOS 요청이 성공적으로 종료되었습니다.')
     closeCompleteModal()
-    router.push('/main')
+    router.push('/chat-list')
   } catch (error) {
     console.error('SOS 최종 완료에 실패했습니다:', error)
     alert('오류가 발생했습니다. 다시 시도해주세요.')
@@ -271,7 +271,7 @@ onMounted(async () => {
     }
 
     state.chatRoom = await chatStore.getChatRoomDetail(state.roomId)
-    console.log('🟢 채팅방 정보 불러오기 성공:', state.chatRoom)
+    // console.log('🟢 채팅방 정보 불러오기 성공:', state.chatRoom)
     state.messages = await chatStore.getChatHistory(state.roomId)
     connectWebSocket()
     scrollToBottom()
@@ -409,14 +409,13 @@ onBeforeUnmount(async () => {
     </footer>
 
 
-    <chatCompleteModal
-      :show="isCompleteModalVisible"
-      :members="chatMembers"
-      @close="closeCompleteModal"
-      @confirm="handleSosComplete"
-    />
   </div>
-
+  <chatCompleteModal
+    :show="isCompleteModalVisible"
+    :members="chatMembers"
+    @close="closeCompleteModal"
+    @confirm="handleSosComplete"
+  />
 </template>
 
 <style scoped>
