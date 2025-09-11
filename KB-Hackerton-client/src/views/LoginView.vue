@@ -29,7 +29,7 @@ async function onSubmit() {
 
 function loginWithKakao() {
   const KAKAO_AUTH_URL =
-    'https://kauth.kakao.com/oauth/authorize?client_id=be60204350fee47932696f434f86dae1&redirect_uri=https://gyeongsang-app.vercel.app/login&response_type=code'
+    'https://kauth.kakao.com/oauth/authorize?client_id=be60204350fee47932696f434f86dae1&redirect_uri=https://gyeongsang-app.vercel.app/kakao-login&response_type=code'
   window.location.href = KAKAO_AUTH_URL
 }
 </script>
