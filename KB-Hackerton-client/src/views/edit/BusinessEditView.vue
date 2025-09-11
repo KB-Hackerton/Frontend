@@ -167,13 +167,26 @@ async function handleEdit() {
 
   const ok = await mypageStore.editBusinessInfo(payload)
   if (ok) {
+    const stored = localStorage.getItem('user')
+    const user = stored ? JSON.parse(stored) : null
+    user.business_dto = {
+      businessAddr: payload.business_addr,
+      businessAddrDetail: payload.business_addr_detail,
+      businessClassId: user.business_dto.businessClassId,
+      businessCode: payload.business_code,
+      businessId: user.business_dto.businessId,
+      businessNm: payload.business_nm,
+      businessOpenDate: payload.business_open_date,
+    }
+    localStorage.setItem('user', JSON.stringify(user))
+    authStore.user = user
+
     showSuccessModal.value = true
   } else {
     failMessage.value = mypageStore.error
     showFailModal.value = true
   }
 }
-
 function goToMy() {
   showSuccessModal.value = false
   router.push('/mypage')
