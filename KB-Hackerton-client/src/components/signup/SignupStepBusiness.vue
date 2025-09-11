@@ -9,9 +9,11 @@ import BaseInputWithButton from '../common/BaseInputWithButton.vue'
 import BaseSelect from '../common/BaseSelect.vue'
 import BaseModal from '../common/BaseModal.vue'
 import businessClassData from '@/_dummy/business_class.json'
+import { useBusinessStore } from '@/stores/business'
 
 const router = useRouter()
 const signupStore = useSignupStore()
+const businessStore = useBusinessStore()
 
 // 입력값 관리
 const businessNum = ref('')
@@ -113,14 +115,32 @@ async function completeSignup() {
     addressDetail: addressDetail.value,
   })
 
-  const ok = await signupStore.signupUser()
+  const businesses = {
+    b_no: businessNum.value,
+    start_dt: openDate.value.replaceAll('-', ''),
+    p_nm: ceoName.value,
+    p_nm2: '',
+    b_nm: '',
+    corp_no: '',
+    b_sector: '',
+    b_type: '',
+    b_adr: '',
+  }
 
-  if (ok) {
-    showSuccessModal.value = true
-    signupStore.resetSignup()
-  } else {
+  await businessStore.checkedBusiness(businesses)
+  if (businessStore.error || businessStore.checkedBusinessValid !== '01') {
+    signupStore.error = '올바른 사업자 정보가 아닙니다. 다시 정보를 확인해 주시기 바랍니다.'
     showFailModal.value = true
-    console.error('❌ 회원가입 실패:', signupStore.error)
+  } else if (businessStore.checkedBusinessValid === '01') {
+    const ok = await signupStore.signupUser()
+
+    if (ok) {
+      showSuccessModal.value = true
+      signupStore.resetSignup()
+    } else {
+      showFailModal.value = true
+      console.error('❌ 회원가입 실패:', signupStore.error)
+    }
   }
 }
 
@@ -238,8 +258,8 @@ function goToLogin() {
     title="회원가입 실패"
     :message="signupStore.error || '회원가입에 실패했습니다.'"
     confirmText="닫기"
-    @confirm="showFailModal.value = false"
-    @close="showFailModal.value = false"
+    @confirm="showFailModal = false"
+    @close="showFailModal = false"
   />
 </template>
 
