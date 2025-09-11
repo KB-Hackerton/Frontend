@@ -38,7 +38,7 @@ async function handleSelect(item) {
     const detail = await sosStore.fetchDetail(item.sos_id)
     selectedItem.value = {
       ...detail.data,
-      isOwner: item.business_name === authStore.user?.business_dto?.businessNm,
+      isOwner: item.member_id === authStore.user?.member_id,
     }
     console.log('🟢 SOS 상세 불러오기 성공')
   } catch (e) {
