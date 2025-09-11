@@ -1,6 +1,6 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
-import router from '@/router'
+import { useRouter } from 'vue-router'
 import { useSosStore } from '@/stores/sos'
 import { useAuthStore } from '@/stores/auth'
 import SosFilterBar from '@/components/sos/SosFilterBar.vue'
@@ -8,6 +8,7 @@ import KakaoMap from '@/components/sos/KakaoMap.vue'
 import SosList from '@/components/sos/SosList.vue'
 import SosDetail from '@/components/sos/SosDetail.vue'
 
+const router = useRouter()
 const sosStore = useSosStore()
 const authStore = useAuthStore()
 
@@ -32,10 +33,6 @@ const filteredList = computed(() => {
   })
 })
 
-function goToCreate() {
-  router.push('/sos/create')
-}
-
 async function handleSelect(item) {
   try {
     const detail = await sosStore.fetchDetail(item.sos_id)
@@ -49,27 +46,12 @@ async function handleSelect(item) {
   }
 }
 
-function closeDetail() {
-  selectedItem.value = null
-}
-
 function handleEdit(item) {
   router.push({
     name: 'sos-edit',
     params: { id: item.sos_id },
     state: { item },
   })
-}
-
-async function handleDelete(id) {
-  try {
-    await sosStore.deleteSos(id)
-    console.log('🟢 SOS 삭제 성공')
-    selectedItem.value = null // 상세창 닫기
-    await fetchList() // 목록 다시 불러오기
-  } catch (e) {
-    console.error('❌ SOS 삭제 실패', e)
-  }
 }
 
 async function fetchList() {
@@ -85,11 +67,30 @@ async function fetchList() {
   }
 }
 
+async function handleDelete(id) {
+  try {
+    await sosStore.deleteSos(id)
+    console.log('🟢 SOS 삭제 성공')
+    selectedItem.value = null // 상세창 닫기
+    await fetchList() // 목록 다시 불러오기
+  } catch (e) {
+    console.error('❌ SOS 삭제 실패', e)
+  }
+}
+
+function goToCreate() {
+  router.push('/sos/create')
+}
+
+function closeDetail() {
+  selectedItem.value = null
+}
+
 onMounted(fetchList)
 </script>
 
 <template>
-  <div class="relative h-full flex flex-col bg-white">
+  <div class="relative min-w-screen h-full flex flex-col bg-white mx-[-1rem]">
     <SosFilterBar v-if="!selectedItem" v-model:selected="selectedCategories" class="z-20" />
 
     <div class="absolute inset-0">
