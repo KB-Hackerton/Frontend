@@ -1,6 +1,6 @@
 <script setup>
 import { reactive, computed, nextTick, onMounted, onBeforeUnmount, ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { onBeforeRouteLeave, useRouter } from 'vue-router'
 import { useChatStore } from '@/stores/chat'
 import Stomp from 'webstomp-client'
 import SockJS from 'sockjs-client/dist/sockjs'
@@ -280,8 +280,14 @@ onMounted(async () => {
   }
 })
 
+// 페이지가 백그라운드로 갈 때 읽음 처리
 onBeforeUnmount(async () => {
   await cleanup()
+})
+
+onBeforeRouteLeave(async (to, from, next) => {
+  await cleanup()
+  next()
 })
 </script>
 
