@@ -94,7 +94,11 @@ onMounted(fetchList)
     <SosFilterBar v-if="!selectedItem" v-model:selected="selectedCategories" class="z-20" />
 
     <div class="absolute inset-0">
-      <KakaoMap :items="filteredList" :selected="selectedItem" @select="handleSelect" />
+      <KakaoMap
+        :items="filteredList"
+        :selected="selectedItem"
+        :userAddress="authStore.user?.business_dto?.businessAddr"
+      />
     </div>
 
     <div

@@ -8,6 +8,7 @@ import { loadKakaoMapSdk } from '@/utils/KakaoMapLoader.js'
 const props = defineProps({
   items: { type: Array, default: () => [] },
   selected: { type: Object, default: null },
+  userAddress: { type: String, default: '' },
 })
 const emit = defineEmits(['select'])
 
@@ -38,10 +39,22 @@ async function initMap() {
   const kakao = await loadKakaoMapSdk()
   const container = document.getElementById('map')
   const options = {
-    center: new kakao.maps.LatLng(37.517469, 127.041151), // 강남구청역
+    center: new kakao.maps.LatLng(35.87139, 128.60139), // 대구광역시청
     level: 7,
   }
   map = new kakao.maps.Map(container, options)
+
+  // 사용자 주소로 지도 중심 이동
+  if (props.userAddress) {
+    const geocoder = new kakao.maps.services.Geocoder()
+    geocoder.addressSearch(props.userAddress, (result, status) => {
+      if (status === kakao.maps.services.Status.OK) {
+        const coords = new kakao.maps.LatLng(result[0].y, result[0].x)
+        map.setCenter(coords)
+      }
+    })
+  }
+
   renderMarkers(props.items)
 }
 
