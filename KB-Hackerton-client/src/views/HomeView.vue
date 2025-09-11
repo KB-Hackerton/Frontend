@@ -70,7 +70,7 @@ function calcDday(dateStr) {
         :items="
           homeData.recent_article?.slice(0, 3).map((a) => ({
             title: a.title,
-            link: `/article/${a.article_id}`,
+            link: a.article_url,
           })) || []
         "
       />
@@ -79,9 +79,9 @@ function calcDday(dateStr) {
         moreText="공지사항 더보기"
         moreLink="/notice-list"
         :items="
-          homeData.recentAnnounce?.slice(0, 3).map((n) => ({
-            title: n.announceTitle,
-            link: `/notice-list/${n.announceId}`,
+          homeData.notice?.slice(0, 3).map((n) => ({
+            title: n.title,
+            link: `/notice-detail/${n.notice_id}`,
           })) || []
         "
       />
