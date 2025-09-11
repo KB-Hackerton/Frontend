@@ -21,14 +21,21 @@ const props = defineProps({
     </div>
 
     <div class="bg-white rounded-xl shadow border border-[#FFE1D0] divide-y divide-[#FFE1D0]">
-      <router-link
-        v-for="(item, i) in items"
-        :key="i"
-        :to="item.link"
-        class="block p-4 text-12 hover:bg-gray-50"
-      >
-        {{ item.title }}
-      </router-link>
+      <div v-for="(item, i) in items" :key="i">
+        <a
+          v-if="item.link.startsWith('http')"
+          :href="item.link"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="block p-4 text-12 hover:bg-gray-50"
+        >
+          {{ item.title }}
+        </a>
+
+        <router-link v-else :to="item.link" class="block p-4 text-12 hover:bg-gray-50">
+          {{ item.title }}
+        </router-link>
+      </div>
     </div>
   </section>
 </template>
