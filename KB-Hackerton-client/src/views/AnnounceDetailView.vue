@@ -9,8 +9,8 @@ import { useRoute } from 'vue-router'
 const route = useRoute()
 const announceStore = useAnnounceStore()
 const { announceDetail } = storeToRefs(announceStore)
-const printFilePath = announceDetail.print_file_path_name
-const filePath = announceDetail.file_path_name
+const filePath = computed(() => announceDetail.value?.file_path_name || '')
+const printFilePath = computed(() => announceDetail.value?.print_file_path_name || '')
 
 const errorModal = ref(false)
 const errorMsg = ref('')
@@ -134,7 +134,7 @@ onMounted(async () => {
 
       <div
         class="flex flex-col bg-white gap-1 rounded-[0.7rem] shadow-custom p-5 shadow-custom mt-5"
-        v-if="announceDetail.checklist?.length === 0 && announceDetail.file_path_name"
+        v-if="announceDetail.checklist?.length !== 0 && announceDetail.file_path_name"
       >
         <div class="flex items-center gap-1 border-b-2 border-orange-200 pb-1">
           <Icon icon="fluent:document-text-32-regular" class="size-4 text-orange-200" />
