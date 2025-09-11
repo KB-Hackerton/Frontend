@@ -1,5 +1,6 @@
 <script setup>
 import { useRouter } from 'vue-router'
+import defaultProfile from '@/assets/images/banner.png'
 
 // Props
 const props = defineProps({
@@ -41,7 +42,11 @@ function goToChatRoom(roomId) {
     >
       <!-- 프로필 이미지 -->
       <img
-        :src="chat.partnerImage"
+        :src="
+            chat?.memberProfileImage
+              ? chat?.memberProfileImage + '?t=' + Date.now()
+              : defaultProfile
+          "
         alt="프로필"
         class="w-12 h-12 rounded-md object-cover bg-gray-100 flex-shrink-0"
       />
@@ -49,7 +54,7 @@ function goToChatRoom(roomId) {
       <!-- 채팅 내용 -->
       <div class="flex-1 min-w-0">
         <div class="flex justify-between items-center">
-          <p class="font-medium text-15 truncate">{{ chat.partnerName }}</p>
+          <p class="font-medium text-15 truncate">{{ chat.bussinessName }}</p>
           <span class="text-12 text-gray-400">
             {{ formatTime(chat.lastMessageTime) }}
           </span>
