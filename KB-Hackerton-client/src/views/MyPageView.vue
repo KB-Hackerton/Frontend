@@ -22,7 +22,7 @@ const failMessage = ref('')
 const quickMenuItems = [
   { to: '/favorites', icon: 'solar:star-line-duotone', label: '즐겨찾기' },
   { to: '/notice-list', icon: 'material-symbols:contract-outline-rounded', label: '공지사항' },
-  { to: '/', icon: 'fluent-mdl2:chat-bot', label: '챗봇' },
+  { to: '/chatbot', icon: 'fluent-mdl2:chat-bot', label: '챗봇' },
 ]
 
 const optionListItems = [
