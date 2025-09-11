@@ -1,5 +1,6 @@
 <script setup>
 import { ref, nextTick } from 'vue'
+import axios from 'axios'   // ✅ axios 불러오기
 
 const messages = ref([
   { role: 'assistant', content: '안녕하세요! 소상공인 지원 챗봇입니다 😊 무엇을 도와드릴까요?' },
@@ -7,20 +8,42 @@ const messages = ref([
 
 const newMessage = ref('')
 
-const sendMessage = () => {
+const sendMessage = async () => {
   if (!newMessage.value.trim()) return
 
-  messages.value.push({ role: 'user', content: newMessage.value })
+  // 1) 사용자 메시지 추가
   const userText = newMessage.value
+  messages.value.push({ role: 'user', content: userText })
   newMessage.value = ''
+  scrollToBottom()
 
-  setTimeout(() => {
-    messages.value.push({
-      role: 'assistant',
-      content: `“${userText}”에 대한 정보를 찾아드릴게요!`,
+  // 2) "생각하는 중..." 메시지 추가
+  const thinkingIndex = messages.value.push({
+    role: 'assistant',
+    content: '생각하는 중...'
+  }) - 1
+  scrollToBottom()
+
+  try {
+    // 3) 서버에 POST 요청
+    const res = await axios.post('https://zibitz.shop/chatbot', {
+      message: userText
     })
-    scrollToBottom()
-  }, 500)
+
+    // 4) "생각하는 중..." 메시지 교체
+    messages.value.splice(thinkingIndex, 1, {
+      role: 'assistant',
+      content: res.data?.data || '응답을 불러오지 못했습니다.'
+    })
+  } catch (err) {
+    console.error(err)
+
+    // 5) 에러 발생 시도 교체
+    messages.value.splice(thinkingIndex, 1, {
+      role: 'assistant',
+      content: '❌ 오류가 발생했어요. 잠시 후 다시 시도해주세요.'
+    })
+  }
 
   scrollToBottom()
 }
@@ -33,29 +56,25 @@ const scrollToBottom = () => {
 }
 </script>
 
+
 <template>
-  <div class="flex flex-col h-[600px] max-w-md mx-auto bg-white rounded-2xl shadow-lg border border-gray-200">
+  <div class="flex flex-col h-full mx-[-1rem] bg-[#FAF9F6]">
     <!-- 헤더 -->
-    <div class="p-4 bg-[#DA4C24] text-white font-bold text-lg rounded-t-2xl">
-      🐯 경상났네 챗봇
-    </div>
+
 
     <!-- 메시지 영역 -->
-    <div id="chat-box" class="flex-1 overflow-y-auto p-4 space-y-3 bg-[#FAF9F6]">
+    <div id="chat-box" class="flex-1 overflow-y-auto p-4 space-y-3">
       <div
         v-for="(msg, i) in messages"
         :key="i"
-        :class="[
-          'flex',
-          msg.role === 'user' ? 'justify-end' : 'justify-start'
-        ]"
+        :class="[ 'flex', msg.role === 'user' ? 'justify-end' : 'justify-start' ]"
       >
         <div
           :class="[
             'px-4 py-2 rounded-2xl max-w-[75%] text-sm shadow-sm',
             msg.role === 'user'
               ? 'bg-[#DA4C24] text-white rounded-br-none'
-              : 'bg-gray-100 text-gray-800 rounded-bl-none'
+              : 'bg-white text-gray-800 border rounded-bl-none'
           ]"
         >
           {{ msg.content }}
@@ -64,19 +83,20 @@ const scrollToBottom = () => {
     </div>
 
     <!-- 입력창 -->
-    <form @submit.prevent="sendMessage" class="p-3 flex gap-2 border-t bg-white">
+    <form @submit.prevent="sendMessage" class="py-3 px-1 flex gap-2 border-t bg-white">
       <input
         v-model="newMessage"
         type="text"
         placeholder="메시지를 입력하세요..."
-        class="flex-1 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#DA4C24]"
+        class="flex-1 px-1 py-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#DA4C24]"
       />
       <button
         type="submit"
-        class="bg-[#DA4C24] text-white px-4 py-2 rounded-lg hover:bg-[#B83C1C] transition"
+        class="bg-[#DA4C24] text-white px-2 py-2 rounded-lg hover:bg-[#B83C1C] transition"
       >
         보내기
       </button>
     </form>
   </div>
 </template>
+
