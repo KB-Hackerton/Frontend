@@ -13,11 +13,11 @@ export const useAuthStore = defineStore('Auth', () => {
 
   //카카오 로그인
   const kakaoLoginApi = async (code) => {
-    loading.value=true
-    error.value=''
-    try{
+    loading.value = true
+    error.value = ''
+    try {
       const res = await kakaoLogin(code)
-      const { member_email , flag,access_token, refresh_token, member } = res
+      const { member_email, flag, access_token, refresh_token, member } = res
 
       console.log('⭐⭐ flag:', flag)
       kakaoflag.value = flag
@@ -34,16 +34,15 @@ export const useAuthStore = defineStore('Auth', () => {
       }
 
       //기존 로그인
-        accessToken.value = access_token
-        refreshToken.value = refresh_token
-        user.value = member
-        localStorage.setItem('accessToken', access_token)
-        localStorage.setItem('refreshToken', refresh_token)
-        localStorage.setItem('user', JSON.stringify(member))
+      accessToken.value = access_token
+      refreshToken.value = refresh_token
+      user.value = member
+      localStorage.setItem('accessToken', access_token)
+      localStorage.setItem('refreshToken', refresh_token)
+      localStorage.setItem('user', JSON.stringify(member))
 
       return true
-
-    }catch (err) {
+    } catch (err) {
       console.error('❌ 로그인 에러', err)
 
       const status = err.response?.status

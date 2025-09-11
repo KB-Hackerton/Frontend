@@ -161,6 +161,7 @@ async function handleEdit() {
     business_nm: companyName.value,
     business_open_date: openDate.value,
     minor_name: categorySub.value,
+    minor_nm: categorySub.value,
     business_addr: address.value,
     business_addr_detail: addressDetail.value,
   }
