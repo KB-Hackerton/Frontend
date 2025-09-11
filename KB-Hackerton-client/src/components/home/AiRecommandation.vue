@@ -15,7 +15,7 @@ defineProps({
   <div class="w-full max-w-md mx-auto">
     <!-- 상단 타이틀 -->
     <div class="flex items-center gap-2 mb-2">
-      <span class="text-blue-500 text-xl ml-5">📢 AI가 골라준 맞춤 지원금</span>
+      <span class="bold text-xl ml-3 mb-2">AI가 골라준 맞춤 지원금</span>
     </div>
 
     <!-- 카드 -->
